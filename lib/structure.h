@@ -6,6 +6,12 @@ using namespace std;
 
 typedef struct
 {
+    int message_type;
+    int current_user_id;
+} MessageForm;
+
+typedef struct
+{
     int id;
     string username;
     string password;
