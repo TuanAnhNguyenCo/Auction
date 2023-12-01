@@ -13,29 +13,29 @@ typedef struct
 typedef struct
 {
     int id;
-    string username;
-    string password;
-    string phoneNumber;
-    string address;
-    char status; // 1 is online - 0 is offline status
+    char username[50];
+    char password[50];
+    char phoneNumber[50];
+    char address[100];
+    int status; // 1 is online - 0 is offline status
 } Account;
 
 typedef struct
 {
     int id;
     int room_id;
-    string name;
+    char name[100];
     double reserve_price;
     double BIN_price;
-    string description;
+    char description[1024];
     time_t created_at;
-}Items;
+} Items;
 
 typedef struct
 {
     int id;
     int proprietor_id;
-    string name;
+    char name[100];
     time_t created_at;
     int status; // 1 is active - 0 is closed
 } AuctionRoom;
@@ -63,5 +63,5 @@ typedef struct
 //     int type;
 //     int current_user_id;
 //     Account account;
-    
+
 // } MessageForm;

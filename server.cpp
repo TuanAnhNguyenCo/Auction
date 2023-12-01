@@ -6,47 +6,25 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <iostream>
 #include <list>
-#include "account.h"
+#include "lib/account.h"
 #define BUFF_SIZE 8192
 #define BACKLOG 2
 char buff[BUFF_SIZE];
 
-using namespace std;
 
-
-
-void get_accounts(list<Account> *accounts)
-{
-    FILE *f = fopen("account.txt", "r");
-    char username[1024];
-    char password[1024];
-    char status;
-    if (f == NULL)
-        return;
-    while (fscanf(f, "%s %s %c ", username, password, &status) == 3)
-    {
-        Account acc;
-        strcpy(acc.username, username);
-        strcpy(acc.password, password);
-        acc.status = status;
-        accounts->push_back(acc);
-    }
-    fclose(f);
-}
-
-void print_accounts(list<Account> accounts)
-{
-    for (Account a : accounts)
-    {
-        cout << a.username << endl;
-    }
-}
 
 int main()
 {
     list<Account> accounts;
+    Account account;
+    strcpy(account.username, "anh2");
+    strcpy(account.password, "1");
+    strcpy(account.phoneNumber, "0374470525");
+    strcpy(account.address, "HaNoi");
     get_accounts(&accounts);
     print_accounts(accounts);
+    cout << sign_up(&accounts, account);
+    cout << sign_in(accounts, account);
+    logout(accounts, account);
 }
