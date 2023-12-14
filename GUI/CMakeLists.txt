@@ -50,6 +50,7 @@ else()
         add_executable(auction
             ${PROJECT_SOURCES}
             auctionroom.cpp auctionroom.h auctionroom.ui CMakeLists.txt CMakeLists.txt.user con-cho.jpeg createpage.cpp createpage.h createpage.ui historypage.cpp historypage.h historypage.ui icon_back.jpeg icon_overview.png login.cpp login.h login.ui logo_auction.png main.cpp mainwindow.cpp mainwindow.h mainwindow.ui roomoverview.cpp roomoverview.h roomoverview.ui signup.cpp signup.h signup.ui
+            images.qrc
         )
     endif()
 endif()

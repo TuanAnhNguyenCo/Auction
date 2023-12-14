@@ -6,4 +6,4 @@ clean:
 	rm -f *.0 server
 
 s:
-	./server
+	./server 5500

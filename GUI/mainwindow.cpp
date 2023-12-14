@@ -7,9 +7,9 @@
 #include <QGridLayout>
 #include <QGroupBox>
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+MainWindow::MainWindow(int argc, char *argv[])
+    : QMainWindow(), ui(new Ui::MainWindow)
+
 {
     ui->setupUi(this);
     QPixmap logo(":/image/logo_auction.png");
