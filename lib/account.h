@@ -1,8 +1,25 @@
 #include "structure.h"
 #include "string.h"
 #include <iostream>
+<<<<<<< HEAD
 #include <pthread.h>
 #define BUFF_SIZE 8192
+=======
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <iostream>
+#include <list>
+#include <random>
+#include <chrono>
+#include <ctime>
+#include <iomanip>
+>>>>>>> b762954 (ađ new config socket)
 
 using namespace std;
 pthread_mutex_t mutex;

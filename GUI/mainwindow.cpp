@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <QGridLayout>
 #include <QGroupBox>
+#include "config.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -63,6 +64,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    ::close(MySingleton::instance().getValue());
+
     delete ui;
 }
 
