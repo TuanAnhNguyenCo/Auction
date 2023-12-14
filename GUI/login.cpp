@@ -30,7 +30,7 @@ void LogIn::on_btn_login_clicked()
 {
     QString userName = ui->lineEdit_username->text();
     QString passWord = ui->lineEdit_pass->text();
-    if(userName == "chotuananh" && passWord == "tuananhcho"){
+    if(userName == "cholinh" && passWord == "cholinh"){
         QMessageBox::information(this,"Successful", "Login successfully");
         emit LoginOk();
     }

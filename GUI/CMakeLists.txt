@@ -17,7 +17,6 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-        login.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -49,8 +48,7 @@ else()
     else()
         add_executable(auction
             ${PROJECT_SOURCES}
-            auctionroom.cpp auctionroom.h auctionroom.ui CMakeLists.txt CMakeLists.txt.user con-cho.jpeg createpage.cpp createpage.h createpage.ui historypage.cpp historypage.h historypage.ui icon_back.jpeg icon_overview.png login.cpp login.h login.ui logo_auction.png main.cpp mainwindow.cpp mainwindow.h mainwindow.ui roomoverview.cpp roomoverview.h roomoverview.ui signup.cpp signup.h signup.ui
-            images.qrc
+            auctionroom.cpp auctionroom.h auctionroom.ui CMakeLists.txt CMakeLists.txt.user CMakeLists.txt.user.f0a914c con-cho.jpeg createpage.cpp createpage.h createpage.ui historypage.cpp historypage.h historypage.ui icon_back.jpeg icon_overview.png login.cpp login.h login.ui logo_auction.png main.cpp mainwindow.cpp mainwindow.h mainwindow.ui myresource.qrc roomoverview.cpp roomoverview.h roomoverview.ui signup.cpp signup.h signup.ui
         )
     endif()
 endif()

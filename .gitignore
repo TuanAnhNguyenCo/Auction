@@ -1,2 +1,3 @@
 build-GUI-Desktop_Qt_5_15_16_for_macOS_Universal-Debug/*
 server
+.DS_Store
