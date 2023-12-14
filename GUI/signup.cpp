@@ -6,6 +6,8 @@ SignUp::SignUp(QWidget *parent)
     , ui(new Ui::SignUp)
 {
     ui->setupUi(this);
+    QPixmap logo(":/image/logo_auction.png");
+    ui->label_logo_2->setPixmap(logo.scaled(100,100,Qt::KeepAspectRatio));
 }
 
 SignUp::~SignUp()

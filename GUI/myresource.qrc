@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/image">
+        <file>con-cho.jpeg</file>
+        <file>icon_back.jpeg</file>
+        <file>icon_overview.png</file>
+        <file>logo_auction.png</file>
+    </qresource>
+</RCC>

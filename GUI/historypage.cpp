@@ -6,7 +6,7 @@ HistoryPage::HistoryPage(QWidget *parent)
     , ui(new Ui::HistoryPage)
 {
     ui->setupUi(this);
-    QPixmap logo("/Users/dieulinh/auction/logo_auction.png");
+    QPixmap logo(":/image/logo_auction.png");
     ui->label_logo_2->setPixmap(logo.scaled(100,100,Qt::KeepAspectRatio));
 }
 

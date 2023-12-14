@@ -7,13 +7,13 @@ AuctionRoom::AuctionRoom(QWidget *parent)
     , ui(new Ui::AuctionRoom)
 {
     ui->setupUi(this);
-    QPixmap logo("/Users/dieulinh/untitled/logo_auction.png");
+    QPixmap logo(":/image/logo_auction.png");
     ui->label_logo_2->setPixmap(logo.scaled(100,100,Qt::KeepAspectRatio));
     //set icon for button
-    ui->btn_backHome->setIcon(QIcon("/Users/dieulinh/auction/icon_back.jpeg"));
-    ui->btn_overview->setIcon(QIcon("/Users/dieulinh/auction/icon_overview.png"));
+    ui->btn_backHome->setIcon(QIcon(":/image/icon_back.jpegg"));
+    ui->btn_overview->setIcon(QIcon(":/image/icon_overview.png"));
     // image minh hoa
-    QPixmap image("/Users/dieulinh/auction/con-cho.jpeg");
+    QPixmap image(":/image/con-cho.jpeg");
     ui->label_image->setPixmap(image.scaled(ui->label_image->size(),Qt::KeepAspectRatio));
     // navigate
     ui->stackedWidget_2->insertWidget(1, &RoomOverview);

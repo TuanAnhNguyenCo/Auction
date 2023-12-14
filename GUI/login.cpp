@@ -7,6 +7,8 @@ LogIn::LogIn(QWidget *parent)
     , ui(new Ui::LogIn)
 {
     ui->setupUi(this);
+    QPixmap logo(":/image/logo_auction.png");
+    ui->label_logo_2->setPixmap(logo.scaled(100,100,Qt::KeepAspectRatio));
 }
 
 LogIn::~LogIn()

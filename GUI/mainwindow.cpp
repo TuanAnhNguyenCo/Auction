@@ -12,13 +12,14 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QPixmap logo("/Users/dieulinh/auction/logo_auction.png");
+    QPixmap logo(":/image/logo_auction.png");
     ui->label_logo_2->setPixmap(logo.scaled(100,100,Qt::KeepAspectRatio));
     ui->stackedWidget->insertWidget(1, &CreatePage);
     ui->stackedWidget->insertWidget(2, &HistoryPage);
     ui->stackedWidget->insertWidget(3,&AuctionRoom);
     ui->stackedWidget->insertWidget(4,&LogIn);
     ui->stackedWidget->insertWidget(5,&SignUp);
+    ui->stackedWidget->setCurrentIndex(4); // set up Login page
     connect(&CreatePage, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
     connect(&CreatePage, SIGNAL(HistoryClicked()), this, SLOT(moveHistoryTab()));
     connect(&HistoryPage, SIGNAL(HomeClicked()), this, SLOT(moveHome()));

@@ -6,9 +6,9 @@ RoomOverview::RoomOverview(QWidget *parent)
     , ui(new Ui::RoomOverview)
 {
     ui->setupUi(this);
-    QPixmap logo("/Users/dieulinh/untitled/logo_auction.png");
+    QPixmap logo(":/image/logo_auction.png");
     ui->label_logo_2->setPixmap(logo.scaled(100,100,Qt::KeepAspectRatio));
-    ui->btn_backAuctionroom->setIcon(QIcon("/Users/dieulinh/auction/icon_back.jpeg"));
+    ui->btn_backAuctionroom->setIcon(QIcon(":/image/icon_back.jpeg"));
 
 }
 
