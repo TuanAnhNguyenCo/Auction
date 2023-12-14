@@ -17,11 +17,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->insertWidget(1, &CreatePage);
     ui->stackedWidget->insertWidget(2, &HistoryPage);
     ui->stackedWidget->insertWidget(3,&AuctionRoom);
+    ui->stackedWidget->insertWidget(4,&LogIn);
+    ui->stackedWidget->insertWidget(5,&SignUp);
     connect(&CreatePage, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
     connect(&CreatePage, SIGNAL(HistoryClicked()), this, SLOT(moveHistoryTab()));
     connect(&HistoryPage, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
     connect(&AuctionRoom, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
     connect(&HistoryPage, SIGNAL(CreateClicked()), this, SLOT(moveCreateTab()));
+    connect(&LogIn,SIGNAL(SignupClicked()), this, SLOT(moveSignupPage()));
+    connect(&LogIn,SIGNAL(LoginOk()), this, SLOT(moveHome()));
+    connect(&SignUp,SIGNAL(LoginClicked()), this, SLOT(moveLoginPage()));
+
+
     //_______________________
     //scroll area
     QWidget* scrollContent = ui->scrollAreaWidgetContents;
@@ -79,3 +86,15 @@ void MainWindow::moveHistoryTab(){
 void MainWindow::moveAuctionRoom(){
     ui->stackedWidget->setCurrentIndex(3);
 }
+
+void MainWindow::on_btn_logout_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(4);
+}
+void MainWindow::moveSignupPage(){
+    ui->stackedWidget->setCurrentIndex(5);
+}
+void MainWindow::moveLoginPage(){
+    ui->stackedWidget->setCurrentIndex(4);
+}
+

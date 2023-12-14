@@ -27,6 +27,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         historypage.h historypage.cpp historypage.ui
         auctionroom.h auctionroom.cpp auctionroom.ui
         roomoverview.h roomoverview.cpp roomoverview.ui
+        signup.h signup.cpp signup.ui
+        login.h login.cpp login.ui
 
 
 

@@ -76,10 +76,6 @@
        <string notr="true">border: none;
     padding: 0;
     background: none;
-    cursor: pointer;
-    font-size: inherit;
-    font-family: inherit;
-    color: inherit;
  background-color: transparent; 
     text-decoration: underline;
     margin: 0 10px;
@@ -202,6 +198,19 @@
         </item>
        </layout>
       </widget>
+     </widget>
+     <widget class="QPushButton" name="btn_logout">
+      <property name="geometry">
+       <rect>
+        <x>709</x>
+        <y>20</y>
+        <width>81</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Log out</string>
+      </property>
      </widget>
     </widget>
    </widget>

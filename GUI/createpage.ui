@@ -49,10 +49,6 @@
       <string notr="true">border: none;
     padding: 0;
     background: none;
-    cursor: pointer;
-    font-size: inherit;
-    font-family: inherit;
-    color: inherit;
  background-color: transparent; 
     text-decoration: underline;
     margin: 0 10px;

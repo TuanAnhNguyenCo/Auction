@@ -7,6 +7,9 @@
 #include "createpage.h"
 #include "historypage.h"
 #include "auctionroom.h"
+#include "signup.h"
+#include "login.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -28,10 +31,16 @@ private slots:
     void moveCreateTab();
     void moveHistoryTab();
     void moveAuctionRoom();
+    void on_btn_logout_clicked();
+    void moveSignupPage();
+    void moveLoginPage();
+
 private:
     Ui::MainWindow *ui;
     CreatePage CreatePage;
     HistoryPage HistoryPage;
     AuctionRoom AuctionRoom;
+    SignUp SignUp;
+    LogIn LogIn;
 };
 #endif // MAINWINDOW_H
