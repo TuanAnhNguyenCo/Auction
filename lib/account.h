@@ -154,6 +154,10 @@ int handleSignup(SignupMess accountMess, list<Account> *accounts)
     pthread_mutex_unlock(&blockThreadMutex);
     return status;
 }
+
+int handleLogin(LoginMess accountMess, list<Account> *accounts){
+    Account account;
+}
 // #OK is OK and #FAIL is fail
 int recv_and_handle_sign_up(int conn_sock, list<Account> *accounts)
 {
@@ -167,6 +171,28 @@ int recv_and_handle_sign_up(int conn_sock, list<Account> *accounts)
     }
 
     int status = handleSignup(accountMess, accounts);
+    if (status == 1)
+    {
+        send(conn_sock, "#OK", BUFF_SIZE - 1, 0);
+    }
+    else if (status == 2)
+    {
+        send(conn_sock, "#FAIL", BUFF_SIZE - 1, 0);
+    }
+    return 1;
+}
+
+int recv_and_handle_login(int conn_sock, list<Account> *accounts){
+    LoginMess accountMess;
+    cout << "Logining" << endl;
+    int rcvBytes = recv(conn_sock, &accountMess, sizeof(accountMess), 0);
+    if (rcvBytes <= 0)
+    {
+        close(conn_sock);
+        return 0;
+    }
+
+    int status = handleLogin(accountMess, accounts);
     if (status == 1)
     {
         send(conn_sock, "#OK", BUFF_SIZE - 1, 0);
