@@ -26,26 +26,22 @@ int main()
   int result = connect(client_socket, (struct sockaddr *)&server_address, sizeof(struct sockaddr));
   if (result >= 0)
     printf("connect was successfull\n");
+  char s[3];
 
-  char *line = NULL;
-  size_t lineSize = 0;
-  ssize_t charCount = ::getline(&line, &lineSize, stdin);
-
-  // char *messId = "1";
-  ssize_t amountWasSent = send(client_socket, line, sizeof(line), 0);
-
-  char buffer[1024];
-  int rcvBytes = recv(client_socket, buffer, 1024, 0);
-  line[rcvBytes] = '/0';
-  printf("%s\n", line);
-  if (strcmp(line, "#0K"))
+  while (1)
   {
+    char *line = NULL;
+    size_t lineSize = 0;
+    ssize_t charCount = ::getline(&line, &lineSize, stdin);
+
+    // char *messId = "1";
+    ssize_t amountWasSent = send(client_socket, line, 1, 0);
     SignupMess accountMess;
     strcpy(accountMess.address, "bacninh");
     strcpy(accountMess.password, "123456");
     strcpy(accountMess.phoneNumber, "12345678");
     strcpy(accountMess.username, "anh3");
-    ssize_t amountWasSent = send(client_socket, &accountMess, sizeof(accountMess), 0);
+    amountWasSent = send(client_socket, &accountMess, sizeof(accountMess), 0);
   }
 
   close(client_socket);

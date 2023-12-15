@@ -123,13 +123,13 @@ void logout(list<Account> accounts, Account account)
     save_status(accounts, account);
 }
 
-void handleSignup(SignupMess accountMess){
+int handleSignup(SignupMess accountMess, list<Account> *accounts)
+{
     Account account;
     strcpy(account.address, accountMess.address);
     strcpy(account.password, accountMess.password);
     strcpy(account.phoneNumber, accountMess.phoneNumber);
     strcpy(account.username, accountMess.username);
-    list<Account> *listAccounts;
-    get_accounts(listAccounts);
-    sign_up(listAccounts, account);
+   
+    return sign_up(accounts, account);
 }

@@ -15,22 +15,47 @@
 char buff[BUFF_SIZE];
 
 using namespace std;
+list<Account> listAccounts;
 
-void switchFunction(int messageId, int client_socket)
+typedef struct
 {
-    if (messageId == 1)
+    int conn_sock;
+   
+} thread_args;
+
+void *handle_client(void *args)
+{
+    pthread_detach(pthread_self());
+    int bytes_sent, bytes_received;
+    thread_args *arg = (thread_args *)args;
+    char message[2];
+    while (1)
     {
-        SignupMess accountMess;
-        ssize_t amountWasSent = send(client_socket, "#OK", strlen("#OK"), 0);
-        int rcvBytes = recv(client_socket, &accountMess, sizeof(accountMess), 0);
-        handleSignup(accountMess);
+        recv(arg->conn_sock, &message, 1, 0);
+        if (atoi(message) == 1)
+        {
+            SignupMess accountMess;
+            cout << "Signing up" << endl;
+            int rcvBytes = recv(arg->conn_sock, &accountMess, sizeof(accountMess), 0);
+            cout << "Got " << rcvBytes << endl;
+            if (rcvBytes <= 0)
+            {
+                close(arg->conn_sock);
+                break;
+            }
+         
+            int status = handleSignup(accountMess, &listAccounts);
+            cout << "SignUp Status: " << status << endl;
+        }
     }
 }
+
 
 int main(int argc, char *argv[])
 {
     int listenSocket, connectSocket;
-    char message[BUFF_SIZE];
+    get_accounts(&listAccounts);
+    char message[2];
     struct sockaddr_in server;
     struct sockaddr_in client;
     socklen_t sin_size;
@@ -70,10 +95,11 @@ int main(int argc, char *argv[])
             continue;
         }
         printf("You got a connection from %s\n", inet_ntoa(client.sin_addr));
-        int rcvBytes = recv(connectSocket, &message, sizeof(message), 0);
-        message[rcvBytes-1] = '/0';
-        cout << "info " << message << endl;
-        switchFunction(atoi(message), connectSocket);
+    
+
+        thread_args args;
+        args.conn_sock = connectSocket;
+        pthread_create(&tid, NULL, &handle_client, &args);
     }
     close(listenSocket);
     return 0;
