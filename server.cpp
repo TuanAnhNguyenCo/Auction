@@ -15,11 +15,40 @@
 char buff[BUFF_SIZE];
 
 using namespace std;
+list<Account> listAccounts;
+
+typedef struct
+{
+    int conn_sock;
+
+} thread_args;
+
+
+
+void *handle_client(void *args)
+{
+    pthread_detach(pthread_self());
+    int bytes_sent, bytes_received;
+    thread_args *arg = (thread_args *)args;
+    char message[2];
+    while (1)
+    {
+        recv(arg->conn_sock, &message, 1, 0);
+        if (atoi(message) == 1)
+        {
+            if (recv_and_handle_sign_up(arg->conn_sock, &listAccounts) == 0)
+            {
+                break;
+            }
+        }
+    }
+}
 
 int main(int argc, char *argv[])
 {
     int listenSocket, connectSocket;
-    char message[BUFF_SIZE];
+    get_accounts(&listAccounts);
+    char message[2];
     struct sockaddr_in server;
     struct sockaddr_in client;
     socklen_t sin_size;
@@ -48,7 +77,6 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-
     while (1)
     {
         sin_size = sizeof(struct sockaddr_in);
@@ -60,8 +88,10 @@ int main(int argc, char *argv[])
             continue;
         }
         printf("You got a connection from %s\n", inet_ntoa(client.sin_addr));
-        int rcvBytes = recv(connectSocket, &message, sizeof(message), 0);
-        cout << "info" << message << endl;
+
+        thread_args args;
+        args.conn_sock = connectSocket;
+        pthread_create(&tid, NULL, &handle_client, &args);
     }
     close(listenSocket);
     return 0;
