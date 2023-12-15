@@ -17,13 +17,13 @@ using namespace std;
 
 #define BUFF_SIZE 8192
 
-int main()
+int main(int argc, char *argv[])
 {
 
   struct sockaddr_in server_address;
   int client_socket = socket(AF_INET, SOCK_STREAM, 0);
   server_address.sin_family = AF_INET;
-  server_address.sin_port = htons(5500);
+  server_address.sin_port = htons(atoi(argv[1]));
   server_address.sin_addr.s_addr = inet_addr("127.0.0.1");
   int result = connect(client_socket, (struct sockaddr *)&server_address, sizeof(struct sockaddr));
   if (result >= 0)
@@ -38,11 +38,9 @@ int main()
 
     // char *messId = "1";
     ssize_t amountWasSent = send(client_socket, line, 1, 0);
-    SignupMess accountMess;
-    strcpy(accountMess.address, "bacninh");
-    strcpy(accountMess.password, "123456");
-    strcpy(accountMess.phoneNumber, "12345678");
-    strcpy(accountMess.username, "anh3");
+    LoginMess accountMess;
+    strcpy(accountMess.password, "11");
+    strcpy(accountMess.username, "anh2");
     amountWasSent = send(client_socket, &accountMess, sizeof(accountMess), 0);
     char buffer[BUFF_SIZE];
     int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);

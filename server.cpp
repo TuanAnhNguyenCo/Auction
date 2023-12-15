@@ -39,6 +39,14 @@ void *handle_client(void *args)
                 break;
             }
         }
+        if (atoi(message) == 2)
+        {
+            if (recv_and_handle_login(arg->conn_sock, &listAccounts) == 0)
+            {
+                break;
+            }
+        }
+
     }
 }
 
