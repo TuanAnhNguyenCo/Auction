@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->insertWidget(3,&AuctionRoom);
     ui->stackedWidget->insertWidget(4,&LogIn);
     ui->stackedWidget->insertWidget(5,&SignUp);
-    ui->stackedWidget->setCurrentIndex(0); // set up Login page
+    ui->stackedWidget->setCurrentIndex(4); // set up Login page
     connect(&CreatePage, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
     connect(&CreatePage, SIGNAL(HistoryClicked()), this, SLOT(moveHistoryTab()));
     connect(&HistoryPage, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
@@ -58,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent)
         QHBoxLayout* groupBoxLayout = new QHBoxLayout(item);
         // Add an image to each group box
         QLabel* item_image = new QLabel;
-        QPixmap pixmap("/Users/dieulinh/auction/con-cho.jpeg");
+        QPixmap pixmap(":/image/con-cho.jpeg");
         item_image ->setPixmap(pixmap.scaled(300,200, Qt::KeepAspectRatio));
         groupBoxLayout->addWidget(item_image );
 

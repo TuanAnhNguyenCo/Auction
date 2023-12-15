@@ -79,7 +79,6 @@
  background-color: transparent; 
     text-decoration: underline;
     margin: 0 10px;
-    cursor: pointer;
 
 </string>
       </property>

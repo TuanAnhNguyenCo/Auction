@@ -30,6 +30,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         signup.h signup.cpp signup.ui
         login.h login.cpp login.ui
         myResource.qrc
+        config.h config.cpp
 
 
 
