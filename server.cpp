@@ -46,6 +46,14 @@ void *handle_client(void *args)
                 break;
             }
         }
+        if (atoi(message) == 3)
+        {
+            send(arg->conn_sock, "#UPDATE", BUFF_SIZE - 1, 0);
+            if (recv_and_handle_logout(arg->conn_sock, &listAccounts) == 0)
+            {
+                break;
+            }
+        }
 
     }
 }

@@ -34,6 +34,10 @@ typedef struct
     char password[50];
 } LoginMess;
 
+typedef struct
+{
+    int user_id;
+} LogoutMess;
 
 typedef struct
 {
