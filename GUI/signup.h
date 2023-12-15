@@ -20,7 +20,7 @@ signals:
 
 public slots:
     void on_btn_loginPage_clicked();
-    void demoupdate();
+    void update_sign_up(char *message);
     void on_btn_signup_clicked();
 
 private:

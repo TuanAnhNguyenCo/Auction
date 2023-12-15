@@ -22,8 +22,21 @@ void SignUp::on_btn_loginPage_clicked()
     emit LoginClicked();
 }
 
-void SignUp::demoupdate(){
-    qDebug() << "Dữ liệu đã được cập nhật";
+void SignUp::update_sign_up(char *message){
+    if (strcmp(message,"#OK") == 0)
+    {
+        // thong bao success, navigate to log in
+        QMessageBox::information(this, tr("Success"), tr("Sign up successfully "));
+        SignUp::on_btn_loginPage_clicked();
+        ui->lineEdit_username->setText("");
+        ui->lineEdit_pass->setText("");
+        ui->lineEdit_address->setText("");
+        ui->lineEdit_phonenum->setText("");
+
+
+    }else{
+        QMessageBox::information(this, tr("Failed"), tr("Your username esist"));
+    }
 }
 
 
@@ -41,22 +54,6 @@ void SignUp::on_btn_signup_clicked()
     strcpy(accountMess.phoneNumber, phone_number.c_str());
     strcpy(accountMess.username, userName.c_str());
     send(MySingleton::instance().getValue(), &accountMess, sizeof(accountMess), 0);
-    recv(MySingleton::instance().getValue(), &ResponedMessage, BUFF_SIZE-1, 0);
-    qInfo() << ResponedMessage  << " signout";
-    if (strcmp(ResponedMessage,"#OK") == 0)
-    {
 
-        ui->lineEdit_username->setText("");
-        ui->lineEdit_pass->setText("");
-        ui->lineEdit_address->setText("");
-        ui->lineEdit_phonenum->setText("");
-        // thong bao success, navigate to log in
-        QMessageBox::information(this, tr("Success"), tr("Sign up successfully "));
-        SignUp::on_btn_loginPage_clicked();
-
-
-    }else{
-        QMessageBox::information(this, tr("Failed"), tr("Can not sign up "));
-    }
 }
 
