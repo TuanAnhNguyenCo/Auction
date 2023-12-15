@@ -134,11 +134,22 @@ int sign_in(list<Account> accounts, Account account)
     }
     return 2;
 }
-
-void logout(list<Account> accounts, Account account)
+// 1: Fail 2: Successfully
+int logout(list<Account> *accounts, Account account)
 {
-    account.status = 0;
-    save_status(accounts, account);
+    for (Account &acc : *accounts)
+    {
+        if (acc.id == account.id)
+        {
+            if (acc.status == 0)
+                return 2;
+            acc.status = 0;
+            save_status(*accounts, acc);
+            break;
+        }
+    }
+
+    return 1;
 }
 
 int handleSignup(SignupMess accountMess, list<Account> *accounts)
@@ -155,7 +166,8 @@ int handleSignup(SignupMess accountMess, list<Account> *accounts)
     return status;
 }
 
-int handleLogin(LoginMess accountMess, list<Account> *accounts){
+int handleLogin(LoginMess accountMess, list<Account> *accounts)
+{
     Account account;
     strcpy(account.password, accountMess.password);
     strcpy(account.username, accountMess.username);
@@ -164,6 +176,18 @@ int handleLogin(LoginMess accountMess, list<Account> *accounts){
     pthread_mutex_unlock(&blockThreadMutex);
     return status;
 }
+
+int handleLogout(LogoutMess accountMess, list<Account> *accounts)
+{
+    Account account;
+    account.id = accountMess.user_id;
+    pthread_mutex_lock(&blockThreadMutex);
+    int status = logout(accounts, account);
+    // accounts[accountMess.user_id].status
+    pthread_mutex_unlock(&blockThreadMutex);
+    return status;
+}
+
 // #OK is OK and #FAIL is fail
 int recv_and_handle_sign_up(int conn_sock, list<Account> *accounts)
 {
@@ -188,7 +212,8 @@ int recv_and_handle_sign_up(int conn_sock, list<Account> *accounts)
     return 1;
 }
 // #OK: successfull #FAIL: fail #ONLINE: account is online on the other devices
-int recv_and_handle_login(int conn_sock, list<Account> *accounts){
+int recv_and_handle_login(int conn_sock, list<Account> *accounts)
+{
     LoginMess accountMess;
     cout << "Logining" << endl;
     int rcvBytes = recv(conn_sock, &accountMess, sizeof(accountMess), 0);
@@ -210,6 +235,29 @@ int recv_and_handle_login(int conn_sock, list<Account> *accounts){
     else if (status == 3)
     {
         send(conn_sock, "#ONLINE", BUFF_SIZE - 1, 0);
+    }
+    return 1;
+}
+// #OK is OK and #FAIL is fail
+int recv_and_handle_logout(int conn_sock, list<Account> *accounts)
+{
+    LogoutMess accountMess;
+    cout << "Logouting" << endl;
+    int rcvBytes = recv(conn_sock, &accountMess, sizeof(accountMess), 0);
+    if (rcvBytes <= 0)
+    {
+        close(conn_sock);
+        return 0;
+    }
+
+    int status = handleLogout(accountMess, accounts);
+    if (status == 1)
+    {
+        send(conn_sock, "#OK", BUFF_SIZE - 1, 0);
+    }
+    else if (status == 2)
+    {
+        send(conn_sock, "#FAIL", BUFF_SIZE - 1, 0);
     }
     return 1;
 }

@@ -38,9 +38,11 @@ int main(int argc, char *argv[])
 
     // char *messId = "1";
     ssize_t amountWasSent = send(client_socket, line, 1, 0);
-    LoginMess accountMess;
-    strcpy(accountMess.password, "11");
-    strcpy(accountMess.username, "anh2");
+    char message[BUFF_SIZE];
+    recv(client_socket, message, BUFF_SIZE - 1, 0);
+    cout << message << endl;
+    LogoutMess accountMess;
+    accountMess.user_id = 3;
     amountWasSent = send(client_socket, &accountMess, sizeof(accountMess), 0);
     char buffer[BUFF_SIZE];
     int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
