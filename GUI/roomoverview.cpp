@@ -23,7 +23,7 @@ RoomOverview::RoomOverview(QWidget *parent)
         QHBoxLayout* groupBoxLayout = new QHBoxLayout(item);
         // Add an image to each group box
         QLabel* item_image = new QLabel;
-        QPixmap pixmap("/Users/dieulinh/auction/con-cho.jpeg");
+        QPixmap pixmap(":/image/con-cho.jpeg");
         item_image ->setPixmap(pixmap.scaled(300,200, Qt::KeepAspectRatio));
         groupBoxLayout->addWidget(item_image );
         // Add text label to each group box

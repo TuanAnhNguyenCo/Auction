@@ -2,7 +2,7 @@
 #include "ui_signup.h"
 #include "config.h"
 #include "account.h"
-
+#include <QMessageBox>
 SignUp::SignUp(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::SignUp)
@@ -46,8 +46,13 @@ void SignUp::on_btn_signup_clicked()
         ui->lineEdit_pass->setText("");
         ui->lineEdit_address->setText("");
         ui->lineEdit_phonenum->setText("");
-    }else{
+        // thong bao success, navigate to log in
+        QMessageBox::information(this, tr("Success"), tr("Sign up successfully "));
+        SignUp::on_btn_loginPage_clicked();
 
+
+    }else{
+        QMessageBox::information(this, tr("Failed"), tr("Can not sign up "));
     }
 }
 
