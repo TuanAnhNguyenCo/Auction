@@ -53,6 +53,7 @@ else()
             config.cpp
             config.cpp config.h
             account.h
+            worker.h worker.cpp
         )
     endif()
 endif()

@@ -22,6 +22,10 @@ void SignUp::on_btn_loginPage_clicked()
     emit LoginClicked();
 }
 
+void SignUp::demoupdate(){
+    qDebug() << "Dữ liệu đã được cập nhật";
+}
+
 
 void SignUp::on_btn_signup_clicked()
 {

@@ -18,9 +18,9 @@ public:
 signals:
     void LoginClicked();
 
-private slots:
+public slots:
     void on_btn_loginPage_clicked();
-
+    void demoupdate();
     void on_btn_signup_clicked();
 
 private:

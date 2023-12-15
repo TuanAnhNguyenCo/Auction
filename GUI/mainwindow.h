@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QtGui>
 #include <QStackedWidget>
+#include <QThread>
+#include "worker.h"
 #include "createpage.h"
 #include "historypage.h"
 #include "auctionroom.h"
@@ -43,5 +45,7 @@ private:
     AuctionRoom AuctionRoom;
     SignUp SignUp;
     LogIn LogIn;
+    Worker *worker;
+    QThread *workerThread;
 };
 #endif // MAINWINDOW_H
