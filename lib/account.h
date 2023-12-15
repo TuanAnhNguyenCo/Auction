@@ -122,3 +122,14 @@ void logout(list<Account> accounts, Account account)
     account.status = 0;
     save_status(accounts, account);
 }
+
+void handleSignup(SignupMess accountMess){
+    Account account;
+    strcpy(account.address, accountMess.address);
+    strcpy(account.password, accountMess.password);
+    strcpy(account.phoneNumber, accountMess.phoneNumber);
+    strcpy(account.username, accountMess.username);
+    list<Account> *listAccounts;
+    get_accounts(listAccounts);
+    sign_up(listAccounts, account);
+}

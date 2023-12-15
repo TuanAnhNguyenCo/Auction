@@ -22,6 +22,15 @@ typedef struct
 
 typedef struct
 {
+    char username[50];
+    char password[50];
+    char phoneNumber[50];
+    char address[100];
+} SignupMess;
+
+
+typedef struct
+{
     int id;
     int room_id;
     char name[100];

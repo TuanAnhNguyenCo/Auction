@@ -16,6 +16,17 @@ char buff[BUFF_SIZE];
 
 using namespace std;
 
+void switchFunction(int messageId, int client_socket)
+{
+    if (messageId == 1)
+    {
+        SignupMess accountMess;
+        ssize_t amountWasSent = send(client_socket, "#OK", strlen("#OK"), 0);
+        int rcvBytes = recv(client_socket, &accountMess, sizeof(accountMess), 0);
+        handleSignup(accountMess);
+    }
+}
+
 int main(int argc, char *argv[])
 {
     int listenSocket, connectSocket;
@@ -48,7 +59,6 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-
     while (1)
     {
         sin_size = sizeof(struct sockaddr_in);
@@ -61,7 +71,9 @@ int main(int argc, char *argv[])
         }
         printf("You got a connection from %s\n", inet_ntoa(client.sin_addr));
         int rcvBytes = recv(connectSocket, &message, sizeof(message), 0);
-        cout << "info" << message << endl;
+        message[rcvBytes-1] = '/0';
+        cout << "info " << message << endl;
+        switchFunction(atoi(message), connectSocket);
     }
     close(listenSocket);
     return 0;
