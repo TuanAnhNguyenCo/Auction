@@ -134,7 +134,7 @@ int sign_in(list<Account> accounts, Account account)
     }
     return 2;
 }
-// 1: Fail 2: Successfully
+// 1: Successfully 2: Fail
 int logout(list<Account> *accounts, Account account)
 {
     for (Account &acc : *accounts)
@@ -145,11 +145,12 @@ int logout(list<Account> *accounts, Account account)
                 return 2;
             acc.status = 0;
             save_status(*accounts, acc);
+            return 1;
             break;
         }
     }
 
-    return 1;
+    return 2;
 }
 
 int handleSignup(SignupMess accountMess, list<Account> *accounts)
