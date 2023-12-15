@@ -1,6 +1,8 @@
 #include "login.h"
 #include "ui_login.h"
 #include <QMessageBox>
+#include "config.h"
+
 
 LogIn::LogIn(QWidget *parent)
     : QWidget(parent)
@@ -26,11 +28,18 @@ void LogIn::on_btn_signupPage_clicked()
 }
 
 
+
 void LogIn::on_btn_login_clicked()
 {
-    QString userName = ui->lineEdit_username->text();
+
+    std::string userName= ui->lineEdit_username->text().toStdString();
     QString passWord = ui->lineEdit_pass->text();
-    if(userName == "chotuananh" && passWord == "tuananhcho"){
+    qInfo() <<  MySingleton::instance().getValue()  << " login\n";
+    send(MySingleton::instance().getValue(),"1",BUFF_SIZE-1 , 0);
+
+
+
+    if(userName == "cholinh" && passWord == "cholinh"){
         QMessageBox::information(this,"Successful", "Login successfully");
         emit LoginOk();
     }
@@ -38,4 +47,3 @@ void LogIn::on_btn_login_clicked()
         QMessageBox::critical(this, tr("Fail"), tr("Login Failed"));
     }
 }
-

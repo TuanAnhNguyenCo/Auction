@@ -24,6 +24,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
 private slots:
     void on_btn_createtab_clicked();
     void on_btn_historytab_clicked();
