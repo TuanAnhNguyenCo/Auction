@@ -12,7 +12,7 @@ public slots:
     void doWork();
 
 signals:
-    void dataReceived();
+    void signUp_dataReceived(char *message);
 };
 
 #endif // WORKER_H
