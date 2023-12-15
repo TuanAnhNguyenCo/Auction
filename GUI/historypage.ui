@@ -23,19 +23,6 @@
     </rect>
    </property>
    <widget class="QWidget" name="page_2">
-    <widget class="QLabel" name="label_2">
-     <property name="geometry">
-      <rect>
-       <x>360</x>
-       <y>260</y>
-       <width>58</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>history page</string>
-     </property>
-    </widget>
     <widget class="QLabel" name="label_logo_2">
      <property name="geometry">
       <rect>
@@ -111,6 +98,49 @@
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>90</y>
+       <width>151</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>24</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Statistics</string>
+     </property>
+    </widget>
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>140</y>
+       <width>711</width>
+       <height>441</height>
+      </rect>
+     </property>
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>709</width>
+        <height>439</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>

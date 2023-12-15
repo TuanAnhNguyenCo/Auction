@@ -1,6 +1,7 @@
 #include "auctionroom.h"
 #include "ui_auctionroom.h"
 #include <QPixmap>
+#include <QMessageBox>
 
 AuctionRoom::AuctionRoom(QWidget *parent)
     : QWidget(parent)
@@ -10,7 +11,7 @@ AuctionRoom::AuctionRoom(QWidget *parent)
     QPixmap logo(":/image/logo_auction.png");
     ui->label_logo_2->setPixmap(logo.scaled(100,100,Qt::KeepAspectRatio));
     //set icon for button
-    ui->btn_backHome->setIcon(QIcon(":/image/icon_back.jpegg"));
+    ui->btn_backHome->setIcon(QIcon(":/image/icon_back.jpeg"));
     ui->btn_overview->setIcon(QIcon(":/image/icon_overview.png"));
     // image minh hoa
     QPixmap image(":/image/con-cho.jpeg");
@@ -44,5 +45,14 @@ void AuctionRoom::on_btn_overview_clicked()
 }
 void AuctionRoom::backfromOverview(){
     ui->stackedWidget_2->setCurrentIndex(0);
+}
+
+
+void AuctionRoom::on_btn_bin_clicked()
+{
+    QMessageBox::StandardButton reply;
+    QMessageBox::question(this, "Confirm message", "Buy this item with BIN price?",
+                          QMessageBox::Yes | QMessageBox::No);
+
 }
 

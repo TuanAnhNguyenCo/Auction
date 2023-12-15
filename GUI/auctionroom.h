@@ -24,6 +24,8 @@ private slots:
     void on_btn_overview_clicked();
     void backfromOverview();
 
+    void on_btn_bin_clicked();
+
 private:
     Ui::AuctionRoom *ui;
     RoomOverview RoomOverview;

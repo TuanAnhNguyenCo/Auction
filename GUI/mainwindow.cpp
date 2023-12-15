@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->insertWidget(3,&AuctionRoom);
     ui->stackedWidget->insertWidget(4,&LogIn);
     ui->stackedWidget->insertWidget(5,&SignUp);
-    ui->stackedWidget->setCurrentIndex(4); // set up Login page
+    ui->stackedWidget->setCurrentIndex(0); // set up Login page
     connect(&CreatePage, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
     connect(&CreatePage, SIGNAL(HistoryClicked()), this, SLOT(moveHistoryTab()));
     connect(&HistoryPage, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
@@ -47,11 +47,11 @@ MainWindow::MainWindow(QWidget *parent)
         QLabel* item_name = new QLabel("Con mèo");
         groupBoxLayout->addWidget(item_name);
         QLabel* item_room = new QLabel("Room 1 - abc@xyz");
+        groupBoxLayout->addWidget(item_room);
         // Add button to join room
         QPushButton* item_btn_join = new QPushButton("Join");
         groupBoxLayout->addWidget(item_btn_join,0, Qt::AlignRight);
         connect(item_btn_join, &QPushButton::clicked, this, &MainWindow::moveAuctionRoom);
-        groupBoxLayout->addWidget(item_room);
         scrollLayout->addWidget(item);
     }
 
@@ -59,7 +59,6 @@ MainWindow::MainWindow(QWidget *parent)
     QScrollArea* scrollArea = ui->scrollArea;
     scrollArea->setWidgetResizable(true);
     scrollArea->setWidget(scrollContent);
-
 }
 
 MainWindow::~MainWindow()

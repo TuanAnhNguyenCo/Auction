@@ -359,7 +359,7 @@
     <widget class="QPushButton" name="btn_bid">
      <property name="geometry">
       <rect>
-       <x>580</x>
+       <x>520</x>
        <y>500</y>
        <width>91</width>
        <height>41</height>
@@ -406,6 +406,19 @@
      </property>
      <property name="text">
       <string>abc@xyz</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_bin">
+     <property name="geometry">
+      <rect>
+       <x>650</x>
+       <y>500</y>
+       <width>91</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>BIN</string>
      </property>
     </widget>
    </widget>
