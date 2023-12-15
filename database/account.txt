@@ -1,3 +1,2 @@
 1 anh1 1 0374470525 HaNoi 1
 2 anh2 1 0374470525 HaNoi 0
-3 anh3 123456 12345678 bacninh 0

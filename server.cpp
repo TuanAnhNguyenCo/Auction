@@ -20,8 +20,10 @@ list<Account> listAccounts;
 typedef struct
 {
     int conn_sock;
-   
+
 } thread_args;
+
+
 
 void *handle_client(void *args)
 {
@@ -34,22 +36,13 @@ void *handle_client(void *args)
         recv(arg->conn_sock, &message, 1, 0);
         if (atoi(message) == 1)
         {
-            SignupMess accountMess;
-            cout << "Signing up" << endl;
-            int rcvBytes = recv(arg->conn_sock, &accountMess, sizeof(accountMess), 0);
-            cout << "Got " << rcvBytes << endl;
-            if (rcvBytes <= 0)
+            if (recv_and_handle_sign_up(arg->conn_sock, &listAccounts) == 0)
             {
-                close(arg->conn_sock);
                 break;
             }
-         
-            int status = handleSignup(accountMess, &listAccounts);
-            cout << "SignUp Status: " << status << endl;
         }
     }
 }
-
 
 int main(int argc, char *argv[])
 {
@@ -95,7 +88,6 @@ int main(int argc, char *argv[])
             continue;
         }
         printf("You got a connection from %s\n", inet_ntoa(client.sin_addr));
-    
 
         thread_args args;
         args.conn_sock = connectSocket;

@@ -1,9 +1,11 @@
 #include "structure.h"
 #include "string.h"
 #include <iostream>
+#include <pthread.h>
+#define BUFF_SIZE 8192
 
 using namespace std;
-
+pthread_mutex_t mutex;
 // typedef struct
 // {
 //     int id;
@@ -93,6 +95,7 @@ int sign_up(list<Account> *accounts, Account account)
     account.status = 0;
     accounts->push_back(account);
     save_account(*accounts);
+
     return 1;
 }
 
@@ -125,11 +128,37 @@ void logout(list<Account> accounts, Account account)
 
 int handleSignup(SignupMess accountMess, list<Account> *accounts)
 {
+
     Account account;
     strcpy(account.address, accountMess.address);
     strcpy(account.password, accountMess.password);
     strcpy(account.phoneNumber, accountMess.phoneNumber);
     strcpy(account.username, accountMess.username);
-   
-    return sign_up(accounts, account);
+    pthread_mutex_lock(&mutex);
+    int status = sign_up(accounts, account);
+    pthread_mutex_unlock(&mutex);
+    return status;
+}
+
+int recv_and_handle_sign_up(int conn_sock, list<Account> *accounts)
+{
+    SignupMess accountMess;
+    cout << "Signing up" << endl;
+    int rcvBytes = recv(conn_sock, &accountMess, sizeof(accountMess), 0);
+    if (rcvBytes <= 0)
+    {
+        close(conn_sock);
+        return 0;
+    }
+
+    int status = handleSignup(accountMess, accounts);
+    if (status == 1)
+    {
+        send(conn_sock, "#OK", BUFF_SIZE - 1, 0);
+    }
+    else if (status == 2)
+    {
+        send(conn_sock, "#FAIL", BUFF_SIZE - 1, 0);
+    }
+    return 1;
 }

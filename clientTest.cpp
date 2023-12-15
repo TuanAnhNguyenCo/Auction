@@ -15,6 +15,8 @@
 
 using namespace std;
 
+#define BUFF_SIZE 8192
+
 int main()
 {
 
@@ -42,6 +44,9 @@ int main()
     strcpy(accountMess.phoneNumber, "12345678");
     strcpy(accountMess.username, "anh3");
     amountWasSent = send(client_socket, &accountMess, sizeof(accountMess), 0);
+    char buffer[BUFF_SIZE];
+    int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+    printf("%s\n", buffer);
   }
 
   close(client_socket);
