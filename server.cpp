@@ -23,17 +23,15 @@ typedef struct
 
 } thread_args;
 
-
-
 void *handle_client(void *args)
 {
     pthread_detach(pthread_self());
     int bytes_sent, bytes_received;
     thread_args *arg = (thread_args *)args;
-    char message[2];
+    char message[BUFF_SIZE];
     while (1)
     {
-        recv(arg->conn_sock, &message, 1, 0);
+        recv(arg->conn_sock, &message, BUFF_SIZE - 1, 0);
         if (atoi(message) == 1)
         {
             if (recv_and_handle_sign_up(arg->conn_sock, &listAccounts) == 0)

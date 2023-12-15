@@ -21,6 +21,8 @@ signals:
 private slots:
     void on_btn_loginPage_clicked();
 
+    void on_btn_signup_clicked();
+
 private:
     Ui::SignUp *ui;
 };

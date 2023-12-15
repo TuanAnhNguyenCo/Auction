@@ -1,10 +1,6 @@
 #include "structure.h"
 #include "string.h"
 #include <iostream>
-<<<<<<< HEAD
-#include <pthread.h>
-#define BUFF_SIZE 8192
-=======
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -19,10 +15,10 @@
 #include <chrono>
 #include <ctime>
 #include <iomanip>
->>>>>>> b762954 (ađ new config socket)
 
+#define BUFF_SIZE 8192
 using namespace std;
-pthread_mutex_t mutex;
+pthread_mutex_t blockThreadMutex;
 // typedef struct
 // {
 //     int id;
@@ -58,7 +54,8 @@ void print_accounts(list<Account> accounts)
     }
 }
 
-void save_account(list<Account> accounts){
+void save_account(list<Account> accounts)
+{
     FILE *file;
     file = fopen("database/account.txt", "w+");
     if (file != NULL)
@@ -73,14 +70,14 @@ void save_account(list<Account> accounts){
     fclose(file);
 }
 
-void save_status(list<Account> accounts,Account account)
+void save_status(list<Account> accounts, Account account)
 {
     FILE *file;
     file = fopen("database/account.txt", "w+");
     if (file != NULL)
     {
         for (Account acc : accounts)
-            if (strcasecmp(acc.username,account.username) == 0)
+            if (strcasecmp(acc.username, account.username) == 0)
                 fprintf(file, "%d %s %s %s %s %d\n", acc.id, acc.username, acc.password, acc.phoneNumber, acc.address, account.status);
             else
                 fprintf(file, "%d %s %s %s %s %d\n", acc.id, acc.username, acc.password, acc.phoneNumber, acc.address, acc.status);
@@ -93,11 +90,11 @@ void save_status(list<Account> accounts,Account account)
 }
 
 // 1: exist 2: no exist
-int checkAccountAvailability(Account account,list<Account> accounts)
+int checkAccountAvailability(Account account, list<Account> accounts)
 {
     for (Account acc : accounts)
     {
-        if (strcasecmp(acc.username,account.username) == 0)
+        if (strcasecmp(acc.username, account.username) == 0)
             return 1;
     }
     return 2;
@@ -106,7 +103,7 @@ int checkAccountAvailability(Account account,list<Account> accounts)
 // 1: successfull 2: fail
 int sign_up(list<Account> *accounts, Account account)
 {
-    if (checkAccountAvailability(account,*accounts) == 1)
+    if (checkAccountAvailability(account, *accounts) == 1)
         return 2;
     account.id = accounts->size() + 1;
     account.status = 0;
@@ -117,12 +114,13 @@ int sign_up(list<Account> *accounts, Account account)
 }
 
 // 1: successfull 2: fail 3: account is online on the other devices
-int sign_in(list<Account> accounts, Account account){
+int sign_in(list<Account> accounts, Account account)
+{
     for (Account acc : accounts)
     {
         if (strcasecmp(acc.username, account.username) == 0 && strcasecmp(acc.username, account.username) == 0)
         {
-            if(acc.status == 0)
+            if (acc.status == 0)
             {
                 account.status = 1;
                 save_status(accounts, account);
@@ -151,12 +149,12 @@ int handleSignup(SignupMess accountMess, list<Account> *accounts)
     strcpy(account.password, accountMess.password);
     strcpy(account.phoneNumber, accountMess.phoneNumber);
     strcpy(account.username, accountMess.username);
-    pthread_mutex_lock(&mutex);
+    pthread_mutex_lock(&blockThreadMutex);
     int status = sign_up(accounts, account);
-    pthread_mutex_unlock(&mutex);
+    pthread_mutex_unlock(&blockThreadMutex);
     return status;
 }
-
+// #OK is OK and #FAIL is fail
 int recv_and_handle_sign_up(int conn_sock, list<Account> *accounts)
 {
     SignupMess accountMess;

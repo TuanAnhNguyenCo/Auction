@@ -28,14 +28,14 @@ void LogIn::on_btn_signupPage_clicked()
 }
 
 
+
 void LogIn::on_btn_login_clicked()
 {
 
     std::string userName= ui->lineEdit_username->text().toStdString();
     QString passWord = ui->lineEdit_pass->text();
-
     qInfo() <<  MySingleton::instance().getValue()  << " login\n";
-    send(MySingleton::instance().getValue(),userName.c_str(), BUFF_SIZE - 1 , 0);
+    send(MySingleton::instance().getValue(),"1",BUFF_SIZE-1 , 0);
 
 
 
