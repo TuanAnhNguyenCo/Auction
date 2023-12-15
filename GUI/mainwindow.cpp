@@ -6,7 +6,9 @@
 #include <QLabel>
 #include <QGridLayout>
 #include <QGroupBox>
+#include <QThread>
 #include "config.h"
+#include "worker.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -29,6 +31,22 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&LogIn,SIGNAL(SignupClicked()), this, SLOT(moveSignupPage()));
     connect(&LogIn,SIGNAL(LoginOk()), this, SLOT(moveHome()));
     connect(&SignUp,SIGNAL(LoginClicked()), this, SLOT(moveLoginPage()));
+
+
+    worker = new Worker();
+    workerThread = new QThread();
+
+    worker->moveToThread(workerThread);
+
+
+
+    connect(workerThread, &QThread::started, worker, &Worker::doWork);
+    connect(worker, &Worker::dataReceived, &SignUp, &SignUp::demoupdate);
+
+
+    workerThread->start();
+
+
 
 
     //_______________________
