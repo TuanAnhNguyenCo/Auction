@@ -52,6 +52,7 @@ else()
             config.h
             config.cpp
             config.cpp config.h
+            account.h
         )
     endif()
 endif()

@@ -11,14 +11,6 @@
 
 #define BUFF_SIZE 8192
 
-typedef struct
-{
-    char username[50];
-    char password[50];
-    char phoneNumber[50];
-    char address[100];
-} SignupMess;
-
 
 class MySingleton {
 public:
