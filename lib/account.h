@@ -1,4 +1,4 @@
-#include "structure.h"
+#include "structure_account.h"
 #include "string.h"
 #include <iostream>
 #include <stdio.h>
@@ -15,10 +15,12 @@
 #include <chrono>
 #include <ctime>
 #include <iomanip>
+#include <pthread.h>
 
 #define BUFF_SIZE 8192
+pthread_mutex_t blockThreadMutex_account;
+
 using namespace std;
-pthread_mutex_t blockThreadMutex;
 // typedef struct
 // {
 //     int id;
@@ -161,9 +163,9 @@ int handleSignup(SignupMess accountMess, list<Account> *accounts)
     strcpy(account.password, accountMess.password);
     strcpy(account.phoneNumber, accountMess.phoneNumber);
     strcpy(account.username, accountMess.username);
-    pthread_mutex_lock(&blockThreadMutex);
+    pthread_mutex_lock(&blockThreadMutex_account);
     int status = sign_up(accounts, account);
-    pthread_mutex_unlock(&blockThreadMutex);
+    pthread_mutex_unlock(&blockThreadMutex_account);
     return status;
 }
 
@@ -172,9 +174,9 @@ int handleLogin(LoginMess accountMess, list<Account> *accounts)
     Account account;
     strcpy(account.password, accountMess.password);
     strcpy(account.username, accountMess.username);
-    pthread_mutex_lock(&blockThreadMutex);
+    pthread_mutex_lock(&blockThreadMutex_account);
     int status = sign_in(*accounts, account);
-    pthread_mutex_unlock(&blockThreadMutex);
+    pthread_mutex_unlock(&blockThreadMutex_account);
     return status;
 }
 
@@ -182,10 +184,10 @@ int handleLogout(LogoutMess accountMess, list<Account> *accounts)
 {
     Account account;
     account.id = accountMess.user_id;
-    pthread_mutex_lock(&blockThreadMutex);
+    pthread_mutex_lock(&blockThreadMutex_account);
     int status = logout(accounts, account);
     // accounts[accountMess.user_id].status
-    pthread_mutex_unlock(&blockThreadMutex);
+    pthread_mutex_unlock(&blockThreadMutex_account);
     return status;
 }
 
@@ -201,14 +203,17 @@ int recv_and_handle_sign_up(int conn_sock, list<Account> *accounts)
         return 0;
     }
 
+    char *message;
     int status = handleSignup(accountMess, accounts);
     if (status == 1)
     {
-        send(conn_sock, "#OK", BUFF_SIZE - 1, 0);
+        message = "#OK";
+        send(conn_sock, message, strlen(message), 0);
     }
     else if (status == 2)
     {
-        send(conn_sock, "#FAIL", BUFF_SIZE - 1, 0);
+        message = "#FAIL";
+        send(conn_sock, message, strlen(message), 0);
     }
     return 1;
 }
@@ -224,18 +229,22 @@ int recv_and_handle_login(int conn_sock, list<Account> *accounts)
         return 0;
     }
 
+    char *message;
     int status = handleLogin(accountMess, accounts);
     if (status == 1)
     {
-        send(conn_sock, "#OK", BUFF_SIZE - 1, 0);
+        message = "#OK";
+        send(conn_sock, message, strlen(message), 0);
     }
     else if (status == 2)
     {
-        send(conn_sock, "#FAIL", BUFF_SIZE - 1, 0);
+        message = "#FAIL";
+        send(conn_sock, message, strlen(message), 0);
     }
     else if (status == 3)
     {
-        send(conn_sock, "#ONLINE", BUFF_SIZE - 1, 0);
+        message = "#ONLINING";
+        send(conn_sock, message, strlen(message), 0);
     }
     return 1;
 }
@@ -251,14 +260,17 @@ int recv_and_handle_logout(int conn_sock, list<Account> *accounts)
         return 0;
     }
 
+    char *message;
     int status = handleLogout(accountMess, accounts);
     if (status == 1)
     {
-        send(conn_sock, "#OK", BUFF_SIZE - 1, 0);
+        message = "#OK";
+        send(conn_sock, message, strlen(message), 0);
     }
     else if (status == 2)
     {
-        send(conn_sock, "#FAIL", BUFF_SIZE - 1, 0);
+        message = "#FAIL";
+        send(conn_sock, message, strlen(message), 0);
     }
     return 1;
 }
