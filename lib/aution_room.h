@@ -17,6 +17,10 @@
 #include <ctime>
 #include <iomanip>
 #include <pthread.h>
+#include <algorithm>
+
+#define BUFF_SIZE 8192
+pthread_mutex_t blockThreadMutex_auction;
 
 void get_rooms(list<AuctionRoom> *rooms)
 {

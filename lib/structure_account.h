@@ -18,6 +18,7 @@ typedef struct
     char phoneNumber[50];
     char address[100];
     int status; // 1 is online - 0 is offline status
+    int connectSocket;
 } Account;
 
 typedef struct
