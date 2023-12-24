@@ -44,27 +44,13 @@ typedef struct
     int id;
     int room_id;
     char name[100];
+
     double reserve_price;
     double BIN_price;
     char description[1024];
     time_t created_at;
 } Items;
 
-typedef struct
-{
-    int id;
-    int proprietor_id;
-    char name[100];
-    time_t created_at;
-    int status; // 1 is active - 0 is closed
-} AuctionRoom;
-
-typedef struct
-{
-    int id;
-    int user_id;
-    int room_id;
-} AuctionRoomParticipate;
 
 typedef struct
 {

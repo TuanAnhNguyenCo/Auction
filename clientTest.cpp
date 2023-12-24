@@ -12,6 +12,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include "lib/account.h"
+#include "lib/aution_room.h"
 
 using namespace std;
 
@@ -39,14 +40,33 @@ int main(int argc, char *argv[])
     // char *messId = "1";
     ssize_t amountWasSent = send(client_socket, line, 1, 0);
     char message[BUFF_SIZE];
+
     recv(client_socket, message, BUFF_SIZE - 1, 0);
     cout << message << endl;
-    LogoutMess accountMess;
-    accountMess.user_id = 4;
-    amountWasSent = send(client_socket, &accountMess, sizeof(accountMess), 0);
-    char buffer[BUFF_SIZE];
-    int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
-    printf("%s\n", buffer);
+    if (strcmp(message, "#message4") == 0)
+    {
+      /* code */
+      AuctionRoomCreationMess roomMess;
+      strcpy(roomMess.name, "room_4");
+      cout << roomMess.name << endl;
+      roomMess.proprietor_id = 1;
+      roomMess.created_at = 1702494570;
+      amountWasSent = send(client_socket, &roomMess, sizeof(roomMess), 0);
+      char buffer[BUFF_SIZE];
+      int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      printf("%s\n", buffer);
+    }
+    if (strcmp(message, "#message5") == 0)
+    {
+      /* code */
+      JoinMess joinMess;
+      joinMess.user_id = 3;
+      joinMess.room_id = 4;
+      amountWasSent = send(client_socket, &joinMess, sizeof(joinMess), 0);
+      char buffer[BUFF_SIZE];
+      int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      printf("%s\n", buffer);
+    }
   }
 
   close(client_socket);
