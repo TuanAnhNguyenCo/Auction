@@ -10,7 +10,6 @@
 #include <unistd.h>
 #include <list>
 #include "lib/account.h"
-#include "lib/aution_room.h"
 #define BUFF_SIZE 8192
 #define BACKLOG 2
 char buff[BUFF_SIZE];
@@ -30,15 +29,17 @@ void *handle_client(void *args)
     pthread_detach(pthread_self());
     int bytes_sent, bytes_received;
     thread_args *arg = (thread_args *)args;
+    cout << arg << endl;
+    int connectSocket = arg->conn_sock;
     char message[BUFF_SIZE];
     while (1)
     {
-        recv(arg->conn_sock, &message, BUFF_SIZE - 1, 0);
+        recv(connectSocket, &message, BUFF_SIZE - 1, 0);
         if (atoi(message) == 1)
         {
             char *messageType = "#message1";
-            send(arg->conn_sock, messageType, strlen(messageType), 0);
-            if (recv_and_handle_sign_up(arg->conn_sock, &listAccounts) == 0)
+            send(connectSocket, messageType, strlen(messageType), 0);
+            if (recv_and_handle_sign_up(connectSocket, &listAccounts) == 0)
             {
                 break;
             }
@@ -46,8 +47,9 @@ void *handle_client(void *args)
         if (atoi(message) == 2)
         {
             char *messageType = "#message2";
-            send(arg->conn_sock, messageType, strlen(messageType), 0);
-            if (recv_and_handle_login(arg->conn_sock, &listAccounts) == 0)
+            cout << connectSocket << endl;
+            send(connectSocket, messageType, strlen(messageType), 0);
+            if (recv_and_handle_login(connectSocket, &listAccounts) == 0)
             {
                 break;
             }
@@ -55,8 +57,8 @@ void *handle_client(void *args)
         if (atoi(message) == 3)
         {
             char *messageType = "#message3";
-            send(arg->conn_sock, messageType, strlen(messageType), 0);
-            if (recv_and_handle_logout(arg->conn_sock, &listAccounts) == 0)
+            send(connectSocket, messageType, strlen(messageType), 0);
+            if (recv_and_handle_logout(connectSocket, &listAccountRooms, &listAccounts) == 0)
             {
                 break;
             }
@@ -64,8 +66,8 @@ void *handle_client(void *args)
         if (atoi(message) == 4)
         {
             char *messageType = "#message4";
-            send(arg->conn_sock, messageType, strlen(messageType), 0);
-            if (recv_and_handle_create_auction(arg->conn_sock, &listAccountRooms, &listRooms) == 0)
+            send(connectSocket, messageType, strlen(messageType), 0);
+            if (recv_and_handle_create_auction(connectSocket, &listAccountRooms, &listRooms) == 0)
             {
                 break;
             }
@@ -73,10 +75,22 @@ void *handle_client(void *args)
         if (atoi(message) == 5)
         {
             char *messageType = "#message5";
-            send(arg->conn_sock, messageType, strlen(messageType), 0);
-            if (recv_and_handle_join_auction(arg->conn_sock, &listAccountRooms) == 0)
+            send(connectSocket, messageType, strlen(messageType), 0);
+            if (recv_and_handle_join_auction(connectSocket, &listAccountRooms) == 0)
             {
                 break;
+            }
+        }
+        if (atoi(message) == 7)
+        {
+            char *messageType = "#message7";
+            for (Account acc : listAccounts)
+            {
+                cout << acc.connectSocket << endl;
+                if (acc.connectSocket != -1)
+                {
+                    send(acc.connectSocket, messageType, strlen(messageType), 0);
+                }
             }
         }
     }
@@ -131,7 +145,6 @@ int main(int argc, char *argv[])
 
         thread_args args;
         args.conn_sock = connectSocket;
-        handle_client(&args);
         pthread_create(&tid, NULL, &handle_client, &args);
     }
     close(listenSocket);

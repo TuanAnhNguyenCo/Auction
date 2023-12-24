@@ -1,5 +1,6 @@
 #include "structure_account.h"
 #include "string.h"
+#include "aution_room.h"
 #include <iostream>
 #include <stdio.h>
 #include <sys/types.h>
@@ -16,6 +17,7 @@
 #include <ctime>
 #include <iomanip>
 #include <pthread.h>
+#include <algorithm>
 
 #define BUFF_SIZE 8192
 pthread_mutex_t blockThreadMutex_account;
@@ -43,6 +45,7 @@ void get_accounts(list<Account> *accounts)
     Account acc;
     while (fscanf(f, "%d %s %s %s %s %d", &acc.id, acc.username, acc.password, acc.phoneNumber, acc.address, &acc.status) == 6)
     {
+        acc.connectSocket = -1;
         accounts->push_back(acc);
     }
     fclose(f);
@@ -116,16 +119,18 @@ int sign_up(list<Account> *accounts, Account account)
 }
 
 // 1: successfull 2: fail 3: account is online on the other devices
-int sign_in(list<Account> accounts, Account account)
+int sign_in(list<Account> *accounts, Account account, int conn_sock)
 {
-    for (Account acc : accounts)
+    for (Account &acc : *accounts)
     {
         if (strcasecmp(acc.username, account.username) == 0 && strcasecmp(acc.username, account.username) == 0)
         {
             if (acc.status == 0)
             {
                 account.status = 1;
-                save_status(accounts, account);
+                acc.status = 1;
+                acc.connectSocket = conn_sock;
+                save_status(*accounts, account);
                 return 1;
             }
             else
@@ -169,24 +174,27 @@ int handleSignup(SignupMess accountMess, list<Account> *accounts)
     return status;
 }
 
-int handleLogin(LoginMess accountMess, list<Account> *accounts)
+int handleLogin(LoginMess accountMess, list<Account> *accounts, int conn_sock)
 {
     Account account;
     strcpy(account.password, accountMess.password);
     strcpy(account.username, accountMess.username);
     pthread_mutex_lock(&blockThreadMutex_account);
-    int status = sign_in(*accounts, account);
+    int status = sign_in(accounts, account, conn_sock);
     pthread_mutex_unlock(&blockThreadMutex_account);
     return status;
 }
 
-int handleLogout(LogoutMess accountMess, list<Account> *accounts)
+int handleLogout(LogoutMess accountMess, list<AuctionRoomParticipate> *listAccountRooms, list<Account> *accounts)
 {
     Account account;
     account.id = accountMess.user_id;
     pthread_mutex_lock(&blockThreadMutex_account);
     int status = logout(accounts, account);
-    // accounts[accountMess.user_id].status
+    if (status == 1)
+    {
+        outRoom(listAccountRooms, account.id);
+    }
     pthread_mutex_unlock(&blockThreadMutex_account);
     return status;
 }
@@ -223,6 +231,7 @@ int recv_and_handle_login(int conn_sock, list<Account> *accounts)
     LoginMess accountMess;
     cout << "Logining" << endl;
     int rcvBytes = recv(conn_sock, &accountMess, sizeof(accountMess), 0);
+    cout << accountMess.username << " " << accountMess.password << endl;
     if (rcvBytes <= 0)
     {
         close(conn_sock);
@@ -230,7 +239,7 @@ int recv_and_handle_login(int conn_sock, list<Account> *accounts)
     }
 
     char *message;
-    int status = handleLogin(accountMess, accounts);
+    int status = handleLogin(accountMess, accounts, conn_sock);
     if (status == 1)
     {
         message = "#OK";
@@ -249,7 +258,7 @@ int recv_and_handle_login(int conn_sock, list<Account> *accounts)
     return 1;
 }
 // #OK is OK and #FAIL is fail
-int recv_and_handle_logout(int conn_sock, list<Account> *accounts)
+int recv_and_handle_logout(int conn_sock, list<AuctionRoomParticipate> *listAccountRooms,list<Account> *accounts)
 {
     LogoutMess accountMess;
     cout << "Logouting" << endl;
@@ -261,7 +270,7 @@ int recv_and_handle_logout(int conn_sock, list<Account> *accounts)
     }
 
     char *message;
-    int status = handleLogout(accountMess, accounts);
+    int status = handleLogout(accountMess, listAccountRooms, accounts);
     if (status == 1)
     {
         message = "#OK";
