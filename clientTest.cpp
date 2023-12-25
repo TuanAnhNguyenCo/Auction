@@ -45,16 +45,17 @@ void *handle_server(void *args)
   int client_socket = arg->conn_sock;
   while (1)
   {
-    char *line = NULL;
-    size_t lineSize = 0;
-    ssize_t charCount = ::getline(&line, &lineSize, stdin);
+    char line[10];
+    memset(line, 0, sizeof(line));
+    cin.getline(line, sizeof(line));
+    // ssize_t charCount = ::getline(&line, &lineSize, stdin);
 
     // char *messId = "1";
-    ssize_t amountWasSent = send(client_socket, line, 1, 0);
+    send(client_socket, line, strlen(line), 0);
     char message[BUFF_SIZE];
 
-    recv(client_socket, message, BUFF_SIZE - 1, 0);
-    cout << "123" << endl;
+    ssize_t recvbytes = recv(client_socket, message, BUFF_SIZE - 1, 0);
+    message[recvbytes] = '\0';
     cout << message << endl;
     if (strcmp(message, "#message2") == 0)
     {
@@ -62,7 +63,7 @@ void *handle_server(void *args)
       LoginMess acc;
       strcpy(acc.username, "anh3");
       strcpy(acc.password, "1");
-      amountWasSent = send(client_socket, &acc, sizeof(acc), 0);
+      send(client_socket, &acc, sizeof(acc), 0);
       char buffer[BUFF_SIZE];
       int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
       buffer[rcvBytes] = '\0';
@@ -72,7 +73,7 @@ void *handle_server(void *args)
     {
       LogoutMess acc;
       acc.user_id = 3;
-      amountWasSent = send(client_socket, &acc, sizeof(acc), 0);
+      send(client_socket, &acc, sizeof(acc), 0);
       char buffer[BUFF_SIZE];
       int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
       buffer[rcvBytes] = '\0';
@@ -86,7 +87,7 @@ void *handle_server(void *args)
       strcpy(roomMess.name, "room_4");
       roomMess.proprietor_id = 1;
       roomMess.created_at = 1702494570;
-      amountWasSent = send(client_socket, &roomMess, sizeof(roomMess), 0);
+      send(client_socket, &roomMess, sizeof(roomMess), 0);
       char buffer[BUFF_SIZE];
       int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
       buffer[rcvBytes] = '\0';
@@ -98,17 +99,51 @@ void *handle_server(void *args)
       JoinMess joinMess;
       joinMess.user_id = 3;
       joinMess.room_id = 4;
-      amountWasSent = send(client_socket, &joinMess, sizeof(joinMess), 0);
+      send(client_socket, &joinMess, sizeof(joinMess), 0);
       char buffer[BUFF_SIZE];
       int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
       buffer[rcvBytes] = '\0';
       printf("%s\n", buffer);
     }
+    if (strcmp(message, "#message9") == 0)
+    {
+      DeleteItemMess itemMess;
+      itemMess.user_id = 1;
+      itemMess.item_id = 2;
+      itemMess.room_id = 4;
+      send(client_socket, &itemMess, sizeof(itemMess), 0);
+      char buffer[BUFF_SIZE];
+      int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      printf("%s\n", buffer);
+    }
+    if (strcmp(message, "#message11") == 0)
+    {
+      CreateItemMess itemMess;
+      strcpy(itemMess.name, "abc");
+      itemMess.user_id = 1;
+      itemMess.room_id = 4;
+      strcpy(itemMess.description, "shjshdjsh");
+      itemMess.price = 5000;
+      itemMess.BIN_price = 400000;
+      itemMess.created_at = 1702494558;
+      itemMess.end = 3600;
+      send(client_socket, &itemMess, sizeof(itemMess), 0);
+      char buffer[BUFF_SIZE];
+      int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      printf("%s\n", buffer);
+    }
+
   }
 }
 
 int main(int argc, char *argv[])
 {
+  if (argc < 2)
+  {
+    cout << "abc" << endl;
+  }
 
   struct sockaddr_in server_address;
   int client_socket = socket(AF_INET, SOCK_STREAM, 0);
@@ -118,13 +153,11 @@ int main(int argc, char *argv[])
   int result = connect(client_socket, (struct sockaddr *)&server_address, sizeof(struct sockaddr));
   if (result >= 0)
     printf("connect was successfull\n");
-  char s[3];
 
-  pthread_t sendThreadID, recvThreadID;
+  pthread_t sendThreadID;
   thread_args args;
   args.conn_sock = client_socket;
 
-  cout << client_socket << endl;
   pthread_create(&sendThreadID, NULL, &handle_server, &args);
 
   pthread_join(sendThreadID, NULL);

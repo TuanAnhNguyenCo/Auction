@@ -1,5 +1,6 @@
 #include "structure_aution.h"
 #include "account_room.h"
+#include "item.h"
 #include "string.h"
 #include <iostream>
 #include <stdio.h>
@@ -81,7 +82,6 @@ int create(list<AuctionRoom> *rooms, list<AuctionRoomParticipate> *listAccountRo
     {
         room.id = rooms->size() + 1;
         room.status = 1;
-        cout << room.name << endl;
         rooms->push_back(room);
 
         AuctionRoomParticipate newAccountRoom;
@@ -95,6 +95,19 @@ int create(list<AuctionRoom> *rooms, list<AuctionRoomParticipate> *listAccountRo
     }
     return 2;
 }
+// 1: is proprietor, 2: permission denied
+int checkRole(list<AuctionRoom> rooms, int user_id, int room_id)
+{
+    for (AuctionRoom room : rooms)
+    {
+        if (user_id == room.proprietor_id && room_id == room.id && room.status == 1)
+        {
+            return 1;
+        }
+    }
+    return 2;
+}
+
 // 1: Successfully 2: Fail
 int handleCreateAuction(AuctionRoomCreationMess roomMess, list<AuctionRoomParticipate> *listAccountRooms, list<AuctionRoom> *rooms)
 {
@@ -121,6 +134,102 @@ int recv_and_handle_create_auction(int conn_sock, list<AuctionRoomParticipate> *
 
     char *message;
     int status = handleCreateAuction(roomMess, listAccountRooms, rooms);
+    if (status == 1)
+    {
+        message = "#OK";
+        send(conn_sock, message, strlen(message), 0);
+    }
+    else if (status == 2)
+    {
+        message = "#FAIL";
+        send(conn_sock, message, strlen(message), 0);
+    }
+    return 1;
+}
+
+// 1: Successfully 2: Fail
+int handleCreateItem(CreateItemMess itemMess, list<AuctionRoom> *listRooms, list<Item> *items)
+{
+    if (checkRole(*listRooms, itemMess.user_id, itemMess.room_id) == 1)
+    {
+        Item item;
+        strcpy(item.name, itemMess.name);
+        item.room_id = itemMess.room_id;
+        item.reserve_price = itemMess.price;
+        item.BIN_price = itemMess.BIN_price;
+        strcpy(item.description, itemMess.description);
+        item.created_at = itemMess.created_at;
+        item.end = itemMess.end;
+        pthread_mutex_lock(&blockThreadMutex_auction);
+        int status = createItem(items, item);
+        pthread_mutex_unlock(&blockThreadMutex_auction);
+        return status;
+    }
+    return 2;
+}
+// #OK is OK and #FAIL is fail
+int recv_and_handle_create_item(int conn_sock, list<Item> *items, list<AuctionRoom> *rooms)
+{
+    CreateItemMess itemMess;
+    cout << "Creating item..." << endl;
+    int rcvBytes = recv(conn_sock, &itemMess, sizeof(itemMess), 0);
+    if (rcvBytes <= 0)
+    {
+        close(conn_sock);
+        return 0;
+    }
+
+    char *message;
+    int status = handleCreateItem(itemMess, rooms, items);
+    if (status == 1)
+    {
+        message = "#OK";
+        send(conn_sock, message, strlen(message), 0);
+    }
+    else if (status == 2)
+    {
+        message = "#FAIL";
+        send(conn_sock, message, strlen(message), 0);
+    }
+    return 1;
+}
+// 1: existed 2: not exist
+int checkItemExist(list<Item> items, int item_id,int room_id){
+    for (Item item : items)
+    {
+        if (item.id == item_id && item.room_id == room_id)
+        {
+            return 1;
+        }
+    }
+    return 2;
+}
+// 1: Successfully 2: Fail
+int handleDeleteItem(DeleteItemMess itemMess, list<AuctionRoom> *listRooms, list<Item> *items)
+{
+    if (checkRole(*listRooms, itemMess.user_id, itemMess.room_id) == 1 && checkItemExist(*items, itemMess.item_id, itemMess.room_id) == 1)
+    {
+        pthread_mutex_lock(&blockThreadMutex_auction);
+        int status = deleteItem(items, itemMess.item_id);
+        pthread_mutex_unlock(&blockThreadMutex_auction);
+        return status;
+    }
+    return 2;
+}
+// #OK is OK and #FAIL is fail
+int recv_and_handle_delete_item(int conn_sock, list<Item> *items, list<AuctionRoom> *rooms)
+{
+    DeleteItemMess itemMess;
+    cout << "Deleting item..." << endl;
+    int rcvBytes = recv(conn_sock, &itemMess, sizeof(itemMess), 0);
+    if (rcvBytes <= 0)
+    {
+        close(conn_sock);
+        return 0;
+    }
+
+    char *message;
+    int status = handleDeleteItem(itemMess, rooms, items);
     if (status == 1)
     {
         message = "#OK";

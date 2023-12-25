@@ -18,6 +18,7 @@ using namespace std;
 list<Account> listAccounts;
 list<AuctionRoom> listRooms;
 list<AuctionRoomParticipate> listAccountRooms;
+list<Item> listItems;
 typedef struct
 {
     int conn_sock;
@@ -29,12 +30,13 @@ void *handle_client(void *args)
     pthread_detach(pthread_self());
     int bytes_sent, bytes_received;
     thread_args *arg = (thread_args *)args;
-    cout << arg << endl;
     int connectSocket = arg->conn_sock;
     char message[BUFF_SIZE];
     while (1)
     {
-        recv(connectSocket, &message, BUFF_SIZE - 1, 0);
+        ssize_t recvbytes = recv(connectSocket, &message, BUFF_SIZE - 1, 0);
+        message[recvbytes] = '\0';
+        cout << "feature: " << message << endl;
         if (atoi(message) == 1)
         {
             char *messageType = "#message1";
@@ -47,7 +49,6 @@ void *handle_client(void *args)
         if (atoi(message) == 2)
         {
             char *messageType = "#message2";
-            cout << connectSocket << endl;
             send(connectSocket, messageType, strlen(messageType), 0);
             if (recv_and_handle_login(connectSocket, &listAccounts) == 0)
             {
@@ -93,21 +94,47 @@ void *handle_client(void *args)
                 }
             }
         }
+        if (atoi(message) == 9)
+        {
+            char *messageType = "#message9";
+            send(connectSocket, messageType, strlen(messageType), 0);
+            if (recv_and_handle_delete_item(connectSocket, &listItems, &listRooms) == 0)
+            {
+                break;
+            }
+
+        }
+        if (atoi(message) == 11)
+        {
+            char *messageType = "#message11";
+            send(connectSocket, messageType, strlen(messageType), 0);
+            if (recv_and_handle_create_item(connectSocket, &listItems, &listRooms) == 0)
+            {
+                cout << "123" << endl;
+                break;
+            }
+
+        }
+
     }
 }
 
 int main(int argc, char *argv[])
 {
+    if (argc < 2)
+    {
+        cout << "abcd" << endl;
+    }
+
     int listenSocket, connectSocket;
     get_accounts(&listAccounts);
     get_rooms(&listRooms);
     get_account_rooms(&listAccountRooms);
-    char message[2];
+    get_items(&listItems);
     struct sockaddr_in server;
     struct sockaddr_in client;
     socklen_t sin_size;
     pthread_t tid;
-    char buff[BUFF_SIZE];
 
     if ((listenSocket = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {

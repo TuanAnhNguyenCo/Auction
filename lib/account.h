@@ -231,7 +231,6 @@ int recv_and_handle_login(int conn_sock, list<Account> *accounts)
     LoginMess accountMess;
     cout << "Logining" << endl;
     int rcvBytes = recv(conn_sock, &accountMess, sizeof(accountMess), 0);
-    cout << accountMess.username << " " << accountMess.password << endl;
     if (rcvBytes <= 0)
     {
         close(conn_sock);
