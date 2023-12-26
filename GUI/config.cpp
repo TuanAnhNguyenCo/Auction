@@ -1,5 +1,6 @@
 // config.cpp
 #include "config.h"
+#include "account.h"
 
 MySingleton* MySingleton::instancePtr = nullptr;
 
@@ -25,4 +26,12 @@ int MySingleton::getValue() const {
 
 void MySingleton::setValue(int newServerSock) {
     server_sock = newServerSock;
+}
+
+LoginMess MySingleton::getAccount() const {
+    return account;
+}
+
+void MySingleton::setAccount(LoginMess account1) {
+    account = account1;
 }

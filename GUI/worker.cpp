@@ -28,9 +28,9 @@ void Worker::doWork() {
             if (rcvBytes > 0){
                 message[rcvBytes] = '\0';
             }
-            qDebug() << "Hello world!";
+
             emit signIn_dataReceived(message);
-            qDebug() << "Hello world1!";
+
         }
 
 
