@@ -68,6 +68,13 @@ void *handle_server(void *args)
       int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
       buffer[rcvBytes] = '\0';
       printf("%s\n", buffer);
+      if (strcmp(buffer, "#OK") == 0)
+      {
+        Account account_signed;
+        int rcvBytes = recv(client_socket, &account_signed, sizeof(account_signed), 0);
+        cout << account_signed.address << endl;
+      }
+
     }
     if (strcmp(message, "#message3") == 0)
     {

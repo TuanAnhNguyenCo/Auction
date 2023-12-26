@@ -40,7 +40,7 @@ void *handle_client(void *args)
             break;
         }
         message[recvbytes] = '\0';
-       
+
         cout << "feature: " << message << endl;
         if (atoi(message) == 1)
         {
@@ -55,13 +55,13 @@ void *handle_client(void *args)
         {
             char *messageType = "#message2";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
-          
+
 
             if (recv_and_handle_login(connectSocket, &listAccounts) == 0)
             {
                 break;
             }
-           
+
         }
         if (atoi(message) == 3)
         {
@@ -118,7 +118,6 @@ void *handle_client(void *args)
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
             if (recv_and_handle_create_item(connectSocket, &listItems, &listRooms) == 0)
             {
-                cout << "123" << endl;
                 break;
             }
 

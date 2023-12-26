@@ -119,7 +119,7 @@ int sign_up(list<Account> *accounts, Account account)
 }
 
 // 1: successfull 2: fail 3: account is online on the other devices
-int sign_in(list<Account> *accounts, Account account, int conn_sock)
+int sign_in(list<Account> *accounts, Account account, int conn_sock, Account* account_signed)
 {
     for (Account &acc : *accounts)
     {
@@ -132,6 +132,7 @@ int sign_in(list<Account> *accounts, Account account, int conn_sock)
                 acc.status = 1;
                 acc.connectSocket = conn_sock;
                 save_status(*accounts, account);
+                *account_signed = acc;
                 return 1;
             }
             else
@@ -175,15 +176,14 @@ int handleSignup(SignupMess accountMess, list<Account> *accounts)
     return status;
 }
 
-int handleLogin(LoginMess accountMess, list<Account> *accounts, int conn_sock)
+int handleLogin(LoginMess accountMess, list<Account> *accounts, int conn_sock, Account* account_signed)
 {
     Account account;
     strcpy(account.password, accountMess.password);
     strcpy(account.username, accountMess.username);
     pthread_mutex_lock(&blockThreadMutex_account);
-    int status = sign_in(accounts, account, conn_sock);
+    int status = sign_in(accounts, account, conn_sock, account_signed);
     pthread_mutex_unlock(&blockThreadMutex_account);
-    cout << status << endl;
     return status;
 }
 
@@ -238,13 +238,14 @@ int recv_and_handle_login(int conn_sock, list<Account> *accounts)
         close(conn_sock);
         return 0;
     }
-
+    Account account_signed;
     char *message;
-    int status = handleLogin(accountMess, accounts, conn_sock);
+    int status = handleLogin(accountMess, accounts, conn_sock, &account_signed);
     if (status == 1)
     {
         message = "#OK";
         send(conn_sock, message, BUFF_SIZE - 1, 0);
+        send(conn_sock, &account_signed, sizeof(account_signed), 0);
     }
     else if (status == 2)
     {
