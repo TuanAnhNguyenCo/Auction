@@ -35,12 +35,17 @@ void *handle_client(void *args)
     while (1)
     {
         ssize_t recvbytes = recv(connectSocket, &message, BUFF_SIZE - 1, 0);
+        if (recvbytes <= 0)
+        {
+            break;
+        }
         message[recvbytes] = '\0';
+       
         cout << "feature: " << message << endl;
         if (atoi(message) == 1)
         {
             char *messageType = "#message1";
-            send(connectSocket, messageType, strlen(messageType), 0);
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
             if (recv_and_handle_sign_up(connectSocket, &listAccounts) == 0)
             {
                 break;
@@ -49,16 +54,19 @@ void *handle_client(void *args)
         if (atoi(message) == 2)
         {
             char *messageType = "#message2";
-            send(connectSocket, messageType, strlen(messageType), 0);
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
+          
+
             if (recv_and_handle_login(connectSocket, &listAccounts) == 0)
             {
                 break;
             }
+           
         }
         if (atoi(message) == 3)
         {
             char *messageType = "#message3";
-            send(connectSocket, messageType, strlen(messageType), 0);
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
             if (recv_and_handle_logout(connectSocket, &listAccountRooms, &listAccounts) == 0)
             {
                 break;
@@ -67,7 +75,7 @@ void *handle_client(void *args)
         if (atoi(message) == 4)
         {
             char *messageType = "#message4";
-            send(connectSocket, messageType, strlen(messageType), 0);
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
             if (recv_and_handle_create_auction(connectSocket, &listAccountRooms, &listRooms) == 0)
             {
                 break;
@@ -76,7 +84,7 @@ void *handle_client(void *args)
         if (atoi(message) == 5)
         {
             char *messageType = "#message5";
-            send(connectSocket, messageType, strlen(messageType), 0);
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
             if (recv_and_handle_join_auction(connectSocket, &listAccountRooms) == 0)
             {
                 break;
@@ -90,14 +98,14 @@ void *handle_client(void *args)
                 cout << acc.connectSocket << endl;
                 if (acc.connectSocket != -1)
                 {
-                    send(acc.connectSocket, messageType, strlen(messageType), 0);
+                    send(acc.connectSocket, messageType, BUFF_SIZE - 1, 0);
                 }
             }
         }
         if (atoi(message) == 9)
         {
             char *messageType = "#message9";
-            send(connectSocket, messageType, strlen(messageType), 0);
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
             if (recv_and_handle_delete_item(connectSocket, &listItems, &listRooms) == 0)
             {
                 break;
@@ -107,7 +115,7 @@ void *handle_client(void *args)
         if (atoi(message) == 11)
         {
             char *messageType = "#message11";
-            send(connectSocket, messageType, strlen(messageType), 0);
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
             if (recv_and_handle_create_item(connectSocket, &listItems, &listRooms) == 0)
             {
                 cout << "123" << endl;

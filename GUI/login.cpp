@@ -2,6 +2,8 @@
 #include "ui_login.h"
 #include <QMessageBox>
 #include "config.h"
+#include "account.h"
+#include <QtDebug>
 
 
 LogIn::LogIn(QWidget *parent)
@@ -18,13 +20,22 @@ LogIn::~LogIn()
     delete ui;
 }
 
-
-
-
 void LogIn::on_btn_signupPage_clicked()
 {
     emit SignupClicked();
 
+}
+
+void LogIn::update_sign_in(char *message){
+    qDebug() << "Hello worl\n";
+    if (strcmp(message,"#OK") == 0)
+    {
+        // thong bao success, navigate to log in
+        QMessageBox::information(this, tr("Success"), tr("Sign in successfully "));
+        LogIn::LoginOk();
+    }else{
+        QMessageBox::information(this, tr("Failed"), message);
+    }
 }
 
 
@@ -33,17 +44,21 @@ void LogIn::on_btn_login_clicked()
 {
 
     std::string userName= ui->lineEdit_username->text().toStdString();
-    QString passWord = ui->lineEdit_pass->text();
-    qInfo() <<  MySingleton::instance().getValue()  << " login\n";
-    send(MySingleton::instance().getValue(),"1",BUFF_SIZE-1 , 0);
+    std::string password = ui->lineEdit_pass->text().toStdString();
+    LoginMess accountMess;
+
+    strcpy(accountMess.password, password.c_str());
+    strcpy(accountMess.username, userName.c_str());
+    send(MySingleton::instance().getValue(),"2",BUFF_SIZE-1 , 0);
+    send(MySingleton::instance().getValue(), &accountMess, sizeof(accountMess), 0);
 
 
 
-    if(userName == "cholinh" && passWord == "cholinh"){
-        QMessageBox::information(this,"Successful", "Login successfully");
-        emit LoginOk();
-    }
-    else {
-        QMessageBox::critical(this, tr("Fail"), tr("Login Failed"));
-    }
+    // if(userName == "cholinh" && passWord == "cholinh"){
+    //     QMessageBox::information(this,"Successful", "Login successfully");
+    //     emit LoginOk();
+    // }
+    // else {
+    //     QMessageBox::critical(this, tr("Fail"), tr("Login Failed"));
+    // }
 }

@@ -216,12 +216,12 @@ int recv_and_handle_sign_up(int conn_sock, list<Account> *accounts)
     if (status == 1)
     {
         message = "#OK";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 2)
     {
         message = "#FAIL";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     return 1;
 }
@@ -242,17 +242,17 @@ int recv_and_handle_login(int conn_sock, list<Account> *accounts)
     if (status == 1)
     {
         message = "#OK";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 2)
     {
         message = "#FAIL";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 3)
     {
         message = "#ONLINING";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE-1, 0);
     }
     return 1;
 }
@@ -273,12 +273,12 @@ int recv_and_handle_logout(int conn_sock, list<AuctionRoomParticipate> *listAcco
     if (status == 1)
     {
         message = "#OK";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 2)
     {
         message = "#FAIL";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     return 1;
 }

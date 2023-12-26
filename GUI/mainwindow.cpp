@@ -42,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(workerThread, &QThread::started, worker, &Worker::doWork);
     connect(worker, &Worker::signUp_dataReceived, &SignUp, &SignUp::update_sign_up);
+    connect(worker, &Worker::signIn_dataReceived, &LogIn, &LogIn::update_sign_in);
 
 
     workerThread->start();
