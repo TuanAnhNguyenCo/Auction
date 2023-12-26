@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <pthread.h>
 #include <unistd.h>
+#include "account.h"
 
 #define BUFF_SIZE 8192
 
@@ -20,6 +21,9 @@ public:
     int getValue() const;
     void setValue(int server_sock);
 
+    LoginMess getAccount() const;
+    void setAccount(LoginMess account);
+
 private:
     MySingleton();   // Constructor private
     ~MySingleton();  // Destructor private
@@ -30,6 +34,7 @@ private:
 
     // Biến để lưu giữ trạng thái
     int server_sock;
+    LoginMess account;
     static MySingleton* instancePtr;
 };
 

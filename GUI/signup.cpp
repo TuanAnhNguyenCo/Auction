@@ -32,8 +32,6 @@ void SignUp::update_sign_up(char *message){
         ui->lineEdit_pass->setText("");
         ui->lineEdit_address->setText("");
         ui->lineEdit_phonenum->setText("");
-
-
     }else{
         QMessageBox::information(this, tr("Failed"), tr("Your username esist"));
     }

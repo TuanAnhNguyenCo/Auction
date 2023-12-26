@@ -123,8 +123,9 @@ int sign_in(list<Account> *accounts, Account account, int conn_sock)
 {
     for (Account &acc : *accounts)
     {
-        if (strcasecmp(acc.username, account.username) == 0 && strcasecmp(acc.username, account.username) == 0)
+        if (strcasecmp(acc.username, account.username) == 0 && strcasecmp(acc.password, account.password) == 0)
         {
+
             if (acc.status == 0)
             {
                 account.status = 1;
@@ -182,6 +183,7 @@ int handleLogin(LoginMess accountMess, list<Account> *accounts, int conn_sock)
     pthread_mutex_lock(&blockThreadMutex_account);
     int status = sign_in(accounts, account, conn_sock);
     pthread_mutex_unlock(&blockThreadMutex_account);
+    cout << status << endl;
     return status;
 }
 
@@ -216,12 +218,12 @@ int recv_and_handle_sign_up(int conn_sock, list<Account> *accounts)
     if (status == 1)
     {
         message = "#OK";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 2)
     {
         message = "#FAIL";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     return 1;
 }
@@ -242,22 +244,22 @@ int recv_and_handle_login(int conn_sock, list<Account> *accounts)
     if (status == 1)
     {
         message = "#OK";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 2)
     {
         message = "#FAIL";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 3)
     {
         message = "#ONLINING";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     return 1;
 }
 // #OK is OK and #FAIL is fail
-int recv_and_handle_logout(int conn_sock, list<AuctionRoomParticipate> *listAccountRooms,list<Account> *accounts)
+int recv_and_handle_logout(int conn_sock, list<AuctionRoomParticipate> *listAccountRooms, list<Account> *accounts)
 {
     LogoutMess accountMess;
     cout << "Logouting" << endl;
@@ -273,12 +275,12 @@ int recv_and_handle_logout(int conn_sock, list<AuctionRoomParticipate> *listAcco
     if (status == 1)
     {
         message = "#OK";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 2)
     {
         message = "#FAIL";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     return 1;
 }

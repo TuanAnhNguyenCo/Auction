@@ -137,12 +137,12 @@ int recv_and_handle_create_auction(int conn_sock, list<AuctionRoomParticipate> *
     if (status == 1)
     {
         message = "#OK";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 2)
     {
         message = "#FAIL";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     return 1;
 }
@@ -184,12 +184,12 @@ int recv_and_handle_create_item(int conn_sock, list<Item> *items, list<AuctionRo
     if (status == 1)
     {
         message = "#OK";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 2)
     {
         message = "#FAIL";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     return 1;
 }
@@ -233,12 +233,12 @@ int recv_and_handle_delete_item(int conn_sock, list<Item> *items, list<AuctionRo
     if (status == 1)
     {
         message = "#OK";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 2)
     {
         message = "#FAIL";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     return 1;
 }

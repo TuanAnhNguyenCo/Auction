@@ -17,9 +17,10 @@ public:
 signals:
     void SignupClicked();
     void LoginOk();
-private slots:
+public slots:
     void on_btn_signupPage_clicked();
     void on_btn_login_clicked();
+    void update_sign_in(char *message);
 
 private:
     Ui::LogIn *ui;

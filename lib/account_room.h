@@ -135,12 +135,12 @@ int recv_and_handle_join_auction(int conn_sock, list<AuctionRoomParticipate> *ac
     if (status == 1)
     {
         message = "#OK";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 2)
     {
         message = "#FAIL";
-        send(conn_sock, message, strlen(message), 0);
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     return 1;
 }

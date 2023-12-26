@@ -13,6 +13,7 @@ public slots:
 
 signals:
     void signUp_dataReceived(char *message);
+    void signIn_dataReceived(char *message);
 };
 
 #endif // WORKER_H

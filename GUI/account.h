@@ -9,6 +9,12 @@ typedef struct
     char address[100];
 } SignupMess;
 
+typedef struct
+{
+    char username[50];
+    char password[50];
+} LoginMess;
+
 extern char ResponedMessage[BUFF_SIZE];
 
 #endif // ACCOUNT_H
