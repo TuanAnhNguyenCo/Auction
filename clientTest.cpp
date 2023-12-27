@@ -73,6 +73,17 @@ void *handle_server(void *args)
         Account account_signed;
         int rcvBytes = recv(client_socket, &account_signed, sizeof(account_signed), 0);
         cout << account_signed.address << endl;
+        char message[BUFF_SIZE];
+        rcvBytes = recv(client_socket, message, BUFF_SIZE - 1, 0);
+        message[rcvBytes] = '\0';
+        cout << message << endl;
+        for (int i = 0; i < atoi(message); i++)
+        {
+          AuctionRoom room;
+          rcvBytes = recv(client_socket, &room, sizeof(AuctionRoom), 0);
+          cout << room.name << endl;
+        }
+
       }
 
     }

@@ -132,16 +132,16 @@ int recv_and_handle_create_auction(int conn_sock, list<AuctionRoomParticipate> *
         return 0;
     }
 
-    char *message;
+    char message[BUFF_SIZE];
     int status = handleCreateAuction(roomMess, listAccountRooms, rooms);
     if (status == 1)
     {
-        message = "#OK";
+        strcpy(message, "#OK");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 2)
     {
-        message = "#FAIL";
+        strcpy(message, "#FAIL");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     return 1;
@@ -179,22 +179,23 @@ int recv_and_handle_create_item(int conn_sock, list<Item> *items, list<AuctionRo
         return 0;
     }
 
-    char *message;
+    char message[BUFF_SIZE];
     int status = handleCreateItem(itemMess, rooms, items);
     if (status == 1)
     {
-        message = "#OK";
+        strcpy(message, "#OK");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 2)
     {
-        message = "#FAIL";
+        strcpy(message, "#FAIL");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     return 1;
 }
 // 1: existed 2: not exist
-int checkItemExist(list<Item> items, int item_id,int room_id){
+int checkItemExist(list<Item> items, int item_id, int room_id)
+{
     for (Item item : items)
     {
         if (item.id == item_id && item.room_id == room_id)
@@ -228,16 +229,16 @@ int recv_and_handle_delete_item(int conn_sock, list<Item> *items, list<AuctionRo
         return 0;
     }
 
-    char *message;
+    char message[BUFF_SIZE];
     int status = handleDeleteItem(itemMess, rooms, items);
     if (status == 1)
     {
-        message = "#OK";
+        strcpy(message, "#OK");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 2)
     {
-        message = "#FAIL";
+        strcpy(message, "#FAIL");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     return 1;

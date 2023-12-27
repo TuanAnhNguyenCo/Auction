@@ -28,7 +28,6 @@ typedef struct
 void *handle_client(void *args)
 {
     pthread_detach(pthread_self());
-    int bytes_sent, bytes_received;
     thread_args *arg = (thread_args *)args;
     int connectSocket = arg->conn_sock;
     char message[BUFF_SIZE];
@@ -44,7 +43,7 @@ void *handle_client(void *args)
         cout << "feature: " << message << endl;
         if (atoi(message) == 1)
         {
-            char *messageType = "#message1";
+            char messageType[BUFF_SIZE] = "#message1";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
             if (recv_and_handle_sign_up(connectSocket, &listAccounts) == 0)
             {
@@ -53,11 +52,11 @@ void *handle_client(void *args)
         }
         if (atoi(message) == 2)
         {
-            char *messageType = "#message2";
+            char messageType[BUFF_SIZE] = "#message2";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
 
 
-            if (recv_and_handle_login(connectSocket, &listAccounts) == 0)
+            if (recv_and_handle_login(connectSocket, &listAccounts, &listRooms) == 0)
             {
                 break;
             }
@@ -65,7 +64,7 @@ void *handle_client(void *args)
         }
         if (atoi(message) == 3)
         {
-            char *messageType = "#message3";
+            char messageType[BUFF_SIZE] = "#message3";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
             if (recv_and_handle_logout(connectSocket, &listAccountRooms, &listAccounts) == 0)
             {
@@ -74,7 +73,7 @@ void *handle_client(void *args)
         }
         if (atoi(message) == 4)
         {
-            char *messageType = "#message4";
+            char messageType[BUFF_SIZE] = "#message4";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
             if (recv_and_handle_create_auction(connectSocket, &listAccountRooms, &listRooms) == 0)
             {
@@ -83,7 +82,7 @@ void *handle_client(void *args)
         }
         if (atoi(message) == 5)
         {
-            char *messageType = "#message5";
+            char messageType[BUFF_SIZE] = "#message5";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
             if (recv_and_handle_join_auction(connectSocket, &listAccountRooms) == 0)
             {
@@ -92,7 +91,7 @@ void *handle_client(void *args)
         }
         if (atoi(message) == 7)
         {
-            char *messageType = "#message7";
+            char messageType[BUFF_SIZE] = "#message7";
             for (Account acc : listAccounts)
             {
                 cout << acc.connectSocket << endl;
@@ -104,7 +103,7 @@ void *handle_client(void *args)
         }
         if (atoi(message) == 9)
         {
-            char *messageType = "#message9";
+            char messageType[BUFF_SIZE] = "#message9";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
             if (recv_and_handle_delete_item(connectSocket, &listItems, &listRooms) == 0)
             {
@@ -114,7 +113,7 @@ void *handle_client(void *args)
         }
         if (atoi(message) == 11)
         {
-            char *messageType = "#message11";
+            char messageType[BUFF_SIZE] = "#message11";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
             if (recv_and_handle_create_item(connectSocket, &listItems, &listRooms) == 0)
             {
