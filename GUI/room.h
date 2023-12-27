@@ -9,5 +9,10 @@ typedef struct
     time_t created_at;
 } AuctionRoomCreationMess;
 
+typedef struct
+{
+    int user_id;
+    int room_id;
+} JoinMess;
 
 #endif // ROOM_H

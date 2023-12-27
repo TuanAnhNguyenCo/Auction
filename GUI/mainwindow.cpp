@@ -52,6 +52,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
+
+
     //_______________________
     //scroll area
     QWidget* scrollContent = ui->scrollAreaWidgetContents;
@@ -127,12 +129,22 @@ void MainWindow::moveLoginPage(){
 
 void MainWindow::handleLogout(char *message){
     ui->stackedWidget->setCurrentIndex(4);
-    send(MySingleton::instance().getValue(), "4", BUFF_SIZE-1, 0);
-    AuctionRoomCreationMess roomMess;
-    roomMess.proprietor_id = MySingleton::instance().getAccount().id;
-    strcpy(roomMess.name,"TuanAnhDz");
-    // Get the current time
-    roomMess.created_at = std::time(nullptr);
-    send(MySingleton::instance().getValue(), &roomMess, sizeof(roomMess), 0);
+    // create room
+    // send(MySingleton::instance().getValue(), "4", BUFF_SIZE-1, 0);
+    // AuctionRoomCreationMess roomMess;
+    // roomMess.proprietor_id = MySingleton::instance().getAccount().id;
+    // strcpy(roomMess.name,"TuanAnhDz");
+    // // Get the current time
+    // roomMess.created_at = std::time(nullptr);
+    // send(MySingleton::instance().getValue(), &roomMess, sizeof(roomMess), 0);
+
+    // join room
+    send(MySingleton::instance().getValue(), "5", BUFF_SIZE-1, 0);
+    JoinMess mess;
+    mess.room_id = 5;
+    mess.user_id = MySingleton::instance().getAccount().id;
+    qDebug() << "Respond from joining room " << mess.user_id;
+    send(MySingleton::instance().getValue(), &mess, sizeof(mess), 0);
+
 }
 
