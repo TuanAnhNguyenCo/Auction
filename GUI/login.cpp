@@ -30,7 +30,7 @@ void LogIn::update_sign_in(char *message){
     qDebug() << message;
     if (strcmp(message,"#OK") == 0)
     {
-        // thong bao success, navigate to log in
+        // thong bao success, navigate to home
         QMessageBox::information(this, tr("Success"), tr("Sign in successfully "));
         LogIn::LoginOk();
     }
@@ -55,8 +55,6 @@ void LogIn::on_btn_login_clicked()
 
     strcpy(accountMess.password, password.c_str());
     strcpy(accountMess.username, userName.c_str());
-
-    MySingleton::instance().setAccount(accountMess);
     send(MySingleton::instance().getValue(),"2",BUFF_SIZE-1 , 0);
     send(MySingleton::instance().getValue(), &accountMess, sizeof(accountMess), 0);
 

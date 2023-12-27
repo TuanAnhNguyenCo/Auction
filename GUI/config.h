@@ -21,8 +21,8 @@ public:
     int getValue() const;
     void setValue(int server_sock);
 
-    LoginMess getAccount() const;
-    void setAccount(LoginMess account);
+    Account getAccount() const;
+    void setAccount(Account account);
 
 private:
     MySingleton();   // Constructor private
@@ -34,7 +34,7 @@ private:
 
     // Biến để lưu giữ trạng thái
     int server_sock;
-    LoginMess account;
+    Account account;
     static MySingleton* instancePtr;
 };
 

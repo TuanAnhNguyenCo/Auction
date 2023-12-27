@@ -27,7 +27,7 @@ public:
     ~MainWindow();
 
 
-private slots:
+public slots:
     void on_btn_createtab_clicked();
     void on_btn_historytab_clicked();
     void moveHome();
@@ -37,6 +37,7 @@ private slots:
     void on_btn_logout_clicked();
     void moveSignupPage();
     void moveLoginPage();
+    void handleLogout(char *message);
 
 private:
     Ui::MainWindow *ui;

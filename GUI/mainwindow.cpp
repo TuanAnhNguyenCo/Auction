@@ -43,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(workerThread, &QThread::started, worker, &Worker::doWork);
     connect(worker, &Worker::signUp_dataReceived, &SignUp, &SignUp::update_sign_up);
     connect(worker, &Worker::signIn_dataReceived, &LogIn, &LogIn::update_sign_in);
+    connect(worker, &Worker::signout_dataReceived,this, &MainWindow::handleLogout);
 
 
     workerThread->start();
@@ -111,12 +112,18 @@ void MainWindow::moveAuctionRoom(){
 
 void MainWindow::on_btn_logout_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(4);
+    LogoutMess mess;
+    mess.user_id = MySingleton::instance().getAccount().id;
+    send(MySingleton::instance().getValue(), "3", BUFF_SIZE-1, 0);
+    send(MySingleton::instance().getValue(), &mess, sizeof(mess), 0);
 }
 void MainWindow::moveSignupPage(){
     ui->stackedWidget->setCurrentIndex(5);
 }
 void MainWindow::moveLoginPage(){
+    ui->stackedWidget->setCurrentIndex(4);
+}
+void MainWindow::handleLogout(char *message){
     ui->stackedWidget->setCurrentIndex(4);
 }
 

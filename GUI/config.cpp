@@ -28,10 +28,10 @@ void MySingleton::setValue(int newServerSock) {
     server_sock = newServerSock;
 }
 
-LoginMess MySingleton::getAccount() const {
+Account MySingleton::getAccount() const {
     return account;
 }
 
-void MySingleton::setAccount(LoginMess account1) {
+void MySingleton::setAccount(Account account1) {
     account = account1;
 }
