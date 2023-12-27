@@ -88,7 +88,8 @@ int join(list<AuctionRoomParticipate> *account_rooms, AuctionRoomParticipate acc
 //
 int outRoom(list<AuctionRoomParticipate> *account_rooms, int user_id)
 {
-    if (account_rooms == nullptr || account_rooms->empty()) {
+    if (account_rooms == nullptr || account_rooms->empty())
+    {
         // Danh sách rỗng hoặc con trỏ không hợp lệ, không cần thực hiện thêm thao tác.
         return 1;
     }
@@ -97,14 +98,15 @@ int outRoom(list<AuctionRoomParticipate> *account_rooms, int user_id)
                              [user_id](const AuctionRoomParticipate &acc)
                              { return acc.user_id == user_id; });
 
-    if (it == account_rooms->end()) {
+    if (it == account_rooms->end())
+    {
         // Không có phần tử thỏa mãn điều kiện, không cần thực hiện thêm thao tác.
         return 1;
     }
 
     account_rooms->erase(it, account_rooms->end());
     save_account_rooms(*account_rooms);
-    return 2;  // Phần tử đã được xóa thành công
+    return 2; // Phần tử đã được xóa thành công
 }
 
 int handleJoinAuction(JoinMess joinMess, list<AuctionRoomParticipate> *account_rooms)
@@ -130,16 +132,16 @@ int recv_and_handle_join_auction(int conn_sock, list<AuctionRoomParticipate> *ac
         return 0;
     }
 
-    char *message;
+    char message[BUFF_SIZE];
     int status = handleJoinAuction(JoinMess, account_rooms);
     if (status == 1)
     {
-        message = "#OK";
+        strcpy(message, "#OK");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 2)
     {
-        message = "#FAIL";
+        strcpy(message, "#FAIL");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     return 1;
