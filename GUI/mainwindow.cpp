@@ -9,6 +9,7 @@
 #include <QThread>
 #include "config.h"
 #include "worker.h"
+#include "room.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -123,7 +124,15 @@ void MainWindow::moveSignupPage(){
 void MainWindow::moveLoginPage(){
     ui->stackedWidget->setCurrentIndex(4);
 }
+
 void MainWindow::handleLogout(char *message){
     ui->stackedWidget->setCurrentIndex(4);
+    send(MySingleton::instance().getValue(), "4", BUFF_SIZE-1, 0);
+    AuctionRoomCreationMess roomMess;
+    roomMess.proprietor_id = MySingleton::instance().getAccount().id;
+    strcpy(roomMess.name,"TuanAnhDz");
+    // Get the current time
+    roomMess.created_at = std::time(nullptr);
+    send(MySingleton::instance().getValue(), &roomMess, sizeof(roomMess), 0);
 }
 

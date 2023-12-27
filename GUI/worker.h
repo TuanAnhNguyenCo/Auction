@@ -15,6 +15,7 @@ signals:
     void signUp_dataReceived(char *message);
     void signIn_dataReceived(char *message);
     void signout_dataReceived(char *message);
+    void create_room_dataRecieved(char *message);
 };
 
 #endif // WORKER_H
