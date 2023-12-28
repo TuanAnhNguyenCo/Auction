@@ -50,19 +50,19 @@ void *handle_client(void *args)
                 break;
             }
         }
-        if (atoi(message) == 2)
+        else if (atoi(message) == 2)
         {
             char messageType[BUFF_SIZE] = "#message2";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
 
 
-            if (recv_and_handle_login(connectSocket, &listAccounts, &listRooms) == 0)
+            if (recv_and_handle_login(connectSocket, &listAccounts) == 0)
             {
                 break;
             }
 
         }
-        if (atoi(message) == 3)
+        else if (atoi(message) == 3)
         {
             char messageType[BUFF_SIZE] = "#message3";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
@@ -71,7 +71,7 @@ void *handle_client(void *args)
                 break;
             }
         }
-        if (atoi(message) == 4)
+        else if (atoi(message) == 4)
         {
             char messageType[BUFF_SIZE] = "#message4";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
@@ -80,7 +80,7 @@ void *handle_client(void *args)
                 break;
             }
         }
-        if (atoi(message) == 5)
+        else if (atoi(message) == 5)
         {
             char messageType[BUFF_SIZE] = "#message5";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
@@ -89,7 +89,7 @@ void *handle_client(void *args)
                 break;
             }
         }
-        if (atoi(message) == 7)
+        else if (atoi(message) == 7)
         {
             char messageType[BUFF_SIZE] = "#message7";
             for (Account acc : listAccounts)
@@ -101,7 +101,7 @@ void *handle_client(void *args)
                 }
             }
         }
-        if (atoi(message) == 9)
+        else if (atoi(message) == 9)
         {
             char messageType[BUFF_SIZE] = "#message9";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
@@ -111,7 +111,7 @@ void *handle_client(void *args)
             }
 
         }
-        if (atoi(message) == 11)
+        else if (atoi(message) == 11)
         {
             char messageType[BUFF_SIZE] = "#message11";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
@@ -121,6 +121,17 @@ void *handle_client(void *args)
             }
 
         }
+        else if (atoi(message) == 14)
+        {
+            char messageType[BUFF_SIZE] = "#message14";
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
+            if (recv_and_handle_get_rooms(connectSocket, &listRooms) == 0)
+            {
+                break;
+            }
+
+        }
+
 
     }
 }

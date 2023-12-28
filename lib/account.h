@@ -228,7 +228,7 @@ int recv_and_handle_sign_up(int conn_sock, list<Account> *accounts)
     return 1;
 }
 // #OK: successfull #FAIL: fail #ONLINE: account is online on the other devices
-int recv_and_handle_login(int conn_sock, list<Account> *accounts, list<AuctionRoom> *rooms)
+int recv_and_handle_login(int conn_sock, list<Account> *accounts)
 {
     LoginMess accountMess;
     cout << "Logining" << endl;
@@ -246,12 +246,6 @@ int recv_and_handle_login(int conn_sock, list<Account> *accounts, list<AuctionRo
         strcpy(message, "#OK");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
         send(conn_sock, &account_signed, sizeof(account_signed), 0);
-        strcpy(message, to_string((*rooms).size()).c_str());
-        send(conn_sock, message, BUFF_SIZE - 1, 0);
-        for (AuctionRoom &room : *rooms)
-        {
-            send(conn_sock, &room, sizeof(AuctionRoom), 0);
-        }
     }
     else if (status == 2)
     {
@@ -288,6 +282,19 @@ int recv_and_handle_logout(int conn_sock, list<AuctionRoomParticipate> *listAcco
     {
         strcpy(message, "#FAIL");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
+    }
+    return 1;
+}
+
+int recv_and_handle_get_rooms(int conn_sock, list<AuctionRoom> *rooms)
+{
+    cout << "Getting rooms..." << endl;
+    char message[BUFF_SIZE];
+    strcpy(message, to_string((*rooms).size()).c_str());
+    send(conn_sock, message, BUFF_SIZE - 1, 0);
+    for (AuctionRoom &room : *rooms)
+    {
+        send(conn_sock, &room, sizeof(AuctionRoom), 0);
     }
     return 1;
 }
