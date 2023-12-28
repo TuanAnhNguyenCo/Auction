@@ -153,6 +153,19 @@ void *handle_server(void *args)
         cout << room.name << endl;
       }
     }
+    if (strcmp(message, "#message18") == 0)
+    {
+      char message[BUFF_SIZE];
+      ssize_t rcvBytes = recv(client_socket, message, BUFF_SIZE - 1, 0);
+      message[rcvBytes] = '\0';
+      cout << message << endl;
+      for (int i = 0; i < atoi(message); i++)
+      {
+        Item item;
+        rcvBytes = recv(client_socket, &item, sizeof(Item), 0);
+        cout << item.name << endl;
+      }
+    }
   }
 }
 

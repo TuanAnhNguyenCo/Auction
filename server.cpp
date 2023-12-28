@@ -55,12 +55,10 @@ void *handle_client(void *args)
             char messageType[BUFF_SIZE] = "#message2";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
 
-
             if (recv_and_handle_login(connectSocket, &listAccounts) == 0)
             {
                 break;
             }
-
         }
         else if (atoi(message) == 3)
         {
@@ -94,7 +92,6 @@ void *handle_client(void *args)
             char messageType[BUFF_SIZE] = "#message7";
             for (Account acc : listAccounts)
             {
-                cout << acc.connectSocket << endl;
                 if (acc.connectSocket != -1)
                 {
                     send(acc.connectSocket, messageType, BUFF_SIZE - 1, 0);
@@ -109,7 +106,6 @@ void *handle_client(void *args)
             {
                 break;
             }
-
         }
         else if (atoi(message) == 11)
         {
@@ -119,7 +115,6 @@ void *handle_client(void *args)
             {
                 break;
             }
-
         }
         else if (atoi(message) == 14)
         {
@@ -129,10 +124,16 @@ void *handle_client(void *args)
             {
                 break;
             }
-
         }
-
-
+        else if (atoi(message) == 18)
+        {
+            char messageType[BUFF_SIZE] = "#message18";
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
+            if (recv_and_handle_get_items(connectSocket, &listItems) == 0)
+            {
+                break;
+            }
+        }
     }
 }
 
