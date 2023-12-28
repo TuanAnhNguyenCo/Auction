@@ -8,9 +8,10 @@ auction.txt - luu room: id - user_id - name - create_at - status
 item.txt - luu item: id - room_id - reserve_price - BIN_price - description - created_at - end - status
 # Features
 - sign up
-- login - gui status neu OK, gui account hien tai sau do gui size room(char messs[BUFF_SIZE]) => gui tung room
+- login - gui status neu OK, gui account hien tai
 - logout - gui status va out ra khoi cac phong hien tai
 - create auction room - gui status
 - join room - gui status
 - create item - gui status
 - delete item - gui status
+- get rooms - gui size room(char messs[BUFF_SIZE]) => gui tung room
