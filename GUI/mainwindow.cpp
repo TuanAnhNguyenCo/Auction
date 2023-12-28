@@ -9,6 +9,7 @@
 #include <QThread>
 #include "config.h"
 #include "worker.h"
+#include "room.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -23,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->insertWidget(4,&LogIn);
     ui->stackedWidget->insertWidget(5,&SignUp);
     ui->stackedWidget->setCurrentIndex(4); // set up Login page
+    MySingleton::instance().home = ui->stackedWidget;
     connect(&CreatePage, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
     connect(&CreatePage, SIGNAL(HistoryClicked()), this, SLOT(moveHistoryTab()));
     connect(&HistoryPage, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
@@ -47,6 +49,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     workerThread->start();
+
+
 
 
 
@@ -123,7 +127,25 @@ void MainWindow::moveSignupPage(){
 void MainWindow::moveLoginPage(){
     ui->stackedWidget->setCurrentIndex(4);
 }
+
 void MainWindow::handleLogout(char *message){
     ui->stackedWidget->setCurrentIndex(4);
+    // create room
+    // send(MySingleton::instance().getValue(), "4", BUFF_SIZE-1, 0);
+    // AuctionRoomCreationMess roomMess;
+    // roomMess.proprietor_id = MySingleton::instance().getAccount().id;
+    // strcpy(roomMess.name,"TuanAnhDz");
+    // // Get the current time
+    // roomMess.created_at = std::time(nullptr);
+    // send(MySingleton::instance().getValue(), &roomMess, sizeof(roomMess), 0);
+
+    // join room
+    // send(MySingleton::instance().getValue(), "5", BUFF_SIZE-1, 0);
+    // JoinMess mess;
+    // mess.room_id = 5;
+    // mess.user_id = MySingleton::instance().getAccount().id;
+    // qDebug() << "Respond from joining room " << mess.user_id;
+    // send(MySingleton::instance().getValue(), &mess, sizeof(mess), 0);
+
 }
 

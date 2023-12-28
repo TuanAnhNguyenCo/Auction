@@ -3,6 +3,7 @@
 #include <string.h>
 #include <iostream>
 #include <QThread>
+#include <QDebug>
 
 
 Worker::Worker() {}
@@ -47,6 +48,26 @@ void Worker::doWork() {
             emit signout_dataReceived(message);
 
         }
+        if (strcmp(message,"#message4") == 0){
+            rcvBytes = recv(MySingleton::instance().getValue(), message, BUFF_SIZE - 1, 0);
+            if (rcvBytes > 0){
+                message[rcvBytes] = '\0';
+            }
+            qDebug() << "Respond from creating room " << message;
+
+            // emit create_room_dataRecieved(message);
+        }
+        if (strcmp(message,"#message5") == 0){
+            rcvBytes = recv(MySingleton::instance().getValue(), message, BUFF_SIZE - 1, 0);
+            if (rcvBytes > 0){
+                message[rcvBytes] = '\0';
+            }
+            qDebug() << "Respond from joining room " << message;
+
+            // emit join_room_dataRecieved(message);
+        }
+
+
 
 
 
