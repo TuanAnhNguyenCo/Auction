@@ -97,7 +97,6 @@ int outRoom(list<AuctionRoomParticipate> *account_rooms, int user_id)
     auto it = std::remove_if(account_rooms->begin(), account_rooms->end(),
                              [user_id](const AuctionRoomParticipate &acc)
                              { return acc.user_id == user_id; });
-
     if (it == account_rooms->end())
     {
         // Không có phần tử thỏa mãn điều kiện, không cần thực hiện thêm thao tác.
