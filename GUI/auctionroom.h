@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QInputDialog>
 #include "roomoverview.h"
-
+#include "additem.h"
 namespace Ui {
 class AuctionRoom;
 }
@@ -23,12 +23,14 @@ private slots:
     void on_btn_bid_clicked();
     void on_btn_overview_clicked();
     void backfromOverview();
-
+    void moveToOverview();
     void on_btn_bin_clicked();
+    void test();
 
 private:
     Ui::AuctionRoom *ui;
     RoomOverview RoomOverview;
+    addItem addItemob;
 };
 
 #endif // AUCTIONROOM_H
