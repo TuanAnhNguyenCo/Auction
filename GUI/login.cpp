@@ -42,6 +42,7 @@ void LogIn::update_sign_in(char *message){
 
         QMessageBox::information(this, tr("Failed"), "Your account have been working on another device");
     }
+    ui->lineEdit_pass->setText("");
 }
 
 
