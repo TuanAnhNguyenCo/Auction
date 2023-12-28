@@ -25,7 +25,6 @@ private slots:
     void backfromOverview();
     void moveToOverview();
     void on_btn_bin_clicked();
-    void test();
 
 private:
     Ui::AuctionRoom *ui;
