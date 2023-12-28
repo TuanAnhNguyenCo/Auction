@@ -14,3 +14,9 @@ item.txt - luu item: id - room_id - reserve_price - BIN_price - description - cr
 - join room - gui status
 - create item - gui status
 - delete item - gui status
+
+
+# client
+- sign in, sign up, logout
+- create auction room
+- join room

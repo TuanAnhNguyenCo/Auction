@@ -2,7 +2,6 @@
 #include "ui_auctionroom.h"
 #include <QPixmap>
 #include <QMessageBox>
-#include "config.h"
 
 
 AuctionRoom::AuctionRoom(QWidget *parent)
