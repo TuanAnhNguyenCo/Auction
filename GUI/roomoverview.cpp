@@ -52,5 +52,8 @@ void RoomOverview::on_btn_backAuctionroom_clicked()
     emit backtoRoomClicked();
 }
 
-
+void RoomOverview::on_btn_add_clicked()
+{
+    emit addItemClicked();
+}
 

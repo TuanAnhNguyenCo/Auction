@@ -2,6 +2,8 @@
 #include "ui_auctionroom.h"
 #include <QPixmap>
 #include <QMessageBox>
+#include "config.h"
+
 
 AuctionRoom::AuctionRoom(QWidget *parent)
     : QWidget(parent)
@@ -18,6 +20,7 @@ AuctionRoom::AuctionRoom(QWidget *parent)
     ui->label_image->setPixmap(image.scaled(ui->label_image->size(),Qt::KeepAspectRatio));
     // navigate
     ui->stackedWidget_2->insertWidget(1, &RoomOverview);
+    ui->stackedWidget_2->insertWidget(2,&addItemob);
     connect(&RoomOverview, SIGNAL(backtoRoomClicked()), this, SLOT(backfromOverview()));
 
 }
@@ -41,10 +44,14 @@ void AuctionRoom::on_btn_backHome_clicked() //back home
 void AuctionRoom::on_btn_overview_clicked()
 {
     ui->stackedWidget_2->setCurrentIndex(1);
-
 }
+
 void AuctionRoom::backfromOverview(){
     ui->stackedWidget_2->setCurrentIndex(0);
+}
+
+void AuctionRoom::moveToOverview(){
+    ui->stackedWidget_2->setCurrentIndex(1);
 }
 
 

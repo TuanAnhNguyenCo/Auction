@@ -119,7 +119,7 @@ int sign_up(list<Account> *accounts, Account account)
 }
 
 // 1: successfull 2: fail 3: account is online on the other devices
-int sign_in(list<Account> *accounts, Account account, int conn_sock, Account* account_signed)
+int sign_in(list<Account> *accounts, Account account, int conn_sock, Account *account_signed)
 {
     for (Account &acc : *accounts)
     {
@@ -176,7 +176,7 @@ int handleSignup(SignupMess accountMess, list<Account> *accounts)
     return status;
 }
 
-int handleLogin(LoginMess accountMess, list<Account> *accounts, int conn_sock, Account* account_signed)
+int handleLogin(LoginMess accountMess, list<Account> *accounts, int conn_sock, Account *account_signed)
 {
     Account account;
     strcpy(account.password, accountMess.password);
@@ -213,22 +213,22 @@ int recv_and_handle_sign_up(int conn_sock, list<Account> *accounts)
         return 0;
     }
 
-    char *message;
+    char message[BUFF_SIZE];
     int status = handleSignup(accountMess, accounts);
     if (status == 1)
     {
-        message = "#OK";
+        strcpy(message, "#OK");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 2)
     {
-        message = "#FAIL";
+        strcpy(message, "#FAIL");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     return 1;
 }
 // #OK: successfull #FAIL: fail #ONLINE: account is online on the other devices
-int recv_and_handle_login(int conn_sock, list<Account> *accounts)
+int recv_and_handle_login(int conn_sock, list<Account> *accounts, list<AuctionRoom> *rooms)
 {
     LoginMess accountMess;
     cout << "Logining" << endl;
@@ -239,22 +239,28 @@ int recv_and_handle_login(int conn_sock, list<Account> *accounts)
         return 0;
     }
     Account account_signed;
-    char *message;
+    char message[BUFF_SIZE];
     int status = handleLogin(accountMess, accounts, conn_sock, &account_signed);
     if (status == 1)
     {
-        message = "#OK";
+        strcpy(message, "#OK");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
         send(conn_sock, &account_signed, sizeof(account_signed), 0);
+        strcpy(message, to_string((*rooms).size()).c_str());
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
+        for (AuctionRoom &room : *rooms)
+        {
+            send(conn_sock, &room, sizeof(AuctionRoom), 0);
+        }
     }
     else if (status == 2)
     {
-        message = "#FAIL";
+        strcpy(message, "#FAIL");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 3)
     {
-        message = "#ONLINING";
+        strcpy(message, "#ONLINING");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     return 1;
@@ -271,16 +277,16 @@ int recv_and_handle_logout(int conn_sock, list<AuctionRoomParticipate> *listAcco
         return 0;
     }
 
-    char *message;
+    char message[BUFF_SIZE];
     int status = handleLogout(accountMess, listAccountRooms, accounts);
     if (status == 1)
     {
-        message = "#OK";
+        strcpy(message, "#OK");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 2)
     {
-        message = "#FAIL";
+        strcpy(message, "#FAIL");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     return 1;

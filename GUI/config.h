@@ -9,6 +9,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include "account.h"
+#include <QStackedWidget>
 
 #define BUFF_SIZE 8192
 
@@ -23,6 +24,8 @@ public:
 
     Account getAccount() const;
     void setAccount(Account account);
+    QStackedWidget *page;
+    QStackedWidget *home;
 
 private:
     MySingleton();   // Constructor private
@@ -36,6 +39,7 @@ private:
     int server_sock;
     Account account;
     static MySingleton* instancePtr;
+
 };
 
 #endif // CONFIG_H

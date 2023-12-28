@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->insertWidget(4,&LogIn);
     ui->stackedWidget->insertWidget(5,&SignUp);
     ui->stackedWidget->setCurrentIndex(4); // set up Login page
+    MySingleton::instance().home = ui->stackedWidget;
     connect(&CreatePage, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
     connect(&CreatePage, SIGNAL(HistoryClicked()), this, SLOT(moveHistoryTab()));
     connect(&HistoryPage, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
