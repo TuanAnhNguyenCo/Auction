@@ -107,6 +107,15 @@ void *handle_client(void *args)
                 break;
             }
         }
+        else if (atoi(message) == 10)
+        {
+            char messageType[BUFF_SIZE] = "#message10";
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
+            if (recv_and_handle_kick_account(connectSocket, &listRooms, &listAccountRooms) == 0)
+            {
+                break;
+            }
+        }
         else if (atoi(message) == 11)
         {
             char messageType[BUFF_SIZE] = "#message11";
@@ -130,6 +139,15 @@ void *handle_client(void *args)
             char messageType[BUFF_SIZE] = "#message18";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
             if (recv_and_handle_get_items(connectSocket, &listItems) == 0)
+            {
+                break;
+            }
+        }
+        else if (atoi(message) == 19)
+        {
+            char messageType[BUFF_SIZE] = "#message19";
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
+            if (recv_and_handle_out_rooms(connectSocket, &listRooms, &listAccountRooms) == 0)
             {
                 break;
             }

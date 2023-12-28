@@ -63,18 +63,20 @@ void save_rooms(list<AuctionRoom> rooms)
     }
     fclose(file);
 }
-// // 1: joined, 2: not join
-// int checkJoined(int user_id, list<AuctionRoom> rooms)
-// {
-//     for (AuctionRoom r : rooms)
-//     {
-//         if (r.proprietor_id == user_id && r.status == 1)
-//         {
-//             return 1;
-//         }
-//     }
-//     return 2;
-// }
+// 1: joined, 2: not join
+int closeRoom(int room_id, int proprietor_id,list<AuctionRoom> *rooms)
+{
+    for (AuctionRoom &r : *rooms)
+    {
+        if (r.id == room_id && r.status == 1 && proprietor_id == r.proprietor_id)
+        {
+            r.status = 0;
+            save_rooms(*rooms);
+            return 1;
+        }
+    }
+    return 2;
+}
 // 1: Successfully 2: Fail
 int create(list<AuctionRoom> *rooms, list<AuctionRoomParticipate> *listAccountRooms, AuctionRoom room)
 {

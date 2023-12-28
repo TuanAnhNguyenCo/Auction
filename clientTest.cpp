@@ -61,7 +61,7 @@ void *handle_server(void *args)
     {
       /* code */
       LoginMess acc;
-      strcpy(acc.username, "anh3");
+      strcpy(acc.username, "anh1");
       strcpy(acc.password, "1");
       send(client_socket, &acc, sizeof(acc), 0);
       char buffer[BUFF_SIZE];
@@ -78,7 +78,7 @@ void *handle_server(void *args)
     if (strcmp(message, "#message3") == 0)
     {
       LogoutMess acc;
-      acc.user_id = 3;
+      acc.user_id = 1;
       send(client_socket, &acc, sizeof(acc), 0);
       char buffer[BUFF_SIZE];
       int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
@@ -118,6 +118,18 @@ void *handle_server(void *args)
       itemMess.item_id = 2;
       itemMess.room_id = 4;
       send(client_socket, &itemMess, sizeof(itemMess), 0);
+      char buffer[BUFF_SIZE];
+      int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      printf("%s\n", buffer);
+    }
+    if (strcmp(message, "#message10") == 0)
+    {
+      KickMess kickMess;
+      kickMess.user_id = 3;
+      kickMess.proprietor_id = 2;
+      kickMess.room_id = 4;
+      send(client_socket, &kickMess, sizeof(kickMess), 0);
       char buffer[BUFF_SIZE];
       int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
       buffer[rcvBytes] = '\0';
@@ -165,6 +177,16 @@ void *handle_server(void *args)
         rcvBytes = recv(client_socket, &item, sizeof(Item), 0);
         cout << item.name << endl;
       }
+    }
+    if (strcmp(message, "#message19") == 0)
+    {
+      OutRoomMess outRoomMess;
+      outRoomMess.user_id = 3;
+      send(client_socket, &outRoomMess, sizeof(OutRoomMess), 0);
+      char buffer[BUFF_SIZE];
+      int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      printf("%s\n", buffer);
     }
   }
 }
