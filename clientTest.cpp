@@ -23,7 +23,7 @@ typedef struct
 
 } thread_args;
 
-// void *handle_server(void *args)
+// void *handle_server_auto(void *args)
 // {
 //   int bytes_sent, bytes_received;
 //   thread_args *arg = (thread_args *)args;
@@ -43,25 +43,34 @@ void *handle_server(void *args)
   pthread_detach(pthread_self());
   thread_args *arg = (thread_args *)args;
   int client_socket = arg->conn_sock;
+  // pthread_t receiveThreadID;
+  // pthread_create(&receiveThreadID, NULL, &handle_server_auto, &args);
   while (1)
   {
     char line[10];
     memset(line, 0, sizeof(line));
     cin.getline(line, sizeof(line));
-    // ssize_t charCount = ::getline(&line, &lineSize, stdin);
+    if (strcmp(line, "abc") != 0)
+    {
+      send(client_socket, line, strlen(line), 0);
+    }
 
-    // char *messId = "1";
-    send(client_socket, line, strlen(line), 0);
     char message[BUFF_SIZE];
 
     ssize_t recvbytes = recv(client_socket, message, BUFF_SIZE - 1, 0);
+    if (recvbytes <= 0)
+    {
+      break;
+    }
+
     message[recvbytes] = '\0';
     cout << message << endl;
     if (strcmp(message, "#message2") == 0)
     {
       /* code */
       LoginMess acc;
-      strcpy(acc.username, "anh1");
+      cin.getline(acc.username, sizeof(acc.username));
+      // strcpy(acc.username, "anh1");
       strcpy(acc.password, "1");
       send(client_socket, &acc, sizeof(acc), 0);
       char buffer[BUFF_SIZE];
@@ -78,7 +87,9 @@ void *handle_server(void *args)
     if (strcmp(message, "#message3") == 0)
     {
       LogoutMess acc;
-      acc.user_id = 1;
+      char line[10];
+      cin.getline(line, sizeof(line));
+      acc.user_id = atoi(line);
       send(client_socket, &acc, sizeof(acc), 0);
       char buffer[BUFF_SIZE];
       int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
@@ -98,6 +109,10 @@ void *handle_server(void *args)
       int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
       buffer[rcvBytes] = '\0';
       printf("%s\n", buffer);
+
+      rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      printf("%s\n", buffer);
     }
     if (strcmp(message, "#message5") == 0)
     {
@@ -108,6 +123,10 @@ void *handle_server(void *args)
       send(client_socket, &joinMess, sizeof(joinMess), 0);
       char buffer[BUFF_SIZE];
       int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      printf("%s\n", buffer);
+
+      rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
       buffer[rcvBytes] = '\0';
       printf("%s\n", buffer);
     }
@@ -207,7 +226,7 @@ int main(int argc, char *argv[])
   if (result >= 0)
     printf("connect was successfull\n");
 
-  pthread_t sendThreadID;
+  pthread_t sendThreadID, receiveThreadID;
   thread_args args;
   args.conn_sock = client_socket;
 
