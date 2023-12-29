@@ -171,6 +171,15 @@ void *handle_client(void *args)
                 break;
             }
         }
+        else if (atoi(message) == 20)
+        {
+            char messageType[BUFF_SIZE] = "#message20";
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
+            if (recv_and_handle_get_participate(connectSocket, &listAccountRooms, &listAccounts) == 0)
+            {
+                break;
+            }
+        }
     }
 }
 

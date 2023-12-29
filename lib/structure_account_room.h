@@ -27,3 +27,8 @@ typedef struct
 {
   int user_id;
 } OutRoomMess;
+
+typedef struct
+{
+  int room_id;
+} GetParticipateMess;
