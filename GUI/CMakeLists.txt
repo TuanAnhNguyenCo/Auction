@@ -59,6 +59,7 @@ else()
             config.cpp config.h
             account.h
             worker.h worker.cpp
+            room.h
         )
     endif()
 endif()
