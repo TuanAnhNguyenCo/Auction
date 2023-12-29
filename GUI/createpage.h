@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include <QFileDialog>
-#include "additem.h"
 #include "roomoverview.h"
 namespace Ui {
 class CreatePage;
@@ -19,7 +18,6 @@ public:
 
 private:
     Ui::CreatePage *ui;
-    addItem addItemobj;
     RoomOverview roomOverviewobj;
 
 signals:

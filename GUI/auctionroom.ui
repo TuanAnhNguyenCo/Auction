@@ -369,7 +369,7 @@
       <string>Bid</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="label_nameRoom">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -389,7 +389,7 @@
       <string>Room 1</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="label_nameOwner">
      <property name="geometry">
       <rect>
        <x>170</x>

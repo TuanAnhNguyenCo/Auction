@@ -9,9 +9,6 @@ CreatePage::CreatePage(QWidget *parent)
     ui->setupUi(this);
     QPixmap logo(":/image/logo_auction.png");
     ui->label_logo_2->setPixmap(logo.scaled(100,100,Qt::KeepAspectRatio));
-    ui->stackedWidget->insertWidget(1,&addItemobj);
-    connect(&roomOverviewobj, SIGNAL(addItemClicked()), this, SLOT(addNewItem()));
-
 }
 
 CreatePage::~CreatePage()
@@ -32,6 +29,7 @@ void CreatePage::on_btn_historytab_clicked()
 
 void CreatePage::on_btn_save_clicked()
 {
+
     //create room
     send(MySingleton::instance().getValue(), "4", BUFF_SIZE-1, 0);
     AuctionRoomCreationMess roomMess;
@@ -50,12 +48,13 @@ void CreatePage::handleMessageFromRoomCreationRequest(char *Message){
     }else{
         QMessageBox::information(this, tr("FAILED"), tr("Creating an auction room failed."));
     }
-}
-void CreatePage::addNewItem()
-{
-    ui->stackedWidget->setCurrentIndex(1);
 
 }
+// void CreatePage::addNewItem()
+// {
+//     ui->stackedWidget->setCurrentIndex(1);
+
+// }
 
 void CreatePage::on_btn_cancel_clicked()
 {

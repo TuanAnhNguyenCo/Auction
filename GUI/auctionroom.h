@@ -25,11 +25,12 @@ private slots:
     void backfromOverview();
     void moveToOverview();
     void on_btn_bin_clicked();
+    void addNemItem();
 
 private:
     Ui::AuctionRoom *ui;
     RoomOverview RoomOverview;
-    addItem addItemob;
+    addItem addItem;
 };
 
 #endif // AUCTIONROOM_H
