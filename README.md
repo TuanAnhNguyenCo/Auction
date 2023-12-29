@@ -24,3 +24,4 @@ item.txt - luu item: id - room_id - reserve_price - BIN_price - description - cr
 14: get rooms - gui size room(char messs[BUFF_SIZE]) => gui tung room
 18: get items - gui size room(char mess[BUFF_SIZE]) => gui tung room
 19: out room - gui status
+20: get participate - gui size participate(char mess[BUFF_SIZE]) => gui tung account (struct Account)
