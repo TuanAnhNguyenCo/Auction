@@ -9,6 +9,8 @@
 #include <pthread.h>
 #include <unistd.h>
 #include "account.h"
+#include "room.h"
+#include <QtGui>
 #include <QStackedWidget>
 
 #define BUFF_SIZE 8192
@@ -24,8 +26,12 @@ public:
 
     Account getAccount() const;
     void setAccount(Account account);
+    std::list<AuctionRoomStruct> auction_rooms;
     QStackedWidget *page;
     QStackedWidget *home;
+    QWidget* scrollRoomsContent;
+    AuctionRoomStruct joinedRoom;
+
 
 private:
     MySingleton();   // Constructor private

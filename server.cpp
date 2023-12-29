@@ -25,6 +25,17 @@ typedef struct
 
 } thread_args;
 
+void send_all_client(list<Account> accounts, char *messages)
+{
+    for (Account acc : accounts)
+    {
+        if (acc.connectSocket != -1)
+        {
+            send(acc.connectSocket, messages, BUFF_SIZE - 1, 0);
+        }
+    }
+}
+
 void *handle_client(void *args)
 {
     pthread_detach(pthread_self());
@@ -50,19 +61,17 @@ void *handle_client(void *args)
                 break;
             }
         }
-        if (atoi(message) == 2)
+        else if (atoi(message) == 2)
         {
             char messageType[BUFF_SIZE] = "#message2";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
 
-
-            if (recv_and_handle_login(connectSocket, &listAccounts, &listRooms) == 0)
+            if (recv_and_handle_login(connectSocket, &listAccounts) == 0)
             {
                 break;
             }
-
         }
-        if (atoi(message) == 3)
+        else if (atoi(message) == 3)
         {
             char messageType[BUFF_SIZE] = "#message3";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
@@ -71,7 +80,7 @@ void *handle_client(void *args)
                 break;
             }
         }
-        if (atoi(message) == 4)
+        else if (atoi(message) == 4)
         {
             char messageType[BUFF_SIZE] = "#message4";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
@@ -79,8 +88,10 @@ void *handle_client(void *args)
             {
                 break;
             }
+            char messageUpdate[BUFF_SIZE] = "#update_room";
+            send_all_client(listAccounts, messageUpdate);
         }
-        if (atoi(message) == 5)
+        else if (atoi(message) == 5)
         {
             char messageType[BUFF_SIZE] = "#message5";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
@@ -88,20 +99,21 @@ void *handle_client(void *args)
             {
                 break;
             }
+            char messageUpdate[BUFF_SIZE] = "#update_account_room";
+            send_all_client(listAccounts, messageUpdate);
         }
-        if (atoi(message) == 7)
+        else if (atoi(message) == 7)
         {
             char messageType[BUFF_SIZE] = "#message7";
             for (Account acc : listAccounts)
             {
-                cout << acc.connectSocket << endl;
                 if (acc.connectSocket != -1)
                 {
                     send(acc.connectSocket, messageType, BUFF_SIZE - 1, 0);
                 }
             }
         }
-        if (atoi(message) == 9)
+        else if (atoi(message) == 9)
         {
             char messageType[BUFF_SIZE] = "#message9";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
@@ -109,9 +121,19 @@ void *handle_client(void *args)
             {
                 break;
             }
-
+            char messageUpdate[BUFF_SIZE] = "#update_item";
+            send_all_client(listAccounts, messageUpdate);
         }
-        if (atoi(message) == 11)
+        else if (atoi(message) == 10)
+        {
+            char messageType[BUFF_SIZE] = "#message10";
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
+            if (recv_and_handle_kick_account(connectSocket, &listRooms, &listAccountRooms) == 0)
+            {
+                break;
+            }
+        }
+        else if (atoi(message) == 11)
         {
             char messageType[BUFF_SIZE] = "#message11";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
@@ -119,9 +141,36 @@ void *handle_client(void *args)
             {
                 break;
             }
-
+            char messageUpdate[BUFF_SIZE] = "#update_item";
+            send_all_client(listAccounts, messageUpdate);
         }
-
+        else if (atoi(message) == 14)
+        {
+            char messageType[BUFF_SIZE] = "#message14";
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
+            if (recv_and_handle_get_rooms(connectSocket, &listRooms) == 0)
+            {
+                break;
+            }
+        }
+        else if (atoi(message) == 18)
+        {
+            char messageType[BUFF_SIZE] = "#message18";
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
+            if (recv_and_handle_get_items(connectSocket, &listItems) == 0)
+            {
+                break;
+            }
+        }
+        else if (atoi(message) == 19)
+        {
+            char messageType[BUFF_SIZE] = "#message19";
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
+            if (recv_and_handle_out_rooms(connectSocket, &listAccountRooms) == 0)
+            {
+                break;
+            }
+        }
     }
 }
 
