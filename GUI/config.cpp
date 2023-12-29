@@ -35,3 +35,7 @@ Account MySingleton::getAccount() const {
 void MySingleton::setAccount(Account account1) {
     account = account1;
 }
+
+void MySingleton::getRooms(){
+    send(MySingleton::instance().getValue(), "14", BUFF_SIZE - 1, 0);
+}

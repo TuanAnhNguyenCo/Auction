@@ -24,4 +24,9 @@ typedef struct
     int status; // 1 is active - 0 is closed
 } AuctionRoomStruct;
 
+typedef struct
+{
+    int user_id;
+} OutRoomMess;
+
 #endif // ROOM_H

@@ -1,5 +1,7 @@
 #include "auctionroom.h"
 #include "ui_auctionroom.h"
+#include "room.h"
+#include "config.h"
 #include <QPixmap>
 #include <QMessageBox>
 
@@ -40,6 +42,10 @@ void AuctionRoom::on_btn_bid_clicked()
 // navigate
 void AuctionRoom::on_btn_backHome_clicked() //back home
 {
+    OutRoomMess outRoomMess;
+    outRoomMess.user_id = MySingleton::instance().getAccount().id;
+    send(MySingleton::instance().getValue(), "19",BUFF_SIZE-1, 0);
+    send(MySingleton::instance().getValue(), &outRoomMess, sizeof(OutRoomMess), 0);
     emit HomeClicked();
 }
 void AuctionRoom::on_btn_overview_clicked()
@@ -48,6 +54,7 @@ void AuctionRoom::on_btn_overview_clicked()
 }
 
 void AuctionRoom::backfromOverview(){
+
     ui->stackedWidget_2->setCurrentIndex(0);
 }
 

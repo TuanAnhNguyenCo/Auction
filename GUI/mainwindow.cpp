@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->insertWidget(3,&AuctionRoom);
     ui->stackedWidget->insertWidget(4,&LogIn);
     ui->stackedWidget->insertWidget(5,&SignUp);
-    ui->stackedWidget->setCurrentIndex(0); // set up Login page
+    ui->stackedWidget->setCurrentIndex(4); // set up Login page
     MySingleton::instance().home = ui->stackedWidget;
     connect(&CreatePage, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
     connect(&CreatePage, SIGNAL(HistoryClicked()), this, SLOT(moveHistoryTab()));
@@ -50,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(worker, &Worker::signout_dataReceived,this, &MainWindow::handleLogout);
     connect(worker, &Worker::join_room_dataRecieved,this, &MainWindow::moveAuctionRoom);
     connect(worker, &Worker::create_room_dataRecieved,&CreatePage, &CreatePage::handleMessageFromRoomCreationRequest);
+
 
 
 

@@ -39,22 +39,19 @@ void CreatePage::on_btn_save_clicked()
     roomMess.created_at = std::time(nullptr);
     send(MySingleton::instance().getValue(), &roomMess, sizeof(roomMess), 0);
 }
-void CreatePage::handleMessageFromRoomCreationRequest(char *Message){
-    if (strcmp(Message,"#OK")==0)
+void CreatePage::handleMessageFromRoomCreationRequest(char *message){
+    if (strcmp(message,"#OK")==0)
     {
+
         ui->lineEdit_name->setText("");
         QMessageBox::information(this, tr("CREATE A ROOM"), tr("Create an auction room successfully."));
-        ui->stackedWidget->setCurrentIndex(1);
+        emit HomeClicked();
     }else{
         QMessageBox::information(this, tr("FAILED"), tr("Creating an auction room failed."));
     }
 
 }
-// void CreatePage::addNewItem()
-// {
-//     ui->stackedWidget->setCurrentIndex(1);
 
-// }
 
 void CreatePage::on_btn_cancel_clicked()
 {

@@ -26,6 +26,7 @@ public:
 
     Account getAccount() const;
     void setAccount(Account account);
+    void getRooms();
     std::list<AuctionRoomStruct> auction_rooms;
     QStackedWidget *page;
     QStackedWidget *home;
