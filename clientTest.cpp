@@ -23,7 +23,7 @@ typedef struct
 
 } thread_args;
 
-// void *handle_server(void *args)
+// void *handle_server_auto(void *args)
 // {
 //   int bytes_sent, bytes_received;
 //   thread_args *arg = (thread_args *)args;
@@ -43,25 +43,34 @@ void *handle_server(void *args)
   pthread_detach(pthread_self());
   thread_args *arg = (thread_args *)args;
   int client_socket = arg->conn_sock;
+  // pthread_t receiveThreadID;
+  // pthread_create(&receiveThreadID, NULL, &handle_server_auto, &args);
   while (1)
   {
     char line[10];
     memset(line, 0, sizeof(line));
     cin.getline(line, sizeof(line));
-    // ssize_t charCount = ::getline(&line, &lineSize, stdin);
+    if (strcmp(line, "abc") != 0)
+    {
+      send(client_socket, line, strlen(line), 0);
+    }
 
-    // char *messId = "1";
-    send(client_socket, line, strlen(line), 0);
     char message[BUFF_SIZE];
 
     ssize_t recvbytes = recv(client_socket, message, BUFF_SIZE - 1, 0);
+    if (recvbytes <= 0)
+    {
+      break;
+    }
+
     message[recvbytes] = '\0';
     cout << message << endl;
     if (strcmp(message, "#message2") == 0)
     {
       /* code */
       LoginMess acc;
-      strcpy(acc.username, "anh3");
+      cin.getline(acc.username, sizeof(acc.username));
+      // strcpy(acc.username, "anh1");
       strcpy(acc.password, "1");
       send(client_socket, &acc, sizeof(acc), 0);
       char buffer[BUFF_SIZE];
@@ -71,26 +80,16 @@ void *handle_server(void *args)
       if (strcmp(buffer, "#OK") == 0)
       {
         Account account_signed;
-        int rcvBytes = recv(client_socket, &account_signed, sizeof(account_signed), 0);
+        recv(client_socket, &account_signed, sizeof(account_signed), 0);
         cout << account_signed.address << endl;
-        char message[BUFF_SIZE];
-        rcvBytes = recv(client_socket, message, BUFF_SIZE - 1, 0);
-        message[rcvBytes] = '\0';
-        cout << message << endl;
-        for (int i = 0; i < atoi(message); i++)
-        {
-          AuctionRoom room;
-          rcvBytes = recv(client_socket, &room, sizeof(AuctionRoom), 0);
-          cout << room.name << endl;
-        }
-
       }
-
     }
     if (strcmp(message, "#message3") == 0)
     {
       LogoutMess acc;
-      acc.user_id = 3;
+      char line[10];
+      cin.getline(line, sizeof(line));
+      acc.user_id = atoi(line);
       send(client_socket, &acc, sizeof(acc), 0);
       char buffer[BUFF_SIZE];
       int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
@@ -110,6 +109,10 @@ void *handle_server(void *args)
       int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
       buffer[rcvBytes] = '\0';
       printf("%s\n", buffer);
+
+      rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      printf("%s\n", buffer);
     }
     if (strcmp(message, "#message5") == 0)
     {
@@ -122,6 +125,10 @@ void *handle_server(void *args)
       int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
       buffer[rcvBytes] = '\0';
       printf("%s\n", buffer);
+
+      rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      printf("%s\n", buffer);
     }
     if (strcmp(message, "#message9") == 0)
     {
@@ -130,6 +137,18 @@ void *handle_server(void *args)
       itemMess.item_id = 2;
       itemMess.room_id = 4;
       send(client_socket, &itemMess, sizeof(itemMess), 0);
+      char buffer[BUFF_SIZE];
+      int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      printf("%s\n", buffer);
+    }
+    if (strcmp(message, "#message10") == 0)
+    {
+      KickMess kickMess;
+      kickMess.user_id = 3;
+      kickMess.proprietor_id = 2;
+      kickMess.room_id = 4;
+      send(client_socket, &kickMess, sizeof(kickMess), 0);
       char buffer[BUFF_SIZE];
       int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
       buffer[rcvBytes] = '\0';
@@ -152,7 +171,42 @@ void *handle_server(void *args)
       buffer[rcvBytes] = '\0';
       printf("%s\n", buffer);
     }
-
+    if (strcmp(message, "#message14") == 0)
+    {
+      char message[BUFF_SIZE];
+      ssize_t rcvBytes = recv(client_socket, message, BUFF_SIZE - 1, 0);
+      message[rcvBytes] = '\0';
+      cout << message << endl;
+      for (int i = 0; i < atoi(message); i++)
+      {
+        AuctionRoom room;
+        rcvBytes = recv(client_socket, &room, sizeof(AuctionRoom), 0);
+        cout << room.name << endl;
+      }
+    }
+    if (strcmp(message, "#message18") == 0)
+    {
+      char message[BUFF_SIZE];
+      ssize_t rcvBytes = recv(client_socket, message, BUFF_SIZE - 1, 0);
+      message[rcvBytes] = '\0';
+      cout << message << endl;
+      for (int i = 0; i < atoi(message); i++)
+      {
+        Item item;
+        rcvBytes = recv(client_socket, &item, sizeof(Item), 0);
+        cout << item.name << endl;
+      }
+    }
+    if (strcmp(message, "#message19") == 0)
+    {
+      OutRoomMess outRoomMess;
+      outRoomMess.user_id = 3;
+      send(client_socket, &outRoomMess, sizeof(OutRoomMess), 0);
+      char buffer[BUFF_SIZE];
+      int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      printf("%s\n", buffer);
+    }
   }
 }
 
@@ -172,7 +226,7 @@ int main(int argc, char *argv[])
   if (result >= 0)
     printf("connect was successfull\n");
 
-  pthread_t sendThreadID;
+  pthread_t sendThreadID, receiveThreadID;
   thread_args args;
   args.conn_sock = client_socket;
 

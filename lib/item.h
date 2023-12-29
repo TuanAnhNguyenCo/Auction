@@ -96,3 +96,16 @@ int deleteItem(list<Item> *items, int item_id)
     save_items(*items);
     return 1; // Phần tử đã được xóa thành công
 }
+
+//
+int recv_and_handle_get_items(int conn_sock, list<Item> *items){
+    cout << "Getting items..." << endl;
+    char message[BUFF_SIZE];
+    strcpy(message, to_string((*items).size()).c_str());
+    send(conn_sock, message, BUFF_SIZE - 1, 0);
+    for (Item &item : *items)
+    {
+        send(conn_sock, &item, sizeof(Item), 0);
+    }
+    return 1;
+}
