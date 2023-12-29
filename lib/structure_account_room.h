@@ -7,6 +7,7 @@ typedef struct
   int id;
   int user_id;
   int room_id;
+  int status; // 1: on room, 2: out room
 } AuctionRoomParticipate;
 
 typedef struct

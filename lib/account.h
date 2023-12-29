@@ -51,6 +51,19 @@ void get_accounts(list<Account> *accounts)
     fclose(f);
 }
 
+int get_account_by_id(int user_id, list<Account> accounts, Account *account)
+{
+    for (Account acc : accounts)
+    {
+        if (acc.id == user_id)
+        {
+            *account = acc;
+            return 1;
+        }
+    }
+    return 2;
+}
+
 void print_accounts(list<Account> accounts)
 {
     for (Account a : accounts)
@@ -331,7 +344,7 @@ int recv_and_handle_kick_account(int conn_sock, list<AuctionRoom> *rooms, list<A
     return 1;
 }
 
-int recv_and_handle_out_rooms(int conn_sock, list<AuctionRoom> *rooms, list<AuctionRoomParticipate> *list_account_rooms)
+int recv_and_handle_out_rooms(int conn_sock, list<AuctionRoomParticipate> *list_account_rooms)
 {
     cout << "Outing rooms..." << endl;
     OutRoomMess outRoomMess;
