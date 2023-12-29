@@ -2,7 +2,6 @@
 #include "ui_additem.h"
 #include <QMessageBox>
 #include <QFileDialog>
-#include "config.h"
 
 addItem::addItem(QWidget *parent)
     : QWidget(parent)
@@ -41,19 +40,22 @@ void addItem::on_btn_choosePic_clicked()
 void addItem::on_btn_save_clicked()
 {
     QMessageBox::information(this, tr("ADD AN ITEM"), tr("Add an item successfully."));
+    cancelClicked();
 
 }
 
 
 void addItem::on_btn_back_clicked()
 {
-    emit backOverview();
+    cancelClicked();
 }
+
 
 
 void addItem::on_btn_cancel_clicked()
 {
-    // emit backOverview();
+    QMessageBox::information(this, tr("Don't save"), tr("Delete this item."));
+    emit cancelClicked();
 
 }
 

@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include <QFileDialog>
-#include "additem.h"
 #include "roomoverview.h"
 namespace Ui {
 class CreatePage;
@@ -19,7 +18,6 @@ public:
 
 private:
     Ui::CreatePage *ui;
-    addItem addItemobj;
     RoomOverview roomOverviewobj;
 
 signals:
@@ -30,7 +28,6 @@ private slots:
     void on_btn_historytab_clicked();
     void on_btn_save_clicked();
     void on_btn_cancel_clicked();
-    void addNewItem();
 };
 
 #endif // CREATEPAGE_H

@@ -18,10 +18,10 @@ public:
 private slots:
     void on_btn_choosePic_clicked();
     void on_btn_save_clicked();
-    void on_btn_back_clicked();
     void on_btn_cancel_clicked();
+    void on_btn_back_clicked();
 signals:
-    void backOverview();
+    void cancelClicked();
 private:
     Ui::addItem *ui;
 };

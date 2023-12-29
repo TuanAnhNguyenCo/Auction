@@ -55,5 +55,6 @@ void RoomOverview::on_btn_backAuctionroom_clicked()
 void RoomOverview::on_btn_add_clicked()
 {
     emit addItemClicked();
+    qDebug(":)");
 }
 
