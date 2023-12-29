@@ -33,7 +33,7 @@ public slots:
     void moveHome();
     void moveCreateTab();
     void moveHistoryTab();
-    void moveAuctionRoom();
+    void moveAuctionRoom(char *message);
     void on_btn_logout_clicked();
     void moveSignupPage();
     void moveLoginPage();

@@ -7,6 +7,12 @@ account.txt - luu account: id - username - password - phone - address - status
 auction.txt - luu room: id - user_id - name - create_at - status
 item.txt - luu item: id - room_id - reserve_price - BIN_price - description - created_at - end - status
 # Features
+
+# client
+- sign in, sign up, logout
+- create auction room
+- join room
+=======
 1: sign up
 2: login - gui status neu OK, gui account hien tai
 3: logout - gui status va out ra khoi cac phong hien tai
