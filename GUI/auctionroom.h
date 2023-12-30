@@ -5,6 +5,7 @@
 #include <QInputDialog>
 #include "roomoverview.h"
 #include "additem.h"
+#include "joinermanage.h"
 namespace Ui {
 class AuctionRoom;
 }
@@ -26,11 +27,13 @@ private slots:
     void moveToOverview();
     void on_btn_bin_clicked();
     void addNemItem();
+    void moveToParticipant();
 
 private:
     Ui::AuctionRoom *ui;
     RoomOverview RoomOverview;
     addItem addItem;
+    JoinerManage joinerManage;
 };
 
 #endif // AUCTIONROOM_H

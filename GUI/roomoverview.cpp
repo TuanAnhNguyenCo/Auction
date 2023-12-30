@@ -15,7 +15,7 @@ RoomOverview::RoomOverview(QWidget *parent)
     QPixmap logo(":/image/logo_auction.png");
     ui->label_logo_2->setPixmap(logo.scaled(100,100,Qt::KeepAspectRatio));
     ui->btn_backAuctionroom->setIcon(QIcon(":/image/icon_back.jpeg"));
-    // scroll area
+    // Item list scroll area
     QWidget* scrollContent = ui->scrollAreaWidgetContents;
     QVBoxLayout* scrollLayout = new QVBoxLayout(scrollContent);
     for (int groupIndex = 0; groupIndex < 5; ++groupIndex) {
@@ -35,11 +35,14 @@ RoomOverview::RoomOverview(QWidget *parent)
         QPushButton* item_btn_view = new QPushButton("View");
         groupBoxLayout->addWidget(item_btn_view,0, Qt::AlignRight);
         connect(item_btn_view, &QPushButton::clicked, this, &RoomOverview::on_btn_backAuctionroom_clicked);
+        QPushButton* item_btn_delete = new QPushButton("Delete");
+        groupBoxLayout->addWidget(item_btn_delete,0, Qt::AlignRight);
         scrollLayout->addWidget(item);
     }
     QScrollArea* scrollArea = ui->scrollArea;
     scrollArea->setWidgetResizable(true);
     scrollArea->setWidget(scrollContent);
+
 }
 
 RoomOverview::~RoomOverview()
@@ -56,5 +59,11 @@ void RoomOverview::on_btn_add_clicked()
 {
     emit addItemClicked();
     qDebug(":)");
+}
+
+
+void RoomOverview::on_pushButton_clicked()
+{
+    emit participantClicked();
 }
 
