@@ -130,6 +130,23 @@ void *handle_server(void *args)
       buffer[rcvBytes] = '\0';
       printf("%s\n", buffer);
     }
+    if (strcmp(message, "#message6") == 0)
+    {
+      /* code */
+      BidMess bidMess;
+      bidMess.user_id = 3;
+      bidMess.item_id = 2;
+      bidMess.price = 16000;
+      send(client_socket, &bidMess, sizeof(BidMess), 0);
+      char buffer[BUFF_SIZE];
+      int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      printf("%s\n", buffer);
+
+      rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      printf("%s\n", buffer);
+    }
     if (strcmp(message, "#message9") == 0)
     {
       DeleteItemMess itemMess;
@@ -194,7 +211,7 @@ void *handle_server(void *args)
       {
         Item item;
         rcvBytes = recv(client_socket, &item, sizeof(Item), 0);
-        cout << item.name << endl;
+        cout << item.name << " " << item.reserve_price << endl;
       }
     }
     if (strcmp(message, "#message19") == 0)
