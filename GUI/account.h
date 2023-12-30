@@ -31,6 +31,8 @@ typedef struct
     int user_id;
 } LogoutMess;
 
+
+
 extern char ResponedMessage[BUFF_SIZE];
 
 #endif // ACCOUNT_H

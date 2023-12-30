@@ -51,6 +51,19 @@ void get_accounts(list<Account> *accounts)
     fclose(f);
 }
 
+int get_account_by_id(int user_id, list<Account> accounts, Account *account)
+{
+    for (Account acc : accounts)
+    {
+        if (acc.id == user_id)
+        {
+            *account = acc;
+            return 1;
+        }
+    }
+    return 2;
+}
+
 void print_accounts(list<Account> accounts)
 {
     for (Account a : accounts)
@@ -150,6 +163,7 @@ int logout(list<Account> *accounts, Account account)
     {
         if (acc.id == account.id)
         {
+            cout << acc.username << endl;
             if (acc.status == 0)
                 return 2;
             acc.status = 0;
@@ -228,7 +242,7 @@ int recv_and_handle_sign_up(int conn_sock, list<Account> *accounts)
     return 1;
 }
 // #OK: successfull #FAIL: fail #ONLINE: account is online on the other devices
-int recv_and_handle_login(int conn_sock, list<Account> *accounts, list<AuctionRoom> *rooms)
+int recv_and_handle_login(int conn_sock, list<Account> *accounts)
 {
     LoginMess accountMess;
     cout << "Logining" << endl;
@@ -246,12 +260,6 @@ int recv_and_handle_login(int conn_sock, list<Account> *accounts, list<AuctionRo
         strcpy(message, "#OK");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
         send(conn_sock, &account_signed, sizeof(account_signed), 0);
-        strcpy(message, to_string((*rooms).size()).c_str());
-        send(conn_sock, message, BUFF_SIZE - 1, 0);
-        for (AuctionRoom &room : *rooms)
-        {
-            send(conn_sock, &room, sizeof(AuctionRoom), 0);
-        }
     }
     else if (status == 2)
     {
@@ -285,6 +293,76 @@ int recv_and_handle_logout(int conn_sock, list<AuctionRoomParticipate> *listAcco
         send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
     else if (status == 2)
+    {
+        strcpy(message, "#FAIL");
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
+    }
+    return 1;
+}
+
+int recv_and_handle_get_rooms(int conn_sock, list<AuctionRoom> *rooms)
+{
+    cout << "Getting rooms..." << endl;
+    char message[BUFF_SIZE];
+    strcpy(message, to_string((*rooms).size()).c_str());
+    send(conn_sock, message, BUFF_SIZE - 1, 0);
+    for (AuctionRoom &room : *rooms)
+    {
+        send(conn_sock, &room, sizeof(AuctionRoom), 0);
+    }
+    return 1;
+}
+
+int recv_and_handle_kick_account(int conn_sock, list<AuctionRoom> *rooms, list<AuctionRoomParticipate> *list_account_rooms)
+{
+    cout << "Kicking rooms..." << endl;
+    KickMess kickMess;
+    int rcvBytes = recv(conn_sock, &kickMess, sizeof(KickMess), 0);
+    if (rcvBytes <= 0)
+    {
+        close(conn_sock);
+        return 0;
+    }
+    char message[BUFF_SIZE];
+    if (checkRole(*rooms, kickMess.proprietor_id, kickMess.room_id) == 2 || kickMess.proprietor_id == kickMess.user_id)
+    {
+        strcpy(message, "#PERMISSION_DENIED");
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
+        return 2;
+    }
+    int status = outRoom(list_account_rooms, kickMess.user_id);
+    if (status == 2)
+    {
+        strcpy(message, "#OK");
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
+    }
+    else if (status == 1)
+    {
+        strcpy(message, "#FAIL");
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
+    }
+    return 1;
+}
+
+int recv_and_handle_out_rooms(int conn_sock, list<AuctionRoomParticipate> *list_account_rooms)
+{
+    cout << "Outing rooms..." << endl;
+    OutRoomMess outRoomMess;
+    int rcvBytes = recv(conn_sock, &outRoomMess, sizeof(OutRoomMess), 0);
+    if (rcvBytes <= 0)
+    {
+        close(conn_sock);
+        return 0;
+    }
+    char message[BUFF_SIZE];
+
+    int status = outRoom(list_account_rooms, outRoomMess.user_id);
+    if (status == 2)
+    {
+        strcpy(message, "#OK");
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
+    }
+    else if (status == 1)
     {
         strcpy(message, "#FAIL");
         send(conn_sock, message, BUFF_SIZE - 1, 0);

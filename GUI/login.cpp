@@ -27,9 +27,10 @@ void LogIn::on_btn_signupPage_clicked()
 }
 
 void LogIn::update_sign_in(char *message){
-    qDebug() << message;
+
     if (strcmp(message,"#OK") == 0)
     {
+        qDebug() << "Login...";
         // thong bao success, navigate to home
         QMessageBox::information(this, tr("Success"), tr("Sign in successfully "));
         LogIn::LoginOk();
