@@ -41,3 +41,9 @@ typedef struct
   int user_id;
   int item_id;
 } BidMess;
+
+typedef struct
+{
+  int user_id;
+  int item_id;
+} BinMess;

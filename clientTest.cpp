@@ -201,6 +201,22 @@ void *handle_server(void *args)
         cout << room.name << endl;
       }
     }
+    if (strcmp(message, "#message16") == 0)
+    {
+      /* code */
+      BinMess binMess;
+      binMess.user_id = 3;
+      binMess.item_id = 2;
+      send(client_socket, &binMess, sizeof(BinMess), 0);
+      char buffer[BUFF_SIZE];
+      int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      printf("%s\n", buffer);
+
+      rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      printf("%s\n", buffer);
+    }
     if (strcmp(message, "#message18") == 0)
     {
       char message[BUFF_SIZE];
