@@ -39,6 +39,7 @@ void Worker::doWork() {
                 recv(MySingleton::instance().getValue(), &account,sizeof(account), 0);
                 MySingleton::instance().setAccount(account);
                 MySingleton::instance().getRooms();
+                MySingleton::instance().getItems();
             }
             emit signIn_dataReceived(respond);
         }
@@ -72,6 +73,17 @@ void Worker::doWork() {
 
             emit join_room_dataRecieved(respond);
         }
+        // get message from creating auction
+        if (strcmp(message,"#message11") == 0)
+        {
+            char respond[BUFF_SIZE];
+            rcvBytes = recv(MySingleton::instance().getValue(), respond, BUFF_SIZE - 1, 0);
+            if (rcvBytes > 0){
+                respond[rcvBytes] = '\0';
+            }
+            emit create_item_dataReceived(respond);
+
+        }
         if (strcmp(message,"#message14") == 0){
             char num_rooms[BUFF_SIZE];
 
@@ -93,6 +105,23 @@ void Worker::doWork() {
         if (strcmp(message,"#update_account_room")==0)
         {
             qDebug("Message: #update_account_room") ;
+        }
+        // recieve items
+        if (strcmp(message,"#message18")==0)
+        {
+            char num_items[BUFF_SIZE];
+
+            int rcvBytes = recv(MySingleton::instance().getValue(), num_items, BUFF_SIZE - 1, 0);
+            num_items[rcvBytes] = '\0';
+            qDebug() << "Num items: " << num_items;
+            MySingleton::instance().items.clear();
+            for (int i = 0; i < atoi(num_items); i++)
+            {
+                Item item;
+                rcvBytes = recv(MySingleton::instance().getValue(), &item, sizeof(Item), 0);
+                MySingleton::instance().items.push_back(item);
+            }
+
         }
         if (strcmp(message,"#message19")==0)
         {

@@ -18,6 +18,7 @@ public:
     ~AuctionRoom();
 signals:
     void HomeClicked();
+    void callShowItems();
 private slots:
     void on_btn_backHome_clicked();
     void on_btn_bid_clicked();
@@ -30,8 +31,13 @@ private slots:
 
 private:
     Ui::AuctionRoom *ui;
-    RoomOverview RoomOverview;
+    // RoomOverview RoomOverview;
+    // addItem addItem;
+public:
     addItem addItem;
+    RoomOverview RoomOverview;
 };
+
+
 
 #endif // AUCTIONROOM_H

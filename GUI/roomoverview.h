@@ -19,8 +19,10 @@ signals:
     void addItemClicked();
 private slots:
     void on_btn_backAuctionroom_clicked();
-
     void on_btn_add_clicked();
+
+public slots:
+    void showItems();
 
 private:
     Ui::RoomOverview *ui;

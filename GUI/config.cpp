@@ -39,3 +39,6 @@ void MySingleton::setAccount(Account account1) {
 void MySingleton::getRooms(){
     send(MySingleton::instance().getValue(), "14", BUFF_SIZE - 1, 0);
 }
+void MySingleton::getItems(){
+    send(MySingleton::instance().getValue(), "18", BUFF_SIZE - 1, 0);
+}

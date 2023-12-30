@@ -12,6 +12,7 @@
 #include "room.h"
 #include <QtGui>
 #include <QStackedWidget>
+#include "worker.h"
 
 #define BUFF_SIZE 8192
 
@@ -27,11 +28,14 @@ public:
     Account getAccount() const;
     void setAccount(Account account);
     void getRooms();
+    void getItems();
     std::list<AuctionRoomStruct> auction_rooms;
-    QStackedWidget *page;
+    std::list<Item> items;
+    QStackedWidget *auction_root_ui;
     QStackedWidget *home;
     QWidget* scrollRoomsContent;
     AuctionRoomStruct joinedRoom;
+    Worker *worker;
 
 
 private:
