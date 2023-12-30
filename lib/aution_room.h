@@ -48,6 +48,17 @@ void print_rooms(list<AuctionRoom> rooms)
     }
 }
 
+int get_proprietor_id(int room_id, list<AuctionRoom> rooms){
+    for (AuctionRoom r : rooms)
+    {
+        if (r.id == room_id)
+        {
+            return r.proprietor_id;
+        }
+    }
+    return -1;
+}
+
 void save_rooms(list<AuctionRoom> rooms)
 {
     FILE *file;
@@ -162,6 +173,7 @@ int handleCreateItem(CreateItemMess itemMess, list<AuctionRoom> *listRooms, list
         strcpy(item.description, itemMess.description);
         item.created_at = itemMess.created_at;
         item.end = itemMess.end;
+        item.price_maker_id = get_proprietor_id(itemMess.room_id, *listRooms);
         pthread_mutex_lock(&blockThreadMutex_auction);
         int status = createItem(items, item);
         pthread_mutex_unlock(&blockThreadMutex_auction);

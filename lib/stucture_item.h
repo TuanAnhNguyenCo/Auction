@@ -6,6 +6,7 @@ typedef struct
 {
     int id;
     int room_id;
+    int price_maker_id;
     char name[100];
     long double reserve_price;
     long double BIN_price;
@@ -33,3 +34,10 @@ typedef struct
   int room_id;
   int item_id;
 } DeleteItemMess;
+
+typedef struct
+{
+  long double price;
+  int user_id;
+  int item_id;
+} BidMess;
