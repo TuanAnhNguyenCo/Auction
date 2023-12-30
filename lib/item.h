@@ -39,6 +39,16 @@ void get_items(list<Item> *items)
     fclose(f);
 }
 
+void get_item_by_id(list<Item> items, Item *item, int item_id){
+    for (Item i : items)
+    {
+        if (i.id == item_id)
+        {
+            *item = i;
+        }
+    }
+}
+
 void print_items(list<Item> items)
 {
     for (Item i : items)
@@ -80,10 +90,15 @@ int change_reserve_price(list<Item> *items, long double price, int price_maker_i
     {
         if (item.id == item_id && item.status == 1)
         {
-            if (item.reserve_price + 10000 < price)
+            if (item.reserve_price + 10000 < price || price == item.BIN_price )
             {
                 item.reserve_price = price;
                 item.price_maker_id = price_maker_id;
+                if (price == item.BIN_price)
+                {
+                    item.status = 0;
+                }
+
                 save_items(*items);
                 return 1;
             }
@@ -145,6 +160,40 @@ int recv_and_handle_bid_items(int conn_sock, list<Item> *items)
 
     char message[BUFF_SIZE];
     int status = change_reserve_price(items, bidMess.price, bidMess.user_id, bidMess.item_id);
+    if (status == 1)
+    {
+        strcpy(message, "#OK");
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
+    }
+    else if (status == 2)
+    {
+        strcpy(message, "#FAIL");
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
+    }
+    else if (status == 3)
+    {
+        strcpy(message, "#PRICE_INVALID");
+        send(conn_sock, message, BUFF_SIZE - 1, 0);
+    }
+    return 1;
+}
+
+int recv_and_handle_bin_price(int conn_sock, list<Item> *items)
+{
+    BinMess binMess;
+    cout << "Bidding ..." << endl;
+    int rcvBytes = recv(conn_sock, &binMess, sizeof(BinMess), 0);
+    if (rcvBytes <= 0)
+    {
+        close(conn_sock);
+        return 0;
+    }
+    Item item;
+    get_item_by_id(*items, &item, binMess.item_id);
+    cout << item.BIN_price << endl;
+
+    char message[BUFF_SIZE];
+    int status = change_reserve_price(items, item.BIN_price, binMess.user_id, binMess.item_id);
     if (status == 1)
     {
         strcpy(message, "#OK");
