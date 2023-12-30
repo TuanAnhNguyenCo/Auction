@@ -62,6 +62,7 @@ else()
             worker.h worker.cpp
             room.h
             account.h additem.cpp additem.h additem.ui auctionroom.cpp auctionroom.h auctionroom.ui CMakeLists.txt CMakeLists.txt.user CMakeLists.txt.user.e4e739f CMakeLists.txt.user.f0a914c con-cho.jpeg config.cpp config.h createpage.cpp createpage.h createpage.ui  historypage.cpp historypage.h historypage.ui icon_back.jpeg icon_overview.png login.cpp login.h login.ui logo_auction.png main.cpp mainwindow.cpp mainwindow.h mainwindow.ui myresource.qrc room.h roomoverview.cpp roomoverview.h roomoverview.ui signup.cpp signup.h signup.ui worker.cpp worker.h
+            account.h additem.cpp additem.h additem.ui auctionroom.cpp auctionroom.h auctionroom.ui CMakeLists.txt CMakeLists.txt.user CMakeLists.txt.user.autosave CMakeLists.txt.user.e4e739f CMakeLists.txt.user.f0a914c con-cho.jpeg config.cpp config.h createpage.cpp createpage.h createpage.ui historypage.cpp historypage.h historypage.ui icon_back.jpeg icon_overview.png login.cpp login.h login.ui logo_auction.png main.cpp mainwindow.cpp mainwindow.h mainwindow.ui myresource.qrc room.h roomoverview.cpp roomoverview.h roomoverview.ui signup.cpp signup.h signup.ui worker.cpp worker.h
         )
     endif()
 endif()

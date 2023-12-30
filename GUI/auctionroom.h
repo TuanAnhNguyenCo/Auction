@@ -19,6 +19,7 @@ public:
     ~AuctionRoom();
 signals:
     void HomeClicked();
+    void callShowItems();
 private slots:
     void on_btn_backHome_clicked();
     void on_btn_bid_clicked();
@@ -29,11 +30,19 @@ private slots:
     void addNemItem();
     void moveToParticipant();
 
+
 private:
     Ui::AuctionRoom *ui;
-    RoomOverview RoomOverview;
+
+public:
     addItem addItem;
+
     JoinerManage joinerManage;
+
+    RoomOverview RoomOverview;
+
 };
+
+
 
 #endif // AUCTIONROOM_H
