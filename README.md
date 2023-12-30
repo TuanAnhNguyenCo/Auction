@@ -24,6 +24,7 @@ item.txt - luu item: id - room_id - reserve_price - BIN_price - description - cr
 10: kick account - gui status => mess update_account_room
 11: create item - gui status => update_item
 14: get rooms - gui size room(char messs[BUFF_SIZE]) => gui tung room
+16: bin item - gui status => mess update_item
 18: get items - gui size room(char mess[BUFF_SIZE]) => gui tung room
 19: out room - gui status => update_account_room
 20: get participate - gui size participate(char mess[BUFF_SIZE]) => gui tung account (struct Account)

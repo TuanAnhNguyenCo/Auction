@@ -94,6 +94,11 @@ int change_reserve_price(list<Item> *items, long double price, int price_maker_i
             {
                 item.reserve_price = price;
                 item.price_maker_id = price_maker_id;
+                if (price == item.BIN_price)
+                {
+                    item.status = 0;
+                }
+
                 save_items(*items);
                 return 1;
             }
