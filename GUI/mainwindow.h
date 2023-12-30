@@ -38,6 +38,8 @@ public slots:
     void moveSignupPage();
     void moveLoginPage();
     void handleLogout(char *message);
+    void notifyInfo(char *message);
+
 
 private:
     Ui::MainWindow *ui;

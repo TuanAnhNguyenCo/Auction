@@ -33,6 +33,7 @@ AuctionRoom::AuctionRoom(QWidget *parent)
     connect(&RoomOverview, SIGNAL(addItemClicked()), this, SLOT(addNemItem()));
     connect(&addItem, SIGNAL(cancelClicked()), this, SLOT(moveToOverview()));
     connect(this, &AuctionRoom::callShowItems, &RoomOverview, &RoomOverview::showItems);
+    connect(this, &AuctionRoom::callShowMembers, &joinerManage, &JoinerManage::showParticipents);
 
 
 }
@@ -77,6 +78,7 @@ void AuctionRoom::addNemItem(){
     ui->stackedWidget_2->setCurrentIndex(2);
 }
 void AuctionRoom::moveToParticipant(){
+    emit callShowMembers();
     ui->stackedWidget_2->setCurrentIndex(3);
 }
 void AuctionRoom::on_btn_bin_clicked()

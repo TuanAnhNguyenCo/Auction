@@ -102,6 +102,7 @@ int recv_and_handle_get_items(int conn_sock, list<Item> *items){
     cout << "Getting items..." << endl;
     char message[BUFF_SIZE];
     strcpy(message, to_string((*items).size()).c_str());
+    cout << "Size " << message << endl;
     send(conn_sock, message, BUFF_SIZE - 1, 0);
     for (Item &item : *items)
     {

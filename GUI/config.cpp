@@ -42,3 +42,19 @@ void MySingleton::getRooms(){
 void MySingleton::getItems(){
     send(MySingleton::instance().getValue(), "18", BUFF_SIZE - 1, 0);
 }
+void MySingleton::getParticipents(){
+
+    MySingleton::instance().participents.clear();
+    MySingleton::instance().room_ids.clear();
+    for (std::list<AuctionRoomStruct>::iterator it = MySingleton::instance().auction_rooms.begin(); it != MySingleton::instance().auction_rooms.end(); ++it) {
+        GetParticipateMess mess;
+        mess.room_id = it->id;
+        MySingleton::instance().room_ids.push_front(it->id);
+        send(MySingleton::instance().getValue(), "20", BUFF_SIZE - 1, 0);
+        send(MySingleton::instance().getValue(), &mess,sizeof(GetParticipateMess), 0);
+
+
+
+    }
+
+}

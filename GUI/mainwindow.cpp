@@ -54,13 +54,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(worker, &Worker::join_room_dataRecieved,this, &MainWindow::moveAuctionRoom);
     connect(worker, &Worker::create_room_dataRecieved,&CreatePage, &CreatePage::handleMessageFromRoomCreationRequest);
     connect(worker, &Worker::create_item_dataReceived,&AuctionRoom.addItem, &addItem::handleRoomCreationStatus);
-
-
-
-
-
-
-
+    connect(worker, &Worker::handleKickingMember,&AuctionRoom.joinerManage, &JoinerManage::showParticipents);
+    connect(worker, &Worker::sendOff,this, &MainWindow::moveHome);
+    connect(worker, &Worker::notifyInfo,this, &MainWindow::notifyInfo);
     workerThread->start();
 
 
@@ -87,8 +83,15 @@ void MainWindow::on_btn_historytab_clicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
 }
+
+void MainWindow::notifyInfo(char *message){
+    QMessageBox::information(this, tr("Failed"), message);
+}
+
 void MainWindow::moveHome(){
+
     ui->stackedWidget->setCurrentIndex(0);
+
     //_______________________
     //scroll area
     // Obtain the scroll area and its content widget
@@ -109,10 +112,13 @@ void MainWindow::moveHome(){
 
     QVBoxLayout* scrollLayout = new QVBoxLayout(scrollContent);
     int size = MySingleton::instance().auction_rooms.size();
+
     // show rooms
     std::list<AuctionRoomStruct> rooms = MySingleton::instance().auction_rooms;
     std::list<AuctionRoomStruct>::iterator it = rooms.begin();
+
     for (int groupIndex = 0; it != rooms.end() && groupIndex < size; ++it, ++groupIndex) {
+
         AuctionRoomStruct room = *it;
         QGroupBox* item = new QGroupBox();
         QHBoxLayout* groupBoxLayout = new QHBoxLayout(item);
@@ -130,7 +136,9 @@ void MainWindow::moveHome(){
         // Add button to join room
         QPushButton* item_btn_join = new QPushButton("Join");
         groupBoxLayout->addWidget(item_btn_join,0, Qt::AlignRight);
+
         connect(item_btn_join, &QPushButton::clicked, [this, room]() {
+
             MySingleton::instance().joinedRoom = room;
             send(MySingleton::instance().getValue(), "5", BUFF_SIZE-1, 0);
             JoinMess mess;
