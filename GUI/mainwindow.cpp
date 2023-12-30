@@ -65,6 +65,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
+
+
+
+
+
 }
 
 MainWindow::~MainWindow()
@@ -86,12 +91,20 @@ void MainWindow::moveHome(){
     ui->stackedWidget->setCurrentIndex(0);
     //_______________________
     //scroll area
+    // Obtain the scroll area and its content widget
+    QScrollArea* scrollArea = ui->scrollArea;
     QWidget* scrollContent = ui->scrollAreaWidgetContents;
 
-    // Remove any existing layout from scrollContent
+    // Clear out any existing widgets in the scrollContent
     QLayout* existingLayout = scrollContent->layout();
     if (existingLayout) {
-        delete existingLayout;
+        // Delete all child widgets of the layout
+        QLayoutItem* item;
+        while ((item = existingLayout->takeAt(0)) != nullptr) {
+            delete item->widget();  // Delete the widget
+            delete item;            // Delete the layout item
+        }
+        delete existingLayout;  // Delete the old layout
     }
 
     QVBoxLayout* scrollLayout = new QVBoxLayout(scrollContent);
@@ -129,7 +142,7 @@ void MainWindow::moveHome(){
     }
 
 
-    QScrollArea* scrollArea = ui->scrollArea;
+
     scrollArea->setWidgetResizable(true);
     scrollArea->setWidget(scrollContent);
 }
