@@ -22,13 +22,17 @@ AuctionRoom::AuctionRoom(QWidget *parent)
     // navigate
     ui->stackedWidget_2->insertWidget(1, &RoomOverview);
     ui->stackedWidget_2->insertWidget(2,&addItem);
+
+    ui->stackedWidget_2->insertWidget(3,&joinerManage);
+   
+    connect(&RoomOverview, SIGNAL(participantClicked()), this, SLOT(moveToParticipant()));
+    connect(&joinerManage, SIGNAL(backClicked()), this, SLOT(moveToOverview()));
+
     MySingleton::instance().auction_root_ui = ui->stackedWidget_2;
     connect(&RoomOverview, SIGNAL(backtoRoomClicked()), this, SLOT(backfromOverview()));
     connect(&RoomOverview, SIGNAL(addItemClicked()), this, SLOT(addNemItem()));
     connect(&addItem, SIGNAL(cancelClicked()), this, SLOT(moveToOverview()));
     connect(this, &AuctionRoom::callShowItems, &RoomOverview, &RoomOverview::showItems);
-    // connect(MySingleton::instance().worker, &Worker::create_room_dataReceived,&addItem, &addItem::handleRoomCreationStatus);
-
 
 
 }
@@ -71,6 +75,9 @@ void AuctionRoom::moveToOverview(){
 
 void AuctionRoom::addNemItem(){
     ui->stackedWidget_2->setCurrentIndex(2);
+}
+void AuctionRoom::moveToParticipant(){
+    ui->stackedWidget_2->setCurrentIndex(3);
 }
 void AuctionRoom::on_btn_bin_clicked()
 {

@@ -16,7 +16,7 @@ RoomOverview::RoomOverview(QWidget *parent)
     QPixmap logo(":/image/logo_auction.png");
     ui->label_logo_2->setPixmap(logo.scaled(100,100,Qt::KeepAspectRatio));
     ui->btn_backAuctionroom->setIcon(QIcon(":/image/icon_back.jpeg"));
-    // scroll area
+
 
 }
 
@@ -82,5 +82,11 @@ void RoomOverview::on_btn_add_clicked()
 {
     emit addItemClicked();
     qDebug(":)");
+}
+
+
+void RoomOverview::on_pushButton_clicked()
+{
+    emit participantClicked();
 }
 
