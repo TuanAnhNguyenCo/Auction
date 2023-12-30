@@ -7,7 +7,7 @@
 #include <QGridLayout>
 #include <QGroupBox>
 #include "config.h"
-
+#include <QMessageBox>
 RoomOverview::RoomOverview(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::RoomOverview)
@@ -66,10 +66,15 @@ void RoomOverview::showItems()
             }else  item_status = new QLabel("Sold");
 
             groupBoxLayout->addWidget(item_status);
-            // Add button to join room
+            // Add button to view item
             QPushButton* item_btn_view = new QPushButton("View");
             groupBoxLayout->addWidget(item_btn_view,0, Qt::AlignRight);
             connect(item_btn_view, &QPushButton::clicked, this, &RoomOverview::on_btn_backAuctionroom_clicked);
+            // Add button to delete item
+            QPushButton* item_btn_delete = new QPushButton("Delete");
+            groupBoxLayout->addWidget(item_btn_delete,0, Qt::AlignRight);
+            connect(item_btn_delete, &QPushButton::clicked, this, &RoomOverview::deleteItem);
+
             scrollLayout->addWidget(item);
         }
     }
@@ -81,9 +86,14 @@ void RoomOverview::showItems()
 void RoomOverview::on_btn_add_clicked()
 {
     emit addItemClicked();
-    qDebug(":)");
 }
+void RoomOverview::deleteItem()
+{
+    QMessageBox::StandardButton reply;
+    QMessageBox::question(this, "Confirm message", "Delete this item?",
+                          QMessageBox::Yes | QMessageBox::No);
 
+}
 
 void RoomOverview::on_pushButton_clicked()
 {

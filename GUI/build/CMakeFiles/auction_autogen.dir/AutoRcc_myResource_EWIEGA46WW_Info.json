@@ -1,0 +1,26 @@
+{
+	"BUILD_DIR" : "/Users/dieulinh/ltm/Auction/GUI/build/auction_autogen",
+	"CMAKE_BINARY_DIR" : "/Users/dieulinh/ltm/Auction/GUI/build",
+	"CMAKE_CURRENT_BINARY_DIR" : "/Users/dieulinh/ltm/Auction/GUI/build",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/Users/dieulinh/ltm/Auction/GUI",
+	"CMAKE_SOURCE_DIR" : "/Users/dieulinh/ltm/Auction/GUI",
+	"GENERATOR" : "Unix Makefiles",
+	"INCLUDE_DIR" : "/Users/dieulinh/ltm/Auction/GUI/build/auction_autogen/include",
+	"INPUTS" : 
+	[
+		"/Users/dieulinh/ltm/Auction/GUI/con-cho.jpeg",
+		"/Users/dieulinh/ltm/Auction/GUI/logo_auction.png",
+		"/Users/dieulinh/ltm/Auction/GUI/icon_overview.png",
+		"/Users/dieulinh/ltm/Auction/GUI/icon_back.jpeg"
+	],
+	"LOCK_FILE" : "/Users/dieulinh/ltm/Auction/GUI/build/CMakeFiles/auction_autogen.dir/AutoRcc_myResource_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "-name", "myResource" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_myResource.cpp",
+	"RCC_EXECUTABLE" : "/opt/homebrew/share/qt/libexec/rcc",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "/Users/dieulinh/ltm/Auction/GUI/build/CMakeFiles/auction_autogen.dir/AutoRcc_myResource_EWIEGA46WW_Used.txt",
+	"SOURCE" : "/Users/dieulinh/ltm/Auction/GUI/myResource.qrc",
+	"VERBOSITY" : 0
+}
