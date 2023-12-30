@@ -1,5 +1,7 @@
 #include "auctionroom.h"
 #include "ui_auctionroom.h"
+#include "room.h"
+#include "config.h"
 #include <QPixmap>
 #include <QMessageBox>
 
@@ -20,9 +22,18 @@ AuctionRoom::AuctionRoom(QWidget *parent)
     // navigate
     ui->stackedWidget_2->insertWidget(1, &RoomOverview);
     ui->stackedWidget_2->insertWidget(2,&addItem);
+
+    ui->stackedWidget_2->insertWidget(3,&joinerManage);
+   
+    connect(&RoomOverview, SIGNAL(participantClicked()), this, SLOT(moveToParticipant()));
+    connect(&joinerManage, SIGNAL(backClicked()), this, SLOT(moveToOverview()));
+
+    MySingleton::instance().auction_root_ui = ui->stackedWidget_2;
     connect(&RoomOverview, SIGNAL(backtoRoomClicked()), this, SLOT(backfromOverview()));
     connect(&RoomOverview, SIGNAL(addItemClicked()), this, SLOT(addNemItem()));
     connect(&addItem, SIGNAL(cancelClicked()), this, SLOT(moveToOverview()));
+    connect(this, &AuctionRoom::callShowItems, &RoomOverview, &RoomOverview::showItems);
+
 
 }
 
@@ -40,23 +51,33 @@ void AuctionRoom::on_btn_bid_clicked()
 // navigate
 void AuctionRoom::on_btn_backHome_clicked() //back home
 {
+    OutRoomMess outRoomMess;
+    outRoomMess.user_id = MySingleton::instance().getAccount().id;
+    send(MySingleton::instance().getValue(), "19",BUFF_SIZE-1, 0);
+    send(MySingleton::instance().getValue(), &outRoomMess, sizeof(OutRoomMess), 0);
     emit HomeClicked();
 }
 void AuctionRoom::on_btn_overview_clicked()
 {
+    emit callShowItems();
     ui->stackedWidget_2->setCurrentIndex(1);
 }
 
 void AuctionRoom::backfromOverview(){
+
     ui->stackedWidget_2->setCurrentIndex(0);
 }
 
 void AuctionRoom::moveToOverview(){
+    emit callShowItems();
     ui->stackedWidget_2->setCurrentIndex(1);
 }
 
 void AuctionRoom::addNemItem(){
     ui->stackedWidget_2->setCurrentIndex(2);
+}
+void AuctionRoom::moveToParticipant(){
+    ui->stackedWidget_2->setCurrentIndex(3);
 }
 void AuctionRoom::on_btn_bin_clicked()
 {

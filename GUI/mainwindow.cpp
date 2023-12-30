@@ -18,6 +18,12 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    worker = new Worker();
+    workerThread = new QThread();
+
+    worker->moveToThread(workerThread);
+    MySingleton::instance().worker = worker;
+
     QPixmap logo(":/image/logo_auction.png");
     ui->label_logo_2->setPixmap(logo.scaled(100,100,Qt::KeepAspectRatio));
     ui->stackedWidget->insertWidget(1, &CreatePage);
@@ -25,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->insertWidget(3,&AuctionRoom);
     ui->stackedWidget->insertWidget(4,&LogIn);
     ui->stackedWidget->insertWidget(5,&SignUp);
-    ui->stackedWidget->setCurrentIndex(0); // set up Login page
+    ui->stackedWidget->setCurrentIndex(4); // set up Login page
     MySingleton::instance().home = ui->stackedWidget;
     connect(&CreatePage, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
     connect(&CreatePage, SIGNAL(HistoryClicked()), this, SLOT(moveHistoryTab()));
@@ -37,10 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&SignUp,SIGNAL(LoginClicked()), this, SLOT(moveLoginPage()));
 
 
-    worker = new Worker();
-    workerThread = new QThread();
 
-    worker->moveToThread(workerThread);
 
 
 
@@ -50,6 +53,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(worker, &Worker::signout_dataReceived,this, &MainWindow::handleLogout);
     connect(worker, &Worker::join_room_dataRecieved,this, &MainWindow::moveAuctionRoom);
     connect(worker, &Worker::create_room_dataRecieved,&CreatePage, &CreatePage::handleMessageFromRoomCreationRequest);
+    connect(worker, &Worker::create_item_dataReceived,&AuctionRoom.addItem, &addItem::handleRoomCreationStatus);
+
+
 
 
 

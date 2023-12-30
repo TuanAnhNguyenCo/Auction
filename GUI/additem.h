@@ -20,6 +20,8 @@ private slots:
     void on_btn_save_clicked();
     void on_btn_cancel_clicked();
     void on_btn_back_clicked();
+public slots:
+    void handleRoomCreationStatus(char *message);
 signals:
     void cancelClicked();
 private:

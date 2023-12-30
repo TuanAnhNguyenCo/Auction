@@ -5,6 +5,7 @@
 #include <QInputDialog>
 #include "roomoverview.h"
 #include "additem.h"
+#include "joinermanage.h"
 namespace Ui {
 class AuctionRoom;
 }
@@ -18,6 +19,7 @@ public:
     ~AuctionRoom();
 signals:
     void HomeClicked();
+    void callShowItems();
 private slots:
     void on_btn_backHome_clicked();
     void on_btn_bid_clicked();
@@ -26,11 +28,21 @@ private slots:
     void moveToOverview();
     void on_btn_bin_clicked();
     void addNemItem();
+    void moveToParticipant();
+
 
 private:
     Ui::AuctionRoom *ui;
-    RoomOverview RoomOverview;
+
+public:
     addItem addItem;
+
+    JoinerManage joinerManage;
+
+    RoomOverview RoomOverview;
+
 };
+
+
 
 #endif // AUCTIONROOM_H

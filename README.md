@@ -11,7 +11,8 @@ item.txt - luu item: id - room_id - reserve_price - BIN_price - description - cr
 # client
 - sign in, sign up, logout
 - create auction room
-- join room
+- join room 
+- out room
 =======
 1: sign up
 2: login - gui status neu OK, gui account hien tai

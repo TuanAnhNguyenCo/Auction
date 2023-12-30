@@ -17,6 +17,8 @@ signals:
     void signout_dataReceived(char *message);
     void create_room_dataRecieved(char *message);
     void join_room_dataRecieved(char *message);
+    void leaveRoom_dataReceived(char *message);
+    void create_item_dataReceived(char *message);
 };
 
 #endif // WORKER_H

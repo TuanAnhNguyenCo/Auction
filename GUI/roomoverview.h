@@ -17,10 +17,16 @@ public:
 signals:
     void backtoRoomClicked();
     void addItemClicked();
+    void participantClicked();
 private slots:
     void on_btn_backAuctionroom_clicked();
-
     void on_btn_add_clicked();
+
+    void on_pushButton_clicked();
+
+public slots:
+    void showItems();
+
 
 private:
     Ui::RoomOverview *ui;
