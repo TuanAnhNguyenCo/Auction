@@ -34,10 +34,15 @@ private slots:
     void on_btn_bin_clicked();
     void addNemItem();
     void moveToParticipant();
+    void on_startAuction_clicked();
+
 public slots:
     void showItem();
     void showItemByID(int id);
     void notify(char *message);
+    void setNewTime();
+    void stopTime();
+    void showAlertMessage();
 
 
 private:

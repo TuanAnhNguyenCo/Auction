@@ -58,6 +58,7 @@ void RoomOverview::showItems()
     std::list<Item>::iterator it = items.begin();
     for (int groupIndex = 0; it != items.end() && groupIndex < size; ++it, ++groupIndex) {
         Item goods = *it;
+
         if (goods.room_id == MySingleton::instance().joinedRoom.id)
         {
             QGroupBox* item = new QGroupBox();

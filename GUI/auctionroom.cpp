@@ -6,6 +6,10 @@
 #include <QMessageBox>
 #include <QScrollArea>
 #include <QElapsedTimer>
+#include <QGraphicsOpacityEffect>
+#include <QPropertyAnimation>
+#include <QApplication>
+#include <QDesktopWidget>
 
 
 AuctionRoom::AuctionRoom(QWidget *parent)
@@ -64,9 +68,9 @@ void AuctionRoom::on_btn_bid_clicked()
 {
     long double bidding = QInputDialog::getDouble(this, tr("New bidding"),"Enter your bidding");
     long double current_prices = ui->new_prices->text().toDouble();
-    if (bidding <= current_prices)
+    if (bidding - current_prices < 10000 )
     {
-        QMessageBox::information(this, tr("Failed"), "The bidding price must be higher than the current price");
+        QMessageBox::information(this, tr("Failed"), "Each bid has to be greater than 10000 compared with the current price");
     }else{
         BidMess bidMess;
         bidMess.user_id = MySingleton::instance().getAccount().id;
@@ -80,10 +84,30 @@ void AuctionRoom::updateCounter()
 {
     // Giảm thời gian còn lại
     remainingTime--;
+    // alert
+    if (remainingTime == 60)
+    {
+        if(MySingleton::instance().getAccount().id == MySingleton::instance().joinedRoom.proprietor_id)
+        {
+            GetParticipateMess mess;
+            mess.room_id = MySingleton::instance().joinedRoom.id;
+            send(MySingleton::instance().getValue(), "23", BUFF_SIZE-1, 0);
+            send(MySingleton::instance().getValue(), &mess, sizeof(GetParticipateMess), 0);
+        }
+    }
 
     // Kiểm tra xem thời gian còn lại có âm không
     if (remainingTime < 0) {
+        timer->stop();
+        MySingleton::instance().is_auctioning = 0;
         qDebug() << "Countdown finished!";
+        if(MySingleton::instance().getAccount().id == MySingleton::instance().joinedRoom.proprietor_id)
+        {
+            CloseItemMess closeItemMess;
+            closeItemMess.item_id = MySingleton::instance().current_item_id;
+            send(MySingleton::instance().getValue(), "21", BUFF_SIZE-1, 0);
+            send(MySingleton::instance().getValue(), &closeItemMess, sizeof(CloseItemMess), 0);
+        }
         return;
     }
 
@@ -97,28 +121,65 @@ void AuctionRoom::updateCounter()
     ui->lcdNumber->display(QString("%1:%2").arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0')));
 }
 
+void AuctionRoom::setNewTime(){
+    if (timer){
+        // Dừng timer
+        timer->stop();
+    }
+    // Khởi tạo timer
+    timer = new QTimer(this);
+
+    // Tạo bộ đếm mới
+    remainingTime = 120;
+
+    // Kết nối sự kiện timeout của timer với hàm updateCounter
+    QObject::connect(timer, &QTimer::timeout, this, &AuctionRoom::updateCounter);
+
+    // Đặt khoảng thời gian giữa các sự kiện timeout là 1000 ms (1 giây)
+    timer->start(1000);
+}
+
+void AuctionRoom::stopTime(){
+    if (timer){
+        MySingleton::instance().is_auctioning = 0;
+        // Dừng timer
+        timer->stop();
+        ui->lcdNumber->display(QString("%1:%2").arg(0, 2, 10, QChar('0')).arg(0, 2, 10, QChar('0')));
+    }
+}
+
+void AuctionRoom::showAlertMessage(){
+    QLabel *notification = new QLabel("!Important: Remaining Time: 1 minute", this);
+    notification->setMinimumSize(QSize(400, 40));
+    notification->setStyleSheet("background-color: black; color: red; padding: 10px; border-radius: 10px;");
+    notification->setWindowFlags(Qt::SubWindow);  // Make it a child of the main window
+
+    QPropertyAnimation *animation = new QPropertyAnimation(notification, "geometry");
+    animation->setDuration(3000); // 5 seconds
+
+    int startPosX = this->width(); // Start from the right inside the main window
+    int endPosX = this->width()/2; // End off the left edge of the main window
+
+    animation->setStartValue(QRect(startPosX, 50, notification->width(), notification->height()));
+    animation->setEndValue(QRect(endPosX, 50, notification->width(), notification->height()));
+
+    // Timer to control the lifetime of the notification
+    QTimer *lifetimeTimer = new QTimer(this);
+    lifetimeTimer->setSingleShot(true); // Trigger only once
+
+    connect(lifetimeTimer, &QTimer::timeout, this, [notification, lifetimeTimer]() {
+        notification->hide(); // Hide the notification
+        notification->deleteLater(); // Schedule the notification for deletion
+        lifetimeTimer->deleteLater(); // Schedule the timer for deletion
+    });
+
+    notification->show();
+    animation->start();
+    lifetimeTimer->start(6000);
+}
+
 
 void AuctionRoom::notify(char *message){
-
-    // if (timer){
-    //     // Dừng timer
-    //     timer->stop();
-    // }
-    // // Khởi tạo timer
-    // timer = new QTimer(this);
-
-
-
-    // // Tạo bộ đếm mới
-    // remainingTime = 120;
-
-
-
-    // // Kết nối sự kiện timeout của timer với hàm updateCounter
-    // QObject::connect(timer, &QTimer::timeout, this, &AuctionRoom::updateCounter);
-
-    // // Đặt khoảng thời gian giữa các sự kiện timeout là 1000 ms (1 giây)
-    // timer->start(1000);
 
     QMessageBox::information(this, tr("Notification"), message);
 
@@ -127,6 +188,8 @@ void AuctionRoom::notify(char *message){
 
 void AuctionRoom::showItem(){
     int status = 0;
+    qDebug() << "Show item" << MySingleton::instance().is_auctioning;
+
     for (std::list<Item>::iterator it = MySingleton::instance().items.begin(); it != MySingleton::instance().items.end(); ++it){
         // qDebug() << "Room ID "<< MySingleton::instance().joinedRoom.id << "Loop ID " <<  it->room_id << "Status "<< it->status;
         if(it->room_id == MySingleton::instance().joinedRoom.id && it->status == 1 )
@@ -143,11 +206,19 @@ void AuctionRoom::showItem(){
             ui->label_nameOwner->setText(QString("Room owner ID: %1").arg(MySingleton::instance().joinedRoom.proprietor_id));
             ui->btn_bid->setVisible(true);
             ui->btn_bin->setVisible(true);
-            ui->new_prices->setText(QString::number(it->reserve_price, 'f', 2));
+            ui->new_prices->setText(QString::number(it->current_price, 'f', 2));
             ui->label_closed->setVisible(false);
             ui->label_open->setVisible(true);
             if (MySingleton::instance().getAccount().id == MySingleton::instance().joinedRoom.proprietor_id)
             {
+                ui->btn_bid->setVisible(false);
+                ui->btn_bin->setVisible(false);
+                if (MySingleton::instance().is_auctioning == 1)
+                {
+                    ui->startAuction->setVisible(false);
+                }else ui->startAuction->setVisible(true);
+            }
+            if (MySingleton::instance().is_auctioning == 0){
                 ui->btn_bid->setVisible(false);
                 ui->btn_bin->setVisible(false);
             }
@@ -169,11 +240,11 @@ void AuctionRoom::showItem(){
         ui->new_prices->setText("");
         ui->label_closed->setVisible(false);
         ui->label_open->setVisible(false);
+        ui->startAuction->setVisible(false);
     }
 }
 
 void AuctionRoom::showItemByID(int ID){
-
     for (std::list<Item>::iterator it = MySingleton::instance().items.begin(); it != MySingleton::instance().items.end(); ++it){
         // qDebug() << "Room ID "<< MySingleton::instance().joinedRoom.id << "Loop ID " <<  it->room_id << "Status "<< it->status;
         if(it->id == ID )
@@ -186,11 +257,12 @@ void AuctionRoom::showItemByID(int ID){
             ui->label_description->setWordWrap(true);
             ui->label_nameRoom->setText(MySingleton::instance().joinedRoom.name);
             ui->label_nameOwner->setText(QString("User ID: %1").arg(MySingleton::instance().joinedRoom.proprietor_id));
-            ui->new_prices->setText(QString::number(it->reserve_price, 'f', 2));
+            ui->new_prices->setText(QString::number(it->current_price, 'f', 2));
             ui->btn_bid->setVisible(false);
             ui->btn_bin->setVisible(false);
             ui->label_closed->setVisible(true);
             ui->label_open->setVisible(false);
+            ui->startAuction->setVisible(false);
             break;
         }
     }
@@ -205,6 +277,7 @@ void AuctionRoom::on_btn_backHome_clicked() //back home
     send(MySingleton::instance().getValue(), "19",BUFF_SIZE-1, 0);
     send(MySingleton::instance().getValue(), &outRoomMess, sizeof(OutRoomMess), 0);
     emit HomeClicked();
+    stopTime();
 }
 void AuctionRoom::on_btn_overview_clicked()
 {
@@ -248,8 +321,15 @@ void AuctionRoom::on_btn_bin_clicked()
             binMess.item_id = MySingleton::instance().current_item_id;
             send(MySingleton::instance().getValue(), "16", BUFF_SIZE-1, 0);
             send(MySingleton::instance().getValue(), &binMess, sizeof(BinMess), 0);
+
         }
     }
 
+}
+
+
+void AuctionRoom::on_startAuction_clicked()
+{
+    send(MySingleton::instance().getValue(), "22", BUFF_SIZE-1, 0);
 }
 

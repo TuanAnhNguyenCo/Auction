@@ -250,6 +250,18 @@ void *handle_client(void *args)
             char messageUpdate[BUFF_SIZE] = "#update_item";
             send_all_client(listAccounts, messageUpdate);
         }
+        else if (atoi(message) == 22)
+        {
+            char messageStartBidding[BUFF_SIZE] = "#start_bidding";
+            send_all_client(listAccounts, messageStartBidding);
+        }
+        else if (atoi(message) == 23)
+        {
+            GetParticipateMess mess;
+            recv(connectSocket, &mess, sizeof(GetParticipateMess), 0);
+            char messageAlert[BUFF_SIZE] = "#Alert";
+            send_participate(listAccounts, listAccountRooms, messageAlert, mess.room_id);
+        }
     }
 }
 
@@ -259,7 +271,7 @@ int main(int argc, char *argv[])
     {
         cout << "abcd" << endl;
     }
-    // signal(SIGPIPE, SIG_IGN);
+    signal(SIGPIPE, SIG_IGN);
 
     int listenSocket, connectSocket;
     get_accounts(&listAccounts);

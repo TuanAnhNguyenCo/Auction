@@ -101,5 +101,10 @@ typedef struct
     int item_id;
 } DeleteItemMess;
 
+typedef struct
+{
+    int item_id;
+} CloseItemMess;
+
 
 #endif // ROOM_H

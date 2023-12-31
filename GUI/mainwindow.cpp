@@ -61,6 +61,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(worker, &Worker::updateAuctionItem,&AuctionRoom, &AuctionRoom::showItem);
     connect(worker, &Worker::updateAuctionItemByID,&AuctionRoom, &AuctionRoom::showItemByID);
     connect(worker, &Worker::callShowItems,&AuctionRoom.RoomOverview, &RoomOverview::showItems);
+    connect(worker, &Worker::setNewTime,&AuctionRoom, &AuctionRoom::setNewTime);
+    connect(worker, &Worker::stopTime,&AuctionRoom, &AuctionRoom::stopTime);
+    connect(worker, &Worker::showAlertMessage,&AuctionRoom, &AuctionRoom::showAlertMessage);
 
     workerThread->start();
 

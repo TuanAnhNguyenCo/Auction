@@ -153,6 +153,19 @@ void Worker::doWork() {
         {
             MySingleton::instance().getParticipents();
         }
+        if (strcmp(message,"#update_time")==0)
+        {
+            emit setNewTime();
+            qDebug("SetNewTime");
+        }
+        if(strcmp(message,"#stop_time") ==0)
+        {
+            emit stopTime();
+        }
+        if(strcmp(message,"#Alert") ==0)
+        {
+            emit showAlertMessage();
+        }
 
         if (strcmp(message,"#message16") == 0)
         {
@@ -189,8 +202,9 @@ void Worker::doWork() {
             for (int i = 0; i < atoi(num_items); i++)
             {
                 Item item;
-                rcvBytes = recv(MySingleton::instance().getValue(), &item, sizeof(Item), 0);
+                recv(MySingleton::instance().getValue(), &item, sizeof(Item), 0);
                 MySingleton::instance().items.push_back(item);
+
             }
 
             emit updateAuctionItem();
@@ -258,6 +272,22 @@ void Worker::doWork() {
             {
                 emit handleKickingMember();
             }
+
+        }
+        if (strcmp(message,"#message21") == 0)
+        {
+            char respond[BUFF_SIZE];
+            rcvBytes = recv(MySingleton::instance().getValue(), respond, BUFF_SIZE - 1, 0);
+            if (rcvBytes > 0){
+                respond[rcvBytes] = '\0';
+            }
+            qDebug() << "Respond from closing item " << respond;
+        }
+        if (strcmp(message,"#start_bidding") == 0)
+        {
+            MySingleton::instance().is_auctioning = 1;
+            emit setNewTime();
+            emit updateAuctionItem();
 
         }
 

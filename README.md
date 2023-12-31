@@ -37,3 +37,5 @@ item.txt - luu item: id - room_id - current_price - BIN_price - description - cr
 18: get items - gui size room(char mess[BUFF_SIZE]) => gui tung room
 19: out room - gui status => update_account_room
 20: get participate - gui size participate(char mess[BUFF_SIZE]) => gui tung account (struct Account)
+22: start auction => #OK
+23: alert when remaning time equals 1 minute

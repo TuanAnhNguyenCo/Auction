@@ -385,7 +385,7 @@ int recv_and_handle_out_rooms(int conn_sock, list<AuctionRoomParticipate> *list_
 
 int recv_and_handle_get_participate(int conn_sock, list<AuctionRoomParticipate> *list_account_rooms, list<Account> *list_accounts)
 {
-    cout << "Getting participate..." << endl;
+    // cout << "Getting participate..." << endl;
     GetParticipateMess roomMess;
     int rcvBytes = recv(conn_sock, &roomMess, sizeof(GetParticipateMess), 0);
     if (rcvBytes <= 0)

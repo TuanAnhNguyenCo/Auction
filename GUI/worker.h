@@ -26,6 +26,9 @@ signals:
     void updateAuctionItem();
     void updateAuctionItemByID(int id);
     void callShowItems();
+    void setNewTime();
+    void stopTime();
+    void showAlertMessage();
 };
 
 #endif // WORKER_H

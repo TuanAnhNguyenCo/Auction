@@ -30,7 +30,8 @@ public:
     void getRooms();
     void getItems();
     void getParticipents();
-    int current_item_id;
+    int current_item_id = -1;
+    int is_auctioning = 0; // 1 is auctioning
     std::list<AuctionRoomStruct> auction_rooms;
     std::list<Item> items;
     std::list<Participents> participents;

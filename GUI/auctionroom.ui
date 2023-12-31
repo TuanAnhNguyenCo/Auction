@@ -518,6 +518,19 @@ color:'green'</string>
       </rect>
      </property>
     </widget>
+    <widget class="QPushButton" name="startAuction">
+     <property name="geometry">
+      <rect>
+       <x>570</x>
+       <y>500</y>
+       <width>121</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Start bidding</string>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>

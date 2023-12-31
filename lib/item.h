@@ -169,6 +169,7 @@ int recv_and_handle_get_items(int conn_sock, list<Item> *items)
     send(conn_sock, message, BUFF_SIZE - 1, 0);
     for (Item &item : *items)
     {
+       
         send(conn_sock, &item, sizeof(Item), 0);
     }
     return 1;
