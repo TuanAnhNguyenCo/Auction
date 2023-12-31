@@ -77,6 +77,35 @@ void Worker::doWork() {
             emit join_room_dataRecieved(respond);
         }
 
+        if (strcmp(message,"#message6") == 0)
+        {
+            char respond[BUFF_SIZE];
+            rcvBytes = recv(MySingleton::instance().getValue(), respond, BUFF_SIZE - 1, 0);
+            if (rcvBytes > 0){
+                respond[rcvBytes] = '\0';
+            }
+            qDebug() << "Respond from bidding item " << respond;
+            if (strcmp(respond,"#OK")==0){
+                char notification[BUFF_SIZE-1];
+                strcpy(notification,"The bidding item is successful");
+                emit bid_dataReceived(notification);
+            }else{
+                char notification[BUFF_SIZE-1];
+                strcpy(notification,"Failed, please try against");
+                emit bid_dataReceived(notification);
+            }
+        }
+
+        if (strcmp(message,"#message9") == 0)
+        {
+            char respond[BUFF_SIZE];
+            rcvBytes = recv(MySingleton::instance().getValue(), respond, BUFF_SIZE - 1, 0);
+            if (rcvBytes > 0){
+                respond[rcvBytes] = '\0';
+            }
+            qDebug() << "Respond from deleting item " << respond;
+        }
+
         if (strcmp(message,"#message10") == 0)
         {
             char respond[BUFF_SIZE];
@@ -124,6 +153,30 @@ void Worker::doWork() {
         {
             MySingleton::instance().getParticipents();
         }
+
+        if (strcmp(message,"#message16") == 0)
+        {
+            char respond[BUFF_SIZE];
+            rcvBytes = recv(MySingleton::instance().getValue(), respond, BUFF_SIZE - 1, 0);
+            if (rcvBytes > 0){
+                respond[rcvBytes] = '\0';
+            }
+            qDebug() << "Respond from bin item " << respond;
+            if (strcmp(respond,"#OK")==0){
+                char notification[BUFF_SIZE-1];
+                strcpy(notification,"Bin is successful");
+                emit bid_dataReceived(notification);
+            }else{
+                char notification[BUFF_SIZE-1];
+                strcpy(notification,"Failed, please try against");
+                emit bid_dataReceived(notification);
+            }
+
+
+
+
+        }
+
         // recieve items
         if (strcmp(message,"#message18")==0)
         {
@@ -140,6 +193,10 @@ void Worker::doWork() {
                 MySingleton::instance().items.push_back(item);
             }
 
+            emit updateAuctionItem();
+            emit callShowItems();
+            // emit updateAuctionItemByID(MySingleton::instance().current_item_id);
+
         }
         if (strcmp(message,"#message19")==0)
         {
@@ -147,6 +204,10 @@ void Worker::doWork() {
             rcvBytes = recv(MySingleton::instance().getValue(), respond, BUFF_SIZE - 1, 0);
             if (rcvBytes > 0){
                 respond[rcvBytes] = '\0';
+            }
+            if (strcmp(respond,"#OK") ==0)
+            {
+                MySingleton::instance().joinedRoom.id = -2;
             }
             qDebug("Message: #Out room") ;
 
@@ -177,11 +238,14 @@ void Worker::doWork() {
             }
             // if status == 0 will be send off because User have been kicked
             if (status == 1){
-                MySingleton::instance().joinedRoom.id = -1;
-                emit sendOff();
-                char notification[BUFF_SIZE-1];
-                strcpy(notification,"You have been sent off by proprietor");
-                emit notifyInfo(notification);
+                if (MySingleton::instance().joinedRoom.id != -2)
+                {
+                    MySingleton::instance().joinedRoom.id = -1;
+                    emit sendOff();
+                    char notification[BUFF_SIZE-1];
+                    strcpy(notification,"You have been sent off by proprietor");
+                    emit notifyInfo(notification);
+                }
             }
             MySingleton::instance().mems.accounts.clear();
             MySingleton::instance().mems.accounts = participents;

@@ -18,6 +18,7 @@ signals:
     void backtoRoomClicked();
     void addItemClicked();
     void participantClicked();
+    void callItemByID(int id);
 private slots:
     void on_btn_backAuctionroom_clicked();
     void on_btn_add_clicked();
@@ -26,6 +27,8 @@ private slots:
 
 public slots:
     void showItems();
+
+
 
 
 private:
