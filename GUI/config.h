@@ -29,13 +29,20 @@ public:
     void setAccount(Account account);
     void getRooms();
     void getItems();
+    void getParticipents();
     std::list<AuctionRoomStruct> auction_rooms;
     std::list<Item> items;
+    std::list<Participents> participents;
+    std::list<int> room_ids;
+    Participents mems;
+
+
     QStackedWidget *auction_root_ui;
     QStackedWidget *home;
     QWidget* scrollRoomsContent;
     AuctionRoomStruct joinedRoom;
     Worker *worker;
+
 
 
 private:

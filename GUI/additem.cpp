@@ -79,7 +79,7 @@ void addItem::on_btn_back_clicked()
 
 void addItem::handleRoomCreationStatus(char *message){
     qDebug() << "add item " << message;
-    if (strcmp(message,"#OK")){
+    if (strcmp(message,"#OK")==0){
         QMessageBox::information(this, tr("ADD AN ITEM"), tr("Add an item successfully."));
 
         ui->lineEdit_name->setText("");
@@ -98,7 +98,11 @@ void addItem::handleRoomCreationStatus(char *message){
 
 void addItem::on_btn_cancel_clicked()
 {
-    QMessageBox::information(this, tr("Don't save"), tr("Delete this item."));
+    ui->lineEdit_name->setText("");
+    ui->lineEdit_manufacturer->setText("");
+    ui->lineEdit_startingPrice->setText("");
+    ui->lineEdit_binprice->setText("");
+    ui->textEdit_description->setText("");
     emit cancelClicked();
 
 }

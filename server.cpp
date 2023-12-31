@@ -75,6 +75,7 @@ void *handle_client(void *args)
         {
             char messageType[BUFF_SIZE] = "#message3";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
+
             if (recv_and_handle_logout(connectSocket, &listAccountRooms, &listAccounts) == 0)
             {
                 break;
@@ -216,6 +217,7 @@ int main(int argc, char *argv[])
     {
         cout << "abcd" << endl;
     }
+    signal(SIGPIPE, SIG_IGN);
 
     int listenSocket, connectSocket;
     get_accounts(&listAccounts);

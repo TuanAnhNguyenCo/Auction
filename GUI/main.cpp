@@ -1,7 +1,9 @@
 #include "mainwindow.h"
 #include "config.h"
-#include "worker.h"
+
 #include <QApplication>
+#include <unistd.h>
+
 
 
 
@@ -12,6 +14,7 @@ int main(int argc, char *argv[])
     char SERV_IP[100];
     int server_sock;
     struct sockaddr_in server_addr;
+    signal(SIGPIPE, SIG_IGN);
 
     SERV_PORT = 5500;
     strcpy(SERV_IP, "127.0.0.1");
@@ -33,8 +36,13 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
 
-
-
+    // Connect the aboutToQuit signal to a lambda that closes the socket
+    QObject::connect(&a, &QCoreApplication::aboutToQuit, [&]() {
+        if (server_sock >= 0) {
+            ::close(MySingleton::instance().getValue());
+            qDebug() << "Socket closed successfully.";
+        }
+    });
 
     w.show();
 

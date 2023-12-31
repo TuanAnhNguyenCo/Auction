@@ -18,6 +18,8 @@ private slots:
     void kickUser();
 
     void on_btn_back_clicked();
+public slots:
+    void showParticipents();
 signals:
     void backClicked();
 private:
