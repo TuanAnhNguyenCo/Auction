@@ -25,6 +25,7 @@ signals:
     void bid_dataReceived(char *message);
     void updateAuctionItem();
     void updateAuctionItemByID(int id);
+    void callShowItems();
 };
 
 #endif // WORKER_H

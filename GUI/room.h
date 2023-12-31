@@ -93,5 +93,12 @@ typedef struct
     int item_id;
 } BinMess;
 
+typedef struct
+{
+    int user_id;
+    int room_id;
+    int item_id;
+} DeleteItemMess;
+
 
 #endif // ROOM_H

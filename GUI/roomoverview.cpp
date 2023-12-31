@@ -33,6 +33,10 @@ void RoomOverview::on_btn_backAuctionroom_clicked()
 void RoomOverview::showItems()
 {
     qDebug("Move to overview");
+    if (MySingleton::instance().getAccount().id == MySingleton::instance().joinedRoom.proprietor_id )
+    {
+      ui->btn_add->setVisible(true);
+    }else ui->btn_add->setVisible(false);
     QWidget* scrollContent = ui->scrollAreaWidgetContents;
     QScrollArea* scrollArea = ui->scrollArea;
     // Remove any existing layout from scrollContent
@@ -83,10 +87,21 @@ void RoomOverview::showItems()
                 MySingleton::instance().auction_root_ui->setCurrentIndex(0);
 
             });
-            // Add button to delete item
-            QPushButton* item_btn_delete = new QPushButton("Delete");
-            groupBoxLayout->addWidget(item_btn_delete,0, Qt::AlignRight);
-            connect(item_btn_delete, &QPushButton::clicked, this, &RoomOverview::deleteItem);
+            if (MySingleton::instance().getAccount().id == MySingleton::instance().joinedRoom.proprietor_id && goods.status == 1)
+            {
+                // Add button to delete item
+                QPushButton* item_btn_delete = new QPushButton("Delete");
+                groupBoxLayout->addWidget(item_btn_delete,0, Qt::AlignRight);
+                connect(item_btn_delete, &QPushButton::clicked, [this, goods]() {
+                    DeleteItemMess itemMess;
+                    itemMess.user_id = MySingleton::instance().getAccount().id;
+                    itemMess.item_id = goods.id;
+                    itemMess.room_id = MySingleton::instance().joinedRoom.id;
+                    send(MySingleton::instance().getValue(), "9",BUFF_SIZE-1, 0);
+                    send(MySingleton::instance().getValue(), &itemMess, sizeof(itemMess), 0);
+                });
+            }
+
 
             scrollLayout->addWidget(item);
         }

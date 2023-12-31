@@ -92,6 +92,16 @@ void Worker::doWork() {
             }
         }
 
+        if (strcmp(message,"#message9") == 0)
+        {
+            char respond[BUFF_SIZE];
+            rcvBytes = recv(MySingleton::instance().getValue(), respond, BUFF_SIZE - 1, 0);
+            if (rcvBytes > 0){
+                respond[rcvBytes] = '\0';
+            }
+            qDebug() << "Respond from deleting item " << respond;
+        }
+
         if (strcmp(message,"#message10") == 0)
         {
             char respond[BUFF_SIZE];
@@ -176,6 +186,7 @@ void Worker::doWork() {
             }
 
             emit updateAuctionItem();
+            emit callShowItems();
             // emit updateAuctionItemByID(MySingleton::instance().current_item_id);
 
         }
