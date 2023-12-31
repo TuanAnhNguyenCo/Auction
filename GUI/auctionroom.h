@@ -20,6 +20,7 @@ public:
 signals:
     void HomeClicked();
     void callShowItems();
+    void callShowMembers();
 private slots:
     void on_btn_backHome_clicked();
     void on_btn_bid_clicked();

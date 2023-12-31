@@ -35,6 +35,7 @@ AuctionRoom::AuctionRoom(QWidget *parent)
     connect(&RoomOverview, SIGNAL(addItemClicked()), this, SLOT(addNemItem()));
     connect(&addItem, SIGNAL(cancelClicked()), this, SLOT(moveToOverview()));
     connect(this, &AuctionRoom::callShowItems, &RoomOverview, &RoomOverview::showItems);
+    connect(this, &AuctionRoom::callShowMembers, &joinerManage, &JoinerManage::showParticipents);
 
     // set description scrollable
     ui->label_description->setText("Trên bàn là một chú mèo xinh xắn, đen trắng như bức tranh họa với bộ lông mềm mại và mắt to tròn nhìn đầy tò mò. Bộ lông màu đen huyền bí xen kẽ với những vạch trắng tinh tế, tạo nên một vẻ đẹp nổi bật và độc đáo.");
@@ -81,6 +82,7 @@ void AuctionRoom::addNemItem(){
     ui->stackedWidget_2->setCurrentIndex(2);
 }
 void AuctionRoom::moveToParticipant(){
+    emit callShowMembers();
     ui->stackedWidget_2->setCurrentIndex(3);
 }
 void AuctionRoom::on_btn_bin_clicked()

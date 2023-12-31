@@ -1,6 +1,11 @@
 #ifndef ROOM_H
 #define ROOM_H
 #include <ctime>
+#include "account.h"
+#include <iostream>
+#include <QDebug>
+
+
 
 typedef struct
 {
@@ -53,5 +58,25 @@ typedef struct
     time_t created_at;
     time_t end;
 } CreateItemMess;
+
+
+typedef struct
+{
+    int room_id;
+} GetParticipateMess;
+
+typedef struct
+{
+    int room_id;
+    std::list<Account> accounts;
+
+} Participents;
+
+typedef struct
+{
+    int user_id;
+    int proprietor_id;
+    int room_id;
+} KickMess;
 
 #endif // ROOM_H

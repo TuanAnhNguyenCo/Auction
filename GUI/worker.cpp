@@ -5,6 +5,7 @@
 #include <iostream>
 #include <QThread>
 #include <QDebug>
+#include <QMessageBox>
 
 
 Worker::Worker() {}
@@ -40,6 +41,8 @@ void Worker::doWork() {
                 MySingleton::instance().setAccount(account);
                 MySingleton::instance().getRooms();
                 MySingleton::instance().getItems();
+
+
             }
             emit signIn_dataReceived(respond);
         }
@@ -73,6 +76,17 @@ void Worker::doWork() {
 
             emit join_room_dataRecieved(respond);
         }
+
+        if (strcmp(message,"#message10") == 0)
+        {
+            char respond[BUFF_SIZE];
+            rcvBytes = recv(MySingleton::instance().getValue(), respond, BUFF_SIZE - 1, 0);
+            if (rcvBytes > 0){
+                respond[rcvBytes] = '\0';
+            }
+             qDebug() << "Respond from kicking member " << respond;
+        }
+
         // get message from creating auction
         if (strcmp(message,"#message11") == 0)
         {
@@ -102,9 +116,13 @@ void Worker::doWork() {
         {
             MySingleton::instance().getRooms();
         }
+        if ((strcmp(message,"#update_item") == 0))
+        {
+            MySingleton::instance().getItems();
+        }
         if (strcmp(message,"#update_account_room")==0)
         {
-            qDebug("Message: #update_account_room") ;
+            MySingleton::instance().getParticipents();
         }
         // recieve items
         if (strcmp(message,"#message18")==0)
@@ -131,6 +149,51 @@ void Worker::doWork() {
                 respond[rcvBytes] = '\0';
             }
             qDebug("Message: #Out room") ;
+
+        }
+        if (strcmp(message,"#message20")==0)
+        {
+            char num_participents[BUFF_SIZE];
+            std::list<Account> participents;
+
+            int rcvBytes = recv(MySingleton::instance().getValue(), num_participents, BUFF_SIZE - 1, 0);
+            num_participents[rcvBytes] = '\0';
+            MySingleton::instance().mems.room_id = MySingleton::instance().room_ids.back();
+            int status = 0;
+            if (MySingleton::instance().mems.room_id==MySingleton::instance().joinedRoom.id)
+            {
+                status = 1;
+            }
+            for (int i = 0; i < atoi(num_participents); i++)
+            {
+                Account participate;
+                rcvBytes = recv(MySingleton::instance().getValue(), &participate, sizeof(Account), 0);
+                participents.push_back(participate);
+                    if (MySingleton::instance().getAccount().id == participate.id)
+                    {
+                        status = 2;
+                    }
+
+            }
+            // if status == 0 will be send off because User have been kicked
+            if (status == 1){
+                MySingleton::instance().joinedRoom.id = -1;
+                emit sendOff();
+                char notification[BUFF_SIZE-1];
+                strcpy(notification,"You have been sent off by proprietor");
+                emit notifyInfo(notification);
+            }
+            MySingleton::instance().mems.accounts.clear();
+            MySingleton::instance().mems.accounts = participents;
+
+            MySingleton::instance().participents.push_back(MySingleton::instance().mems);
+            MySingleton::instance().room_ids.pop_back();
+
+            // show participents
+            if (MySingleton::instance().room_ids.size() == 0)
+            {
+                emit handleKickingMember();
+            }
 
         }
 
