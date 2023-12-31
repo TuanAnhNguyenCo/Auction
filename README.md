@@ -21,6 +21,8 @@ item.txt - luu item: id - room_id - current_price - BIN_price - description - cr
 - Bid
 - Bin
 - delete item
+- Alert when remaning time equals 1 minute
+- Count time
 
 =======
 1: sign up
