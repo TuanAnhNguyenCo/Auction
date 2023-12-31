@@ -5,7 +5,7 @@
 account_room.txt - luu nguoi tham gia: user_id - room_id
 account.txt - luu account: id - username - password - phone - address - status
 auction.txt - luu room: id - user_id - name - create_at - status
-item.txt - luu item: id - room_id - reserve_price - BIN_price - description - created_at - end - status - price_maker_id
+item.txt - luu item: id - room_id - current_price - BIN_price - description - created_at - end - status - price_maker_id - reserve_price
 # Features
 
 # client
