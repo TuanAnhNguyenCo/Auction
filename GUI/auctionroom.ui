@@ -163,19 +163,6 @@
      <property name="title">
       <string/>
      </property>
-     <widget class="QLineEdit" name="lineEdit_name">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>40</y>
-        <width>181</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">border-radius: 10px; padding: 2px; border: 1px solid gray; </string>
-      </property>
-     </widget>
      <widget class="QLabel" name="label_8">
       <property name="geometry">
        <rect>
@@ -228,24 +215,11 @@
        <string>BIN price:</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_12">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>170</y>
-        <width>81</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Auction time:</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="label_13">
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>200</y>
+        <y>170</y>
         <width>71</width>
         <height>16</height>
        </rect>
@@ -254,73 +228,121 @@
        <string>Description:</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_manufacturer">
+     <widget class="QLabel" name="label_nameItem">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>40</y>
+        <width>58</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Con mèo</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_manufacturerItem">
       <property name="geometry">
        <rect>
         <x>120</x>
         <y>80</y>
-        <width>221</width>
-        <height>21</height>
+        <width>58</width>
+        <height>16</height>
        </rect>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-radius: 10px; padding: 2px; border: 1px solid gray; 
-</string>
+      <property name="font">
+       <font>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>N/A</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_startingPrice">
+     <widget class="QLabel" name="label_startPrice">
       <property name="geometry">
        <rect>
         <x>120</x>
         <y>110</y>
-        <width>111</width>
-        <height>21</height>
+        <width>58</width>
+        <height>16</height>
        </rect>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-radius: 10px; padding: 2px; border: 1px solid gray; </string>
+      <property name="font">
+       <font>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>100.000</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_binprice">
+     <widget class="QLabel" name="label_binPrice">
       <property name="geometry">
        <rect>
         <x>120</x>
         <y>140</y>
-        <width>111</width>
-        <height>21</height>
+        <width>58</width>
+        <height>16</height>
        </rect>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-radius: 10px; padding: 2px; border: 1px solid gray; </string>
+      <property name="font">
+       <font>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>400.000</string>
       </property>
      </widget>
-     <widget class="QTimeEdit" name="timeEdit_auctiontime">
+     <widget class="QLabel" name="label_description">
       <property name="geometry">
        <rect>
-        <x>120</x>
+        <x>110</x>
         <y>170</y>
-        <width>121</width>
-        <height>22</height>
+        <width>251</width>
+        <height>181</height>
        </rect>
       </property>
-      <property name="currentSection">
-       <enum>QDateTimeEdit::HourSection</enum>
-      </property>
-      <property name="displayFormat">
-       <string>HH:mm:ss</string>
-      </property>
-     </widget>
-     <widget class="QTextEdit" name="textEdit_description">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>210</y>
-        <width>291</width>
-        <height>141</height>
-       </rect>
+      <property name="font">
+       <font>
+        <italic>true</italic>
+        <bold>false</bold>
+        <kerning>true</kerning>
+       </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">border-radius: 10px; padding: 2px; border: 1px solid gray; </string>
+       <string notr="true">padding : 2px;</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="lineWidth">
+       <number>2</number>
+      </property>
+      <property name="text">
+       <string>Trên bàn là một chú mèo xinh xắn, đen trắng như bức tranh họa với bộ lông mềm mại và mắt to tròn nhìn đầy tò mò. Bộ lông màu đen huyền bí xen kẽ với những vạch trắng tinh tế, tạo nên một vẻ đẹp nổi bật và độc đáo.
+
+Chú mèo này không chỉ là một đối tượng dễ thương mà còn trở thành một đối tác tuyệt vời trong việc quảng cáo và bán hàng. Khi được đặt trên các sản phẩm, hình ảnh của chú mèo tỏa ra sự thoải mái và an ninh, tạo nên một cảm giác thân thiện và gần gũi.
+
+Khả năng mô phỏng động của chú mèo không giới hạn. Từ cử động nhỏ như làm đầu vút lên hay vuốt đuôi, đến những tư thế đáng yêu như quay mình hay nhảy lên khỏi một chiếc hộp nhỏ, chú mèo mang lại không khí vui vẻ và dễ chịu. Những hình ảnh này không chỉ tạo ra sự kết nối với đối tượng mà còn kích thích sự quan tâm từ phía khách hàng.</string>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+      <property name="margin">
+       <number>0</number>
       </property>
      </widget>
     </widget>
