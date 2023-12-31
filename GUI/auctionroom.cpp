@@ -5,7 +5,7 @@
 #include <QPixmap>
 #include <QMessageBox>
 #include <QScrollArea>
-
+#include <QElapsedTimer>
 
 
 AuctionRoom::AuctionRoom(QWidget *parent)
@@ -38,6 +38,18 @@ AuctionRoom::AuctionRoom(QWidget *parent)
     connect(this, &AuctionRoom::callShowItems, &RoomOverview, &RoomOverview::showItems);
     connect(this, &AuctionRoom::callShowMembers, &joinerManage, &JoinerManage::showParticipents);
     // connect(this, &AuctionRoom::callShowItem, &AuctionRoom, &AuctionRoom::showParticipents);
+    // In your main widget's constructor:
+
+    // Thiết lập màu đỏ cho lcdNumber
+    QPalette palette = ui->lcdNumber->palette();
+    palette.setColor(QPalette::WindowText, Qt::red);
+    ui->lcdNumber->setPalette(palette);
+
+    // Thiết lập stylesheet để làm cho nó đẹp hơn
+    ui->lcdNumber->setStyleSheet("background-color: black;");
+
+    // Thiết lập kiểu segment cho đẹp hơn
+    ui->lcdNumber->setSegmentStyle(QLCDNumber::Flat);
 
 
 }
@@ -64,12 +76,53 @@ void AuctionRoom::on_btn_bid_clicked()
         send(MySingleton::instance().getValue(), &bidMess, sizeof(BidMess), 0);
     }
 }
+void AuctionRoom::updateCounter()
+{
+    // Giảm thời gian còn lại
+    remainingTime--;
+
+    // Kiểm tra xem thời gian còn lại có âm không
+    if (remainingTime < 0) {
+        qDebug() << "Countdown finished!";
+        return;
+    }
+
+    // Chuyển đổi thời gian thành giây và phút
+    int minutes = remainingTime / 60;
+    int seconds = remainingTime % 60;
+
+    // Hiển thị thời gian
+
+    // Cập nhật giá trị cho label_timer
+    ui->lcdNumber->display(QString("%1:%2").arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0')));
+}
+
 
 void AuctionRoom::notify(char *message){
-    if (strcmp(message,"#OK")==0)
-    {
-        QMessageBox::information(this, tr("Successful"), message);
-    }
+
+    // if (timer){
+    //     // Dừng timer
+    //     timer->stop();
+    // }
+    // // Khởi tạo timer
+    // timer = new QTimer(this);
+
+
+
+    // // Tạo bộ đếm mới
+    // remainingTime = 120;
+
+
+
+    // // Kết nối sự kiện timeout của timer với hàm updateCounter
+    // QObject::connect(timer, &QTimer::timeout, this, &AuctionRoom::updateCounter);
+
+    // // Đặt khoảng thời gian giữa các sự kiện timeout là 1000 ms (1 giây)
+    // timer->start(1000);
+
+    QMessageBox::information(this, tr("Notification"), message);
+
+
 }
 
 void AuctionRoom::showItem(){
@@ -87,7 +140,7 @@ void AuctionRoom::showItem(){
             ui->label_description->setText(it->description);
             ui->label_description->setWordWrap(true);
             ui->label_nameRoom->setText(MySingleton::instance().joinedRoom.name);
-            ui->label_nameOwner->setText(QString("User ID: %1").arg(MySingleton::instance().joinedRoom.proprietor_id));
+            ui->label_nameOwner->setText(QString("Room owner ID: %1").arg(MySingleton::instance().joinedRoom.proprietor_id));
             ui->btn_bid->setVisible(true);
             ui->btn_bin->setVisible(true);
             ui->new_prices->setText(QString::number(it->reserve_price, 'f', 2));

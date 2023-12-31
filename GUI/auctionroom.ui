@@ -346,25 +346,6 @@ Khả năng mô phỏng động của chú mèo không giới hạn. Từ cử �
       </property>
      </widget>
     </widget>
-    <widget class="QLabel" name="label_timer">
-     <property name="geometry">
-      <rect>
-       <x>630</x>
-       <y>410</y>
-       <width>91</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>05:00</string>
-     </property>
-    </widget>
     <widget class="QPushButton" name="btn_backHome">
      <property name="geometry">
       <rect>
@@ -525,6 +506,16 @@ color:'green'</string>
      </property>
      <property name="margin">
       <number>0</number>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="lcdNumber">
+     <property name="geometry">
+      <rect>
+       <x>620</x>
+       <y>400</y>
+       <width>81</width>
+       <height>41</height>
+      </rect>
      </property>
     </widget>
    </widget>

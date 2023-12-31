@@ -36,6 +36,8 @@ public:
     std::list<Participents> participents;
     std::list<int> room_ids;
     Participents mems;
+    QTimer timer;
+    int durationInSeconds = 120; // 2 phút
 
 
     QStackedWidget *auction_root_ui;

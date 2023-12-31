@@ -17,6 +17,9 @@ class AuctionRoom : public QWidget
 public:
     explicit AuctionRoom(QWidget *parent = nullptr);
     ~AuctionRoom();
+    int remainingTime = 2 * 60; // 2 minutes
+    QTimer *timer;
+    void updateCounter();
 signals:
     void HomeClicked();
     void callShowItems();
@@ -35,6 +38,7 @@ public slots:
     void showItem();
     void showItemByID(int id);
     void notify(char *message);
+
 
 private:
     Ui::AuctionRoom *ui;

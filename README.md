@@ -20,6 +20,7 @@ item.txt - luu item: id - room_id - reserve_price - BIN_price - description - cr
 - get participate
 - Bid
 - Bin
+- delete item
 
 =======
 1: sign up

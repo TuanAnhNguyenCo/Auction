@@ -85,9 +85,13 @@ void Worker::doWork() {
                 respond[rcvBytes] = '\0';
             }
             qDebug() << "Respond from bidding item " << respond;
-            if (strcmp(respond,"#OK")){
+            if (strcmp(respond,"#OK")==0){
                 char notification[BUFF_SIZE-1];
                 strcpy(notification,"The bidding item is successful");
+                emit bid_dataReceived(notification);
+            }else{
+                char notification[BUFF_SIZE-1];
+                strcpy(notification,"Failed, please try against");
                 emit bid_dataReceived(notification);
             }
         }
@@ -158,9 +162,13 @@ void Worker::doWork() {
                 respond[rcvBytes] = '\0';
             }
             qDebug() << "Respond from bin item " << respond;
-            if (strcmp(respond,"#OK")){
+            if (strcmp(respond,"#OK")==0){
                 char notification[BUFF_SIZE-1];
                 strcpy(notification,"Bin is successful");
+                emit bid_dataReceived(notification);
+            }else{
+                char notification[BUFF_SIZE-1];
+                strcpy(notification,"Failed, please try against");
                 emit bid_dataReceived(notification);
             }
 
