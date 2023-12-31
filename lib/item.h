@@ -39,7 +39,8 @@ void get_items(list<Item> *items)
     fclose(f);
 }
 
-void get_item_by_id(list<Item> items, Item *item, int item_id){
+void get_item_by_id(list<Item> items, Item *item, int item_id)
+{
     for (Item i : items)
     {
         if (i.id == item_id)
@@ -90,7 +91,7 @@ int change_reserve_price(list<Item> *items, long double price, int price_maker_i
     {
         if (item.id == item_id && item.status == 1)
         {
-            if (item.reserve_price + 10000 < price || price == item.BIN_price )
+            if (item.reserve_price + 10000 < price || price == item.BIN_price)
             {
                 item.reserve_price = price;
                 item.price_maker_id = price_maker_id;

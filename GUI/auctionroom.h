@@ -21,6 +21,7 @@ signals:
     void HomeClicked();
     void callShowItems();
     void callShowMembers();
+    void callShowItem();
 private slots:
     void on_btn_backHome_clicked();
     void on_btn_bid_clicked();
@@ -30,7 +31,10 @@ private slots:
     void on_btn_bin_clicked();
     void addNemItem();
     void moveToParticipant();
-
+public slots:
+    void showItem();
+    void showItemByID(int id);
+    void notify(char *message);
 
 private:
     Ui::AuctionRoom *ui;

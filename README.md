@@ -14,6 +14,12 @@ item.txt - luu item: id - room_id - reserve_price - BIN_price - description - cr
 - join room
 - out room
 - create item
+- kick account
+- get items
+- get room
+- get participate
+- Bid
+- 
 
 =======
 1: sign up

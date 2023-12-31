@@ -77,7 +77,12 @@ void RoomOverview::showItems()
             // Add button to view item
             QPushButton* item_btn_view = new QPushButton("View");
             groupBoxLayout->addWidget(item_btn_view,0, Qt::AlignRight);
-            connect(item_btn_view, &QPushButton::clicked, this, &RoomOverview::on_btn_backAuctionroom_clicked);
+            connect(item_btn_view, &QPushButton::clicked, [this, goods]() {
+                int id = goods.id;
+                emit callItemByID(id);
+                MySingleton::instance().auction_root_ui->setCurrentIndex(0);
+
+            });
             // Add button to delete item
             QPushButton* item_btn_delete = new QPushButton("Delete");
             groupBoxLayout->addWidget(item_btn_delete,0, Qt::AlignRight);
