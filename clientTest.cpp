@@ -43,8 +43,6 @@ void *handle_server(void *args)
   pthread_detach(pthread_self());
   thread_args *arg = (thread_args *)args;
   int client_socket = arg->conn_sock;
-  // pthread_t receiveThreadID;
-  // pthread_create(&receiveThreadID, NULL, &handle_server_auto, &args);
   while (1)
   {
     char line[10];
@@ -135,11 +133,15 @@ void *handle_server(void *args)
       /* code */
       BidMess bidMess;
       bidMess.user_id = 3;
-      bidMess.item_id = 2;
+      bidMess.item_id = 1;
       bidMess.price = 16000;
       send(client_socket, &bidMess, sizeof(BidMess), 0);
       char buffer[BUFF_SIZE];
       int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      printf("%s\n", buffer);
+
+      rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
       buffer[rcvBytes] = '\0';
       printf("%s\n", buffer);
 
@@ -206,10 +208,14 @@ void *handle_server(void *args)
       /* code */
       BinMess binMess;
       binMess.user_id = 3;
-      binMess.item_id = 2;
+      binMess.item_id = 1;
       send(client_socket, &binMess, sizeof(BinMess), 0);
       char buffer[BUFF_SIZE];
       int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      printf("%s\n", buffer);
+
+      rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
       buffer[rcvBytes] = '\0';
       printf("%s\n", buffer);
 
@@ -227,7 +233,7 @@ void *handle_server(void *args)
       {
         Item item;
         rcvBytes = recv(client_socket, &item, sizeof(Item), 0);
-        cout << item.name << " " << item.reserve_price << endl;
+        cout << item.name << " " << item.current_price << endl;
       }
     }
     if (strcmp(message, "#message19") == 0)
@@ -255,6 +261,20 @@ void *handle_server(void *args)
         cout << participate.username << endl;
       }
     }
+    if (strcmp(message, "#message21") == 0)
+    {
+      CloseItemMess closeItemMess;
+      closeItemMess.item_id = 1;
+      send(client_socket, &closeItemMess, sizeof(CloseItemMess), 0);
+      char buffer[BUFF_SIZE];
+      int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      printf("%s\n", buffer);
+      
+      rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      printf("%s\n", buffer);
+    }
   }
 }
 
@@ -274,7 +294,7 @@ int main(int argc, char *argv[])
   if (result >= 0)
     printf("connect was successfull\n");
 
-  pthread_t sendThreadID, receiveThreadID;
+  pthread_t sendThreadID;
   thread_args args;
   args.conn_sock = client_socket;
 

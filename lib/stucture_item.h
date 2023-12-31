@@ -8,6 +8,7 @@ typedef struct
     int room_id;
     int price_maker_id;
     char name[100];
+    long double current_price;
     long double reserve_price;
     long double BIN_price;
     char description[100];
@@ -47,3 +48,8 @@ typedef struct
   int user_id;
   int item_id;
 } BinMess;
+
+typedef struct
+{
+    int item_id;
+} CloseItemMess;

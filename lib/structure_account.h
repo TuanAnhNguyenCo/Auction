@@ -40,28 +40,8 @@ typedef struct
     int user_id;
 } LogoutMess;
 
-typedef struct
-{
-    int id;
-    int room_id;
-    char name[100];
-
-    double reserve_price;
-    double BIN_price;
-    char description[1024];
-    time_t created_at;
-} Items;
 
 
-typedef struct
-{
-    int id;
-    int user_id;
-    int room_id;
-    int item_id;
-    double bid_amount;
-    time_t timestamp;
-} Bid;
 
 // typedef struct
 // {

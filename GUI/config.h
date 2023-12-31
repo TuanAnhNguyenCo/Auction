@@ -30,11 +30,15 @@ public:
     void getRooms();
     void getItems();
     void getParticipents();
+    int current_item_id = -1;
+    int is_auctioning = 0; // 1 is auctioning
     std::list<AuctionRoomStruct> auction_rooms;
     std::list<Item> items;
     std::list<Participents> participents;
     std::list<int> room_ids;
     Participents mems;
+    QTimer timer;
+    int durationInSeconds = 120; // 2 phút
 
 
     QStackedWidget *auction_root_ui;

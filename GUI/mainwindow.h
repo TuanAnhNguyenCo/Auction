@@ -26,6 +26,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+signals:
+    void callShowItem();
 
 public slots:
     void on_btn_createtab_clicked();
@@ -39,6 +41,7 @@ public slots:
     void moveLoginPage();
     void handleLogout(char *message);
     void notifyInfo(char *message);
+
 
 
 private:

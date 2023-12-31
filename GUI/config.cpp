@@ -52,9 +52,6 @@ void MySingleton::getParticipents(){
         MySingleton::instance().room_ids.push_front(it->id);
         send(MySingleton::instance().getValue(), "20", BUFF_SIZE - 1, 0);
         send(MySingleton::instance().getValue(), &mess,sizeof(GetParticipateMess), 0);
-
-
-
     }
 
 }

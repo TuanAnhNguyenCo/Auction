@@ -36,17 +36,41 @@ void send_all_client(list<Account> accounts, char *messages)
     }
 }
 
+void send_participate(list<Account> accounts, list<AuctionRoomParticipate> listAccountRooms, char *messages, int room_id)
+{
+    for (Account acc : accounts)
+    {
+        for (AuctionRoomParticipate acc_r : listAccountRooms)
+        {
+            if (acc_r.room_id == room_id && acc_r.status == 1 && acc_r.user_id == acc.id)
+            {
+                send(acc.connectSocket, messages, BUFF_SIZE - 1, 0);
+            }
+        }
+    }
+}
+
 void *handle_client(void *args)
 {
     pthread_detach(pthread_self());
     thread_args *arg = (thread_args *)args;
     int connectSocket = arg->conn_sock;
     char message[BUFF_SIZE];
+    int current_user_id = -1;
     while (1)
     {
         ssize_t recvbytes = recv(connectSocket, &message, BUFF_SIZE - 1, 0);
         if (recvbytes <= 0)
         {
+            if (current_user_id != -1)
+            {
+                LogoutMess logoutMess;
+                logoutMess.user_id = current_user_id;
+                handleLogout(logoutMess, &listAccountRooms, &listAccounts);
+                char messageUpdate[BUFF_SIZE] = "#update_account_room";
+                send_all_client(listAccounts, messageUpdate);
+            }
+
             break;
         }
         message[recvbytes] = '\0';
@@ -65,8 +89,8 @@ void *handle_client(void *args)
         {
             char messageType[BUFF_SIZE] = "#message2";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
-
-            if (recv_and_handle_login(connectSocket, &listAccounts) == 0)
+            current_user_id = recv_and_handle_login(connectSocket, &listAccounts);
+            if (current_user_id == 0)
             {
                 break;
             }
@@ -80,6 +104,8 @@ void *handle_client(void *args)
             {
                 break;
             }
+            char messageUpdate[BUFF_SIZE] = "#update_account_room";
+            send_all_client(listAccounts, messageUpdate);
         }
         else if (atoi(message) == 4)
         {
@@ -107,13 +133,15 @@ void *handle_client(void *args)
         {
             char messageType[BUFF_SIZE] = "#message6";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
-            if (recv_and_handle_bid_items(connectSocket, &listItems) == 0)
+            int room_id = recv_and_handle_bid_items(connectSocket, &listItems);
+            if (room_id == 0)
             {
                 break;
             }
             char messageUpdate[BUFF_SIZE] = "#update_item";
             send_all_client(listAccounts, messageUpdate);
-            cout << messageUpdate << endl;
+            char messageStopTime[BUFF_SIZE] = "#update_time";
+            send_participate(listAccounts, listAccountRooms, messageStopTime, room_id);
         }
         else if (atoi(message) == 7)
         {
@@ -172,12 +200,15 @@ void *handle_client(void *args)
         {
             char messageType[BUFF_SIZE] = "#message16";
             send(connectSocket, messageType, BUFF_SIZE - 1, 0);
-            if (recv_and_handle_bin_price(connectSocket, &listItems) == 0)
+            int room_id = recv_and_handle_bin_price(connectSocket, &listItems);
+            if (room_id == 0)
             {
                 break;
             }
             char messageUpdate[BUFF_SIZE] = "#update_item";
             send_all_client(listAccounts, messageUpdate);
+            char messageStopTime[BUFF_SIZE] = "#stop_time";
+            send_participate(listAccounts, listAccountRooms, messageStopTime, room_id);
         }
         else if (atoi(message) == 18)
         {
@@ -207,6 +238,29 @@ void *handle_client(void *args)
             {
                 break;
             }
+        }
+        else if (atoi(message) == 21)
+        {
+            char messageType[BUFF_SIZE] = "#message21";
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
+            if (recv_and_handle_close_item(connectSocket, &listItems) == 0)
+            {
+                break;
+            }
+            char messageUpdate[BUFF_SIZE] = "#update_item";
+            send_all_client(listAccounts, messageUpdate);
+        }
+        else if (atoi(message) == 22)
+        {
+            char messageStartBidding[BUFF_SIZE] = "#start_bidding";
+            send_all_client(listAccounts, messageStartBidding);
+        }
+        else if (atoi(message) == 23)
+        {
+            GetParticipateMess mess;
+            recv(connectSocket, &mess, sizeof(GetParticipateMess), 0);
+            char messageAlert[BUFF_SIZE] = "#Alert";
+            send_participate(listAccounts, listAccountRooms, messageAlert, mess.room_id);
         }
     }
 }

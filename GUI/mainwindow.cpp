@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&LogIn,SIGNAL(SignupClicked()), this, SLOT(moveSignupPage()));
     connect(&LogIn,SIGNAL(LoginOk()), this, SLOT(moveHome()));
     connect(&SignUp,SIGNAL(LoginClicked()), this, SLOT(moveLoginPage()));
-
+    connect(this, &MainWindow::callShowItem,&AuctionRoom, &AuctionRoom::showItem);
 
 
 
@@ -57,6 +57,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(worker, &Worker::handleKickingMember,&AuctionRoom.joinerManage, &JoinerManage::showParticipents);
     connect(worker, &Worker::sendOff,this, &MainWindow::moveHome);
     connect(worker, &Worker::notifyInfo,this, &MainWindow::notifyInfo);
+    connect(worker, &Worker::bid_dataReceived,&AuctionRoom, &AuctionRoom::notify);
+    connect(worker, &Worker::updateAuctionItem,&AuctionRoom, &AuctionRoom::showItem);
+    connect(worker, &Worker::updateAuctionItemByID,&AuctionRoom, &AuctionRoom::showItemByID);
+    connect(worker, &Worker::callShowItems,&AuctionRoom.RoomOverview, &RoomOverview::showItems);
+    connect(worker, &Worker::setNewTime,&AuctionRoom, &AuctionRoom::setNewTime);
+    connect(worker, &Worker::stopTime,&AuctionRoom, &AuctionRoom::stopTime);
+    connect(worker, &Worker::showAlertMessage,&AuctionRoom, &AuctionRoom::showAlertMessage);
+
     workerThread->start();
 
 
@@ -163,6 +171,8 @@ void MainWindow::moveHistoryTab(){
 void MainWindow::moveAuctionRoom(char *message){
     if (strcmp(message,"#OK")==0){
         ui->stackedWidget->setCurrentIndex(3);
+        emit callShowItem();
+
     }else{
         QMessageBox::information(this, tr("Failed"), QString("Request to join room ID %1 failed").arg(MySingleton::instance().joinedRoom.id));
     }

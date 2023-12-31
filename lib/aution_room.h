@@ -169,6 +169,7 @@ int handleCreateItem(CreateItemMess itemMess, list<AuctionRoom> *listRooms, list
         strcpy(item.name, itemMess.name);
         item.room_id = itemMess.room_id;
         item.reserve_price = itemMess.price;
+        item.current_price = itemMess.price;
         item.BIN_price = itemMess.BIN_price;
         strcpy(item.description, itemMess.description);
         item.created_at = itemMess.created_at;
