@@ -103,6 +103,18 @@ void *handle_client(void *args)
             char messageUpdate[BUFF_SIZE] = "#update_account_room";
             send_all_client(listAccounts, messageUpdate);
         }
+        else if (atoi(message) == 6)
+        {
+            char messageType[BUFF_SIZE] = "#message6";
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
+            if (recv_and_handle_bid_items(connectSocket, &listItems) == 0)
+            {
+                break;
+            }
+            char messageUpdate[BUFF_SIZE] = "#update_item";
+            send_all_client(listAccounts, messageUpdate);
+            cout << messageUpdate << endl;
+        }
         else if (atoi(message) == 7)
         {
             char messageType[BUFF_SIZE] = "#message7";
@@ -156,6 +168,17 @@ void *handle_client(void *args)
                 break;
             }
         }
+        else if (atoi(message) == 16)
+        {
+            char messageType[BUFF_SIZE] = "#message16";
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
+            if (recv_and_handle_bin_price(connectSocket, &listItems) == 0)
+            {
+                break;
+            }
+            char messageUpdate[BUFF_SIZE] = "#update_item";
+            send_all_client(listAccounts, messageUpdate);
+        }
         else if (atoi(message) == 18)
         {
             char messageType[BUFF_SIZE] = "#message18";
@@ -173,6 +196,8 @@ void *handle_client(void *args)
             {
                 break;
             }
+            char messageUpdate[BUFF_SIZE] = "#update_account_room";
+            send_all_client(listAccounts, messageUpdate);
         }
         else if (atoi(message) == 20)
         {
