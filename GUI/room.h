@@ -40,6 +40,7 @@ typedef struct
     int room_id;
     int price_maker_id;
     char name[100];
+    long double current_price;
     long double reserve_price;
     long double BIN_price;
     char description[100];

@@ -175,10 +175,10 @@ int logout(list<Account> *accounts, Account account)
     {
         if (acc.id == account.id)
         {
-            cout << acc.username << endl;
             if (acc.status == 0)
                 return 2;
             acc.status = 0;
+            acc.connectSocket = -1;
             save_status(*accounts, acc);
             return 1;
             break;
@@ -272,6 +272,7 @@ int recv_and_handle_login(int conn_sock, list<Account> *accounts)
         strcpy(message, "#OK");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
         send(conn_sock, &account_signed, sizeof(account_signed), 0);
+        return account_signed.id;
     }
     else if (status == 2)
     {
@@ -283,7 +284,7 @@ int recv_and_handle_login(int conn_sock, list<Account> *accounts)
         strcpy(message, "#ONLINING");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
     }
-    return 1;
+    return -1;
 }
 // #OK is OK and #FAIL is fail
 int recv_and_handle_logout(int conn_sock, list<AuctionRoomParticipate> *listAccountRooms, list<Account> *accounts)
