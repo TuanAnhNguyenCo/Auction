@@ -9,7 +9,6 @@
 #include <QGraphicsOpacityEffect>
 #include <QPropertyAnimation>
 #include <QApplication>
-#include <QDesktopWidget>
 
 
 AuctionRoom::AuctionRoom(QWidget *parent)
@@ -26,21 +25,21 @@ AuctionRoom::AuctionRoom(QWidget *parent)
     QPixmap image(":/image/con-cho.jpeg");
     ui->label_image->setPixmap(image.scaled(ui->label_image->size(),Qt::KeepAspectRatio));
     // navigate
-    ui->stackedWidget_2->insertWidget(1, &RoomOverview);
+    ui->stackedWidget_2->insertWidget(1, &roomoverview);
     ui->stackedWidget_2->insertWidget(2,&addItem);
 
-    ui->stackedWidget_2->insertWidget(3,&joinerManage);
+    ui->stackedWidget_2->insertWidget(3,&joinermanage);
    
-    connect(&RoomOverview, SIGNAL(participantClicked()), this, SLOT(moveToParticipant()));
-    connect(&joinerManage, SIGNAL(backClicked()), this, SLOT(moveToOverview()));
+    connect(&roomoverview, SIGNAL(participantClicked()), this, SLOT(moveToParticipant()));
+    connect(&joinermanage, SIGNAL(backClicked()), this, SLOT(moveToOverview()));
 
     MySingleton::instance().auction_root_ui = ui->stackedWidget_2;
-    connect(&RoomOverview, SIGNAL(backtoRoomClicked()), this, SLOT(backfromOverview()));
-    connect(&RoomOverview, SIGNAL(addItemClicked()), this, SLOT(addNemItem()));
-    connect(&RoomOverview, SIGNAL(callItemByID(int)), this, SLOT(showItemByID(int)));
+    connect(&roomoverview, SIGNAL(backtoRoomClicked()), this, SLOT(backfromOverview()));
+    connect(&roomoverview, SIGNAL(addItemClicked()), this, SLOT(addNemItem()));
+    connect(&roomoverview, SIGNAL(callItemByID(int)), this, SLOT(showItemByID(int)));
     connect(&addItem, SIGNAL(cancelClicked()), this, SLOT(moveToOverview()));
-    connect(this, &AuctionRoom::callShowItems, &RoomOverview, &RoomOverview::showItems);
-    connect(this, &AuctionRoom::callShowMembers, &joinerManage, &JoinerManage::showParticipents);
+    connect(this, &AuctionRoom::callShowItems, &roomoverview, &RoomOverview::showItems);
+    connect(this, &AuctionRoom::callShowMembers, &joinermanage, &JoinerManage::showParticipents);
     // connect(this, &AuctionRoom::callShowItem, &AuctionRoom, &AuctionRoom::showParticipents);
     // In your main widget's constructor:
 

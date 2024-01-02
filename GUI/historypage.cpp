@@ -16,23 +16,23 @@ HistoryPage::HistoryPage(QWidget *parent)
     QWidget* scrollContent = ui->scrollAreaWidgetContents;
     QVBoxLayout* scrollLayout = new QVBoxLayout(scrollContent);
     for (int groupIndex = 0; groupIndex < 5; ++groupIndex) {
-        QGroupBox* item= new QGroupBox("Item" + QString::number(groupIndex + 1));
-        QHBoxLayout* groupBoxLayout = new QHBoxLayout(item);
+        QGroupBox* room= new QGroupBox;
+        QHBoxLayout* groupBoxLayout = new QHBoxLayout(room);
         // Add an image to each group box
-        QLabel* item_image = new QLabel;
-        QPixmap pixmap("/Users/dieulinh/auction/con-cho.jpeg");
-        item_image ->setPixmap(pixmap.scaled(300,200, Qt::KeepAspectRatio));
-        groupBoxLayout->addWidget(item_image );
+        QLabel* room_image = new QLabel;
+        QPixmap pixmap(":/image/con-cho.jpeg");
+        room_image ->setPixmap(pixmap.scaled(300,200, Qt::KeepAspectRatio));
+        groupBoxLayout->addWidget(room_image);
 
         // Add text label to each group box
-        QLabel* item_name = new QLabel("Con mèo");
-                            groupBoxLayout->addWidget(item_name);
-        QLabel* item_room = new QLabel("Room 1 - abc@xyz");
-        QLabel* item_info = new QLabel("Buyer: baa@zzz -  Price: 300");
-        QLabel* date = new QLabel("Date: 10:30 20/11/2023");
-        groupBoxLayout->addWidget(item_room);
-        groupBoxLayout->addWidget(date);
-        scrollLayout->addWidget(item);
+        QLabel* room_info = new QLabel("Room 1 - abc@xyz");
+        groupBoxLayout->addWidget(room_info);
+        // Add button to view room
+        QPushButton* item_btn_view = new QPushButton("View");
+        groupBoxLayout->addWidget(item_btn_view,0, Qt::AlignRight);
+        connect(item_btn_view, &QPushButton::clicked, this, &HistoryPage::viewClicked);
+        scrollLayout->addWidget(room);
+
 }
     QScrollArea* scrollArea = ui->scrollArea;
     scrollArea->setWidgetResizable(true);
@@ -53,4 +53,6 @@ void HistoryPage::on_btn_createtab_clicked()
 {
     emit CreateClicked();
 }
-
+void HistoryPage::viewClicked(){
+    emit HistoryDetailClicked();
+}

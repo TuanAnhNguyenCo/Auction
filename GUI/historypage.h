@@ -2,7 +2,6 @@
 #define HISTORYPAGE_H
 
 #include <QWidget>
-
 namespace Ui {
 class HistoryPage;
 }
@@ -17,12 +16,15 @@ public:
 signals:
     void HomeClicked();
     void CreateClicked();
+    void HistoryDetailClicked();
 private slots:
     void on_btn_hometab_clicked();
     void on_btn_createtab_clicked();
+    void viewClicked();
 
 private:
     Ui::HistoryPage *ui;
+
 
 };
 

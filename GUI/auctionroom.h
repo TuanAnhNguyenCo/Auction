@@ -51,9 +51,9 @@ private:
 public:
     addItem addItem;
 
-    JoinerManage joinerManage;
+    JoinerManage joinermanage; //
 
-    RoomOverview RoomOverview;
+    RoomOverview roomoverview; //
 
 };
 

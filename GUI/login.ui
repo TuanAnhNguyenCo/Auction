@@ -89,7 +89,7 @@
      </font>
     </property>
     <property name="text">
-     <string>User's name:</string>
+     <string>Username:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">
@@ -121,7 +121,7 @@
      </rect>
     </property>
     <property name="placeholderText">
-     <string> user's name</string>
+     <string>Username</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_pass">
@@ -137,7 +137,7 @@
      <enum>QLineEdit::Password</enum>
     </property>
     <property name="placeholderText">
-     <string> password</string>
+     <string> Password</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_login">

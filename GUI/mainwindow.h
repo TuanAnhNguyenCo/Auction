@@ -11,6 +11,7 @@
 #include "auctionroom.h"
 #include "signup.h"
 #include "login.h"
+#include "historydetail.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -41,17 +42,18 @@ public slots:
     void moveLoginPage();
     void handleLogout(char *message);
     void notifyInfo(char *message);
-
+    void moveHistoryDetailPage();
 
 
 private:
     Ui::MainWindow *ui;
-    CreatePage CreatePage;
-    HistoryPage HistoryPage;
-    AuctionRoom AuctionRoom;
-    SignUp SignUp;
-    LogIn LogIn;
+    CreatePage createpage; //
+    HistoryPage historypage; //
+    AuctionRoom auctionroom; //
+    SignUp signup; //
+    LogIn login; //
     Worker *worker;
     QThread *workerThread;
+    HistoryDetail historydetail;
 };
 #endif // MAINWINDOW_H

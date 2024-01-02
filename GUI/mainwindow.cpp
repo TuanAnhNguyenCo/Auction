@@ -26,44 +26,47 @@ MainWindow::MainWindow(QWidget *parent)
 
     QPixmap logo(":/image/logo_auction.png");
     ui->label_logo_2->setPixmap(logo.scaled(100,100,Qt::KeepAspectRatio));
-    ui->stackedWidget->insertWidget(1, &CreatePage);
-    ui->stackedWidget->insertWidget(2, &HistoryPage);
-    ui->stackedWidget->insertWidget(3,&AuctionRoom);
-    ui->stackedWidget->insertWidget(4,&LogIn);
-    ui->stackedWidget->insertWidget(5,&SignUp);
+    ui->stackedWidget->insertWidget(1, &createpage);
+    ui->stackedWidget->insertWidget(2, &historypage);
+    ui->stackedWidget->insertWidget(3,&auctionroom);
+    ui->stackedWidget->insertWidget(4,&login);
+    ui->stackedWidget->insertWidget(5,&signup);
+    ui->stackedWidget->insertWidget(6,&historydetail);
     ui->stackedWidget->setCurrentIndex(4); // set up Login page
     MySingleton::instance().home = ui->stackedWidget;
-    connect(&CreatePage, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
-    connect(&CreatePage, SIGNAL(HistoryClicked()), this, SLOT(moveHistoryTab()));
-    connect(&HistoryPage, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
-    connect(&AuctionRoom, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
-    connect(&HistoryPage, SIGNAL(CreateClicked()), this, SLOT(moveCreateTab()));
-    connect(&LogIn,SIGNAL(SignupClicked()), this, SLOT(moveSignupPage()));
-    connect(&LogIn,SIGNAL(LoginOk()), this, SLOT(moveHome()));
-    connect(&SignUp,SIGNAL(LoginClicked()), this, SLOT(moveLoginPage()));
-    connect(this, &MainWindow::callShowItem,&AuctionRoom, &AuctionRoom::showItem);
+    connect(&createpage, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
+    connect(&createpage, SIGNAL(HistoryClicked()), this, SLOT(moveHistoryTab()));
+    connect(&historypage, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
+    connect(&auctionroom, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
+    connect(&historypage, SIGNAL(CreateClicked()), this, SLOT(moveCreateTab()));
+    connect(&login,SIGNAL(SignupClicked()), this, SLOT(moveSignupPage()));
+    connect(&login,SIGNAL(LoginOk()), this, SLOT(moveHome()));
+    connect(&signup,SIGNAL(LoginClicked()), this, SLOT(moveLoginPage()));
+    connect(&historypage,SIGNAL(HistoryDetailClicked()), this, SLOT(moveHistoryDetailPage()));
+    connect(&historydetail,SIGNAL(backHistoryClicked()), this, SLOT(moveHistoryTab()));
+    connect(this, &MainWindow::callShowItem,&auctionroom, &AuctionRoom::showItem);
 
 
 
 
 
     connect(workerThread, &QThread::started, worker, &Worker::doWork);
-    connect(worker, &Worker::signUp_dataReceived, &SignUp, &SignUp::update_sign_up);
-    connect(worker, &Worker::signIn_dataReceived, &LogIn, &LogIn::update_sign_in);
+    connect(worker, &Worker::signUp_dataReceived, &signup, &SignUp::update_sign_up);
+    connect(worker, &Worker::signIn_dataReceived, &login, &LogIn::update_sign_in);
     connect(worker, &Worker::signout_dataReceived,this, &MainWindow::handleLogout);
     connect(worker, &Worker::join_room_dataRecieved,this, &MainWindow::moveAuctionRoom);
-    connect(worker, &Worker::create_room_dataRecieved,&CreatePage, &CreatePage::handleMessageFromRoomCreationRequest);
-    connect(worker, &Worker::create_item_dataReceived,&AuctionRoom.addItem, &addItem::handleRoomCreationStatus);
-    connect(worker, &Worker::handleKickingMember,&AuctionRoom.joinerManage, &JoinerManage::showParticipents);
+    connect(worker, &Worker::create_room_dataRecieved,&createpage, &CreatePage::handleMessageFromRoomCreationRequest);
+    connect(worker, &Worker::create_item_dataReceived,&auctionroom.addItem, &addItem::handleRoomCreationStatus);
+    connect(worker, &Worker::handleKickingMember,&auctionroom.joinermanage, &JoinerManage::showParticipents);
     connect(worker, &Worker::sendOff,this, &MainWindow::moveHome);
     connect(worker, &Worker::notifyInfo,this, &MainWindow::notifyInfo);
-    connect(worker, &Worker::bid_dataReceived,&AuctionRoom, &AuctionRoom::notify);
-    connect(worker, &Worker::updateAuctionItem,&AuctionRoom, &AuctionRoom::showItem);
-    connect(worker, &Worker::updateAuctionItemByID,&AuctionRoom, &AuctionRoom::showItemByID);
-    connect(worker, &Worker::callShowItems,&AuctionRoom.RoomOverview, &RoomOverview::showItems);
-    connect(worker, &Worker::setNewTime,&AuctionRoom, &AuctionRoom::setNewTime);
-    connect(worker, &Worker::stopTime,&AuctionRoom, &AuctionRoom::stopTime);
-    connect(worker, &Worker::showAlertMessage,&AuctionRoom, &AuctionRoom::showAlertMessage);
+    connect(worker, &Worker::bid_dataReceived,&auctionroom, &AuctionRoom::notify);
+    connect(worker, &Worker::updateAuctionItem,&auctionroom, &AuctionRoom::showItem);
+    connect(worker, &Worker::updateAuctionItemByID,&auctionroom, &AuctionRoom::showItemByID);
+    connect(worker, &Worker::callShowItems,&auctionroom.roomoverview, &RoomOverview::showItems);
+    connect(worker, &Worker::setNewTime,&auctionroom, &AuctionRoom::setNewTime);
+    connect(worker, &Worker::stopTime,&auctionroom, &AuctionRoom::stopTime);
+    connect(worker, &Worker::showAlertMessage,&auctionroom, &AuctionRoom::showAlertMessage);
 
     workerThread->start();
 
@@ -191,8 +194,12 @@ void MainWindow::moveSignupPage(){
 void MainWindow::moveLoginPage(){
     ui->stackedWidget->setCurrentIndex(4);
 }
+void MainWindow::moveHistoryDetailPage(){
+    ui->stackedWidget->setCurrentIndex(6);
+}
 
 void MainWindow::handleLogout(char *message){
     ui->stackedWidget->setCurrentIndex(4);
 }
+
 
