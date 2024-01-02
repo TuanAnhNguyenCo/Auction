@@ -26,7 +26,7 @@ AuctionRoom::AuctionRoom(QWidget *parent)
     ui->label_image->setPixmap(image.scaled(ui->label_image->size(),Qt::KeepAspectRatio));
     // navigate
     ui->stackedWidget_2->insertWidget(1, &roomoverview);
-    ui->stackedWidget_2->insertWidget(2,&addItem);
+    ui->stackedWidget_2->insertWidget(2,&additem);
 
     ui->stackedWidget_2->insertWidget(3,&joinermanage);
    
@@ -37,7 +37,7 @@ AuctionRoom::AuctionRoom(QWidget *parent)
     connect(&roomoverview, SIGNAL(backtoRoomClicked()), this, SLOT(backfromOverview()));
     connect(&roomoverview, SIGNAL(addItemClicked()), this, SLOT(addNemItem()));
     connect(&roomoverview, SIGNAL(callItemByID(int)), this, SLOT(showItemByID(int)));
-    connect(&addItem, SIGNAL(cancelClicked()), this, SLOT(moveToOverview()));
+    connect(&additem, SIGNAL(cancelClicked()), this, SLOT(moveToOverview()));
     connect(this, &AuctionRoom::callShowItems, &roomoverview, &RoomOverview::showItems);
     connect(this, &AuctionRoom::callShowMembers, &joinermanage, &JoinerManage::showParticipents);
     // connect(this, &AuctionRoom::callShowItem, &AuctionRoom, &AuctionRoom::showParticipents);

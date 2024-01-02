@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(worker, &Worker::signout_dataReceived,this, &MainWindow::handleLogout);
     connect(worker, &Worker::join_room_dataRecieved,this, &MainWindow::moveAuctionRoom);
     connect(worker, &Worker::create_room_dataRecieved,&createpage, &CreatePage::handleMessageFromRoomCreationRequest);
-    connect(worker, &Worker::create_item_dataReceived,&auctionroom.addItem, &addItem::handleRoomCreationStatus);
+    connect(worker, &Worker::create_item_dataReceived,&auctionroom.additem, &addItem::handleRoomCreationStatus);
     connect(worker, &Worker::handleKickingMember,&auctionroom.joinermanage, &JoinerManage::showParticipents);
     connect(worker, &Worker::sendOff,this, &MainWindow::moveHome);
     connect(worker, &Worker::notifyInfo,this, &MainWindow::notifyInfo);

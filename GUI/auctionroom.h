@@ -49,7 +49,7 @@ private:
     Ui::AuctionRoom *ui;
 
 public:
-    addItem addItem;
+    addItem additem;
 
     JoinerManage joinermanage; //
 
