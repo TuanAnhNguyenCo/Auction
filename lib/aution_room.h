@@ -47,8 +47,22 @@ void print_rooms(list<AuctionRoom> rooms)
         cout << r.id << " " << r.proprietor_id << " " << r.name << " " << ctime(&r.created_at) << r.status << endl;
     }
 }
+// 1: found, 2: not found
+int get_room_by_id(int room_id, list<AuctionRoom> rooms, AuctionRoom *room)
+{
+    for (AuctionRoom r : rooms)
+    {
+        if (r.id == room_id)
+        {
+            *room = r;
+            return 1;
+        }
+    }
+    return 2;
+}
 
-int get_proprietor_id(int room_id, list<AuctionRoom> rooms){
+int get_proprietor_id(int room_id, list<AuctionRoom> rooms)
+{
     for (AuctionRoom r : rooms)
     {
         if (r.id == room_id)
@@ -75,7 +89,7 @@ void save_rooms(list<AuctionRoom> rooms)
     fclose(file);
 }
 // 1: joined, 2: not join
-int closeRoom(int room_id, int proprietor_id,list<AuctionRoom> *rooms)
+int closeRoom(int room_id, int proprietor_id, list<AuctionRoom> *rooms)
 {
     for (AuctionRoom &r : *rooms)
     {

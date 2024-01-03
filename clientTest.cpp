@@ -270,10 +270,40 @@ void *handle_server(void *args)
       int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
       buffer[rcvBytes] = '\0';
       printf("%s\n", buffer);
-      
+
       rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
       buffer[rcvBytes] = '\0';
       printf("%s\n", buffer);
+    }
+    if (strcmp(message, "#message24") == 0)
+    {
+      GetParticipateMess room;
+      room.room_id = 4;
+      send(client_socket, &room, sizeof(GetParticipateMess), 0);
+      char buffer[BUFF_SIZE];
+      int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      for (int i = 0; i < atoi(buffer); i++)
+      {
+        Account participate;
+        rcvBytes = recv(client_socket, &participate, sizeof(Account), 0);
+        cout << participate.username << endl;
+      }
+    }
+    if (strcmp(message, "#message25") == 0)
+    {
+      GetRoomHistoryMess user;
+      user.user_id = 3;
+      send(client_socket, &user, sizeof(GetRoomHistoryMess), 0);
+      char buffer[BUFF_SIZE];
+      int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      for (int i = 0; i < atoi(buffer); i++)
+      {
+        AuctionRoom participate;
+        rcvBytes = recv(client_socket, &participate, sizeof(AuctionRoom), 0);
+        cout << participate.name << endl;
+      }
     }
   }
 }

@@ -262,6 +262,24 @@ void *handle_client(void *args)
             char messageAlert[BUFF_SIZE] = "#Alert";
             send_participate(listAccounts, listAccountRooms, messageAlert, mess.room_id);
         }
+        else if (atoi(message) == 24)
+        {
+            char messageType[BUFF_SIZE] = "#message24";
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
+            if (recv_and_handle_get_participate_history(connectSocket, &listAccountRooms, &listAccounts) == 0)
+            {
+                break;
+            }
+        }
+        else if (atoi(message) == 25)
+        {
+            char messageType[BUFF_SIZE] = "#message25";
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
+            if (recv_and_handle_get_room_history(connectSocket, &listAccountRooms, &listRooms) == 0)
+            {
+                break;
+            }
+        }
     }
 }
 
@@ -271,7 +289,7 @@ int main(int argc, char *argv[])
     {
         cout << "abcd" << endl;
     }
-    signal(SIGPIPE, SIG_IGN);
+    // signal(SIGPIPE, SIG_IGN);
 
     int listenSocket, connectSocket;
     get_accounts(&listAccounts);

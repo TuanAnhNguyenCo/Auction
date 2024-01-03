@@ -40,6 +40,11 @@ typedef struct
     int user_id;
 } LogoutMess;
 
+typedef struct
+{
+    int user_id;
+} GetRoomHistoryMess;
+
 
 
 

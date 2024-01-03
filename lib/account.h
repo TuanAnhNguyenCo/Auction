@@ -76,6 +76,30 @@ void get_participate_by_room_id(list<AuctionRoomParticipate> account_rooms, list
     }
 }
 
+void get_participate_history_by_room_id(list<AuctionRoomParticipate> account_rooms, list<Account> accounts,int room_id, list<Account> *participates){
+    for (AuctionRoomParticipate account_room : account_rooms)
+    {
+        if (account_room.room_id == room_id && account_room.status == 0 )
+        {
+            Account participate;
+            int status = get_account_by_id(account_room.user_id, accounts, &participate);
+            if(status == 1) participates->push_back(participate);
+        }
+    }
+}
+
+void get_room_history_by_user_id(list<AuctionRoomParticipate> account_rooms, list<AuctionRoom> listRooms,int user_id, list<AuctionRoom> *historyRooms){
+    for (AuctionRoomParticipate account_room : account_rooms)
+    {
+        if (account_room.user_id == user_id)
+        {
+            AuctionRoom room;
+            int status = get_room_by_id(account_room.room_id, listRooms, &room);
+            if(status == 1) historyRooms->push_back(room);
+        }
+    }
+}
+
 void print_accounts(list<Account> accounts)
 {
     for (Account a : accounts)
@@ -403,6 +427,54 @@ int recv_and_handle_get_participate(int conn_sock, list<AuctionRoomParticipate> 
     for (Account acc : list_participate)
     {
         send(conn_sock, &acc, sizeof(Account), 0);
+    }
+    return 1;
+}
+
+int recv_and_handle_get_participate_history(int conn_sock, list<AuctionRoomParticipate> *list_account_rooms, list<Account> *list_accounts)
+{
+    // cout << "Getting participate..." << endl;
+    GetParticipateMess roomMess;
+    int rcvBytes = recv(conn_sock, &roomMess, sizeof(GetParticipateMess), 0);
+    if (rcvBytes <= 0)
+    {
+        close(conn_sock);
+        return 0;
+    }
+    list<Account> list_participate;
+
+    get_participate_history_by_room_id(*list_account_rooms, *list_accounts, roomMess.room_id, &list_participate);
+
+    char message[BUFF_SIZE];
+    strcpy(message, to_string(list_participate.size()).c_str());
+    send(conn_sock, message, BUFF_SIZE - 1, 0);
+    for (Account acc : list_participate)
+    {
+        send(conn_sock, &acc, sizeof(Account), 0);
+    }
+    return 1;
+}
+
+int recv_and_handle_get_room_history(int conn_sock, list<AuctionRoomParticipate> *list_account_rooms, list<AuctionRoom> *list_rooms)
+{
+    // cout << "Getting participate..." << endl;
+    GetRoomHistoryMess user;
+    int rcvBytes = recv(conn_sock, &user, sizeof(GetRoomHistoryMess), 0);
+    if (rcvBytes <= 0)
+    {
+        close(conn_sock);
+        return 0;
+    }
+    list<AuctionRoom> list_history_rooms;
+
+    get_room_history_by_user_id(*list_account_rooms, *list_rooms, user.user_id, &list_history_rooms);
+
+    char message[BUFF_SIZE];
+    strcpy(message, to_string(list_history_rooms.size()).c_str());
+    send(conn_sock, message, BUFF_SIZE - 1, 0);
+    for (AuctionRoom r : list_history_rooms)
+    {
+        send(conn_sock, &r, sizeof(AuctionRoom), 0);
     }
     return 1;
 }
