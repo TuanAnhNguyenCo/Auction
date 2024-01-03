@@ -1,0 +1,9 @@
+/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/auction.dir
+/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/edit_cache.dir
+/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/rebuild_cache.dir
+/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/list_install_components.dir
+/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/install.dir
+/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/install/local.dir
+/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/install/strip.dir
+/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/auction_autogen_timestamp_deps.dir
+/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/auction_autogen.dir

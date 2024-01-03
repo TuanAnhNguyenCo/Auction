@@ -277,6 +277,7 @@ void AuctionRoom::on_btn_backHome_clicked() //back home
     send(MySingleton::instance().getValue(), &outRoomMess, sizeof(OutRoomMess), 0);
     emit HomeClicked();
     stopTime();
+
 }
 void AuctionRoom::on_btn_overview_clicked()
 {

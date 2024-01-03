@@ -104,7 +104,6 @@ void MainWindow::notifyInfo(char *message){
 }
 
 void MainWindow::moveHome(){
-
     ui->stackedWidget->setCurrentIndex(0);
 
     //_______________________
@@ -151,9 +150,16 @@ void MainWindow::moveHome(){
             QLabel* item_name = new QLabel(QString("ID %1").arg(room.id));
             groupBoxLayout->addWidget(item_name);
             QLabel* item_room = new QLabel(QString("Name: %1").arg(room.name));
+            QFont nameStyledFont;
+            nameStyledFont.setBold(true);
+            nameStyledFont.setPointSize(15);
+            item_room->setFont(nameStyledFont);
             groupBoxLayout->addWidget(item_room);
             // Add button to join room
             QPushButton* item_btn_join = new QPushButton("Join");
+            item_btn_join->setCursor(Qt::PointingHandCursor);
+            //item_btn_join->setStyleSheet("background-color: rgba(105, 183, 255, 176);border-radius: 5px;border: 0.5px solid;");
+            //item_btn_join->setFixedWidth(80);
             groupBoxLayout->addWidget(item_btn_join,0, Qt::AlignRight);
 
             connect(item_btn_join, &QPushButton::clicked, [this, room]() {
@@ -173,6 +179,7 @@ void MainWindow::moveHome(){
 
     scrollArea->setWidgetResizable(true);
     scrollArea->setWidget(scrollContent);
+
 }
 void MainWindow::moveCreateTab(){
     ui->stackedWidget->setCurrentIndex(1);
@@ -211,8 +218,6 @@ void MainWindow::moveHistoryDetailPage(){
 void MainWindow::handleLogout(char *message){
     ui->stackedWidget->setCurrentIndex(4);
 }
-
-
 
 void MainWindow::on_search_textChanged()
 {

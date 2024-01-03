@@ -46,6 +46,17 @@ void addItem::on_btn_save_clicked()
     long double staring_price = ui->lineEdit_startingPrice->text().toDouble();
     long double bin_price = ui->lineEdit_binprice->text().toDouble();
     std::string description= ui->textEdit_description->toPlainText().toStdString();
+    if (item_name.empty() ||manufacturer.empty() || description.empty()) {
+        // Handle empty fields, show a message, and return or take appropriate action
+        qDebug() << "Please fill in all fields!";
+        QMessageBox::critical(this, tr("ERROR"), tr("Please fill out fields"));
+        return;
+    }
+    if(bin_price < staring_price || 0 >= staring_price){
+        qDebug() << "bin need to > start";
+        QMessageBox::critical(this, tr("ERROR"), tr("BIN price need to grater than Starting price and a positive number"));
+        return;
+    }
     // Lấy thời gian từ QTimeEdit
     QTime selectedTime = ui->timeEdit_auctiontime->time();
     // Lấy ngày hiện tại

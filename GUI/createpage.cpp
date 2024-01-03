@@ -29,7 +29,11 @@ void CreatePage::on_btn_historytab_clicked()
 
 void CreatePage::on_btn_save_clicked()
 {
-
+    if ( ui->lineEdit_name->text().isEmpty()) {
+        qDebug() << "Please fill in all fields!";
+        QMessageBox::critical(this, tr("ERROR"), tr("Please fill out field"));
+        return;
+    }
     //create room
     send(MySingleton::instance().getValue(), "4", BUFF_SIZE-1, 0);
     AuctionRoomCreationMess roomMess;
@@ -42,7 +46,6 @@ void CreatePage::on_btn_save_clicked()
 void CreatePage::handleMessageFromRoomCreationRequest(char *message){
     if (strcmp(message,"#OK")==0)
     {
-
         ui->lineEdit_name->setText("");
         QMessageBox::information(this, tr("CREATE A ROOM"), tr("Create an auction room successfully."));
         emit HomeClicked();

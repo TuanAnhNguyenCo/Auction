@@ -59,20 +59,21 @@ void HistoryDetail::showItemInfo(){
             groupBoxLayout->addWidget(item_image );
             // Add text label to each group box
             QLabel* item_name = new QLabel(goods.name);
+            item_name->setStyleSheet("font-weight: bold;");
             groupBoxLayout->addWidget(item_name);
-            QLabel* item_price = new QLabel("Latest price: "+QString::number(goods.current_price, 'f', 2));
+            QLabel* item_price = new QLabel("Latest price:"+QString::number(goods.current_price, 'f', 2));
             groupBoxLayout->addWidget(item_price);
             QLabel* item_buyer;
             for (std::list<Account>::iterator acc = MySingleton::instance().accountsOfRoom.begin(); acc != MySingleton::instance().accountsOfRoom.end(); ++acc){
                 if(acc->id == goods.price_maker_id)
                 {
-                    item_buyer = new QLabel(QString("Purchaser: %1").arg(acc->username));
+                    item_buyer = new QLabel(QString("- Purchaser: %1").arg(acc->username));
                     break;
                 }
             }
-
             groupBoxLayout->addWidget(item_buyer);
-            QLabel* item_status = new QLabel("Sold");
+            QLabel* item_status = new QLabel("- Sold");
+            item_status->setStyleSheet("  font-weight: bold;");
             groupBoxLayout->addWidget(item_status);
             scrollLayout->addWidget(item);
         }

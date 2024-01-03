@@ -45,6 +45,12 @@ void SignUp::on_btn_signup_clicked()
     std::string password= ui->lineEdit_pass->text().toStdString();
     std::string address= ui->lineEdit_address->text().toStdString();
     std::string phone_number= ui->lineEdit_phonenum->text().toStdString();
+    if (userName.empty() ||password.empty() || address.empty() || phone_number.empty()) {
+        // Handle empty fields, show a message, and return or take appropriate action
+        qDebug() << "Please fill in all fields!";
+        QMessageBox::critical(this, tr("ERROR"), tr("Please fill out fields"));
+        return;
+    }
     send(MySingleton::instance().getValue(),"1",BUFF_SIZE-1 , 0);
     SignupMess accountMess;
     strcpy(accountMess.address, address.c_str());
