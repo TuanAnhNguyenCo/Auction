@@ -176,10 +176,10 @@ void *handle_server(void *args)
     if (strcmp(message, "#message11") == 0)
     {
       CreateItemMess itemMess;
-      strcpy(itemMess.name, "abc");
-      itemMess.user_id = 1;
-      itemMess.room_id = 4;
-      strcpy(itemMess.description, "shjshdjsh");
+      strcpy(itemMess.name, "abc d");
+      itemMess.user_id = 2;
+      itemMess.room_id = 2;
+      strcpy(itemMess.description, "shjshdjsh abc");
       itemMess.price = 5000;
       itemMess.BIN_price = 400000;
       itemMess.created_at = 1702494558;

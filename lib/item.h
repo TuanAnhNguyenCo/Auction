@@ -23,6 +23,24 @@ using namespace std;
 #define BUFF_SIZE 8192
 pthread_mutex_t blockThreadMutex_item;
 
+void chuyenKhoangTrangItem(char *chuoi) {
+    while (*chuoi) {
+        if (*chuoi == ' ') {
+            *chuoi = '_';
+        }
+        chuoi++;
+    }
+}
+
+void chuyenNguocKhoangTrangItem(char *chuoi) {
+    while (*chuoi) {
+        if (*chuoi == '_') {
+            *chuoi = ' ';
+        }
+        chuoi++;
+    }
+}
+
 void get_items(list<Item> *items)
 {
     FILE *f = fopen("database/item.txt", "r");
@@ -40,6 +58,8 @@ void get_items(list<Item> *items)
         string pathString = currentPath.string();
         pathString += "/";
         pathString += item.url;
+        chuyenNguocKhoangTrangItem(item.name);
+        chuyenNguocKhoangTrangItem(item.description);
         strcpy(item.url, pathString.c_str());
         items->push_back(item);
     }
@@ -89,6 +109,8 @@ void save_items(list<Item> items)
                 new_url.erase(pos, pathString.length());
             }
             strcpy(item.url, new_url.c_str());
+            chuyenKhoangTrangItem(item.name);
+            chuyenKhoangTrangItem(item.description);
             fprintf(file, "%d %d %s %Lf %Lf %s %ld %ld %d %d %Lf %s\n", item.id, item.room_id, item.name, item.current_price, item.BIN_price, item.description, item.created_at, item.end, item.status, item.price_maker_id, item.reserve_price, item.url);
         }
     }
