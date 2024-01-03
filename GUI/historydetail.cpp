@@ -24,7 +24,6 @@ HistoryDetail::~HistoryDetail()
 
 
 void HistoryDetail::showItemInfo(){
-    qDebug() << "Items: " << MySingleton::instance().items.size();
     MySingleton::instance().home->setCurrentIndex(6);
     QWidget* scrollContent = ui->scrollAreaWidgetContents;
     QScrollArea* scrollArea = ui->scrollArea;

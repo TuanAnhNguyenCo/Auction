@@ -322,7 +322,7 @@ int main(int argc, char *argv[])
     {
         cout << "abcd" << endl;
     }
-    // signal(SIGPIPE, SIG_IGN);
+    signal(SIGPIPE, SIG_IGN);
 
     int listenSocket, connectSocket;
     get_accounts(&listAccounts);

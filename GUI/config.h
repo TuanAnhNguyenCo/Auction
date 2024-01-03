@@ -38,7 +38,7 @@ public:
     std::list<int> room_ids;
     Participents mems;
     QTimer timer;
-    int durationInSeconds = 120; // 2 phút
+    int remainingTime = 0;
     std::list<AuctionRoomStruct> joinedRoomList;
 
 

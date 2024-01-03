@@ -82,9 +82,9 @@ void AuctionRoom::on_btn_bid_clicked()
 void AuctionRoom::updateCounter()
 {
     // Giảm thời gian còn lại
-    remainingTime--;
+    MySingleton::instance().remainingTime--;
     // alert
-    if (remainingTime == 60)
+    if (MySingleton::instance().remainingTime == 30)
     {
         if(MySingleton::instance().getAccount().id == MySingleton::instance().joinedRoom.proprietor_id)
         {
@@ -96,7 +96,7 @@ void AuctionRoom::updateCounter()
     }
 
     // Kiểm tra xem thời gian còn lại có âm không
-    if (remainingTime < 0) {
+    if (MySingleton::instance().remainingTime < 0) {
         timer->stop();
         MySingleton::instance().is_auctioning = 0;
         qDebug() << "Countdown finished!";
@@ -111,8 +111,8 @@ void AuctionRoom::updateCounter()
     }
 
     // Chuyển đổi thời gian thành giây và phút
-    int minutes = remainingTime / 60;
-    int seconds = remainingTime % 60;
+    int minutes = MySingleton::instance().remainingTime / 60;
+    int seconds = MySingleton::instance().remainingTime % 60;
 
     // Hiển thị thời gian
 
@@ -129,7 +129,7 @@ void AuctionRoom::setNewTime(){
     timer = new QTimer(this);
 
     // Tạo bộ đếm mới
-    remainingTime = 120;
+    // MySingleton::instance().remainingTime = 60;
 
     // Kết nối sự kiện timeout của timer với hàm updateCounter
     QObject::connect(timer, &QTimer::timeout, this, &AuctionRoom::updateCounter);
@@ -141,6 +141,7 @@ void AuctionRoom::setNewTime(){
 void AuctionRoom::stopTime(){
     if (timer){
         MySingleton::instance().is_auctioning = 0;
+        MySingleton::instance().remainingTime = 0;
         // Dừng timer
         timer->stop();
         ui->lcdNumber->display(QString("%1:%2").arg(0, 2, 10, QChar('0')).arg(0, 2, 10, QChar('0')));
@@ -193,6 +194,8 @@ void AuctionRoom::showItem(){
         // qDebug() << "Room ID "<< MySingleton::instance().joinedRoom.id << "Loop ID " <<  it->room_id << "Status "<< it->status;
         if(it->room_id == MySingleton::instance().joinedRoom.id && it->status == 1 )
         {
+            if (MySingleton::instance().remainingTime == 0)
+                MySingleton::instance().remainingTime = it->end;
             status = 1;
             MySingleton::instance().current_item_id = it->id;
             ui->label_binPrice->setText(QString::number(it->BIN_price, 'f', 2)); // 'f' for normal float notation, 2 for two decimal places

@@ -31,6 +31,7 @@ signals:
     void showAlertMessage();
     void showJoinedRooms();
     void viewItemInfo();
+    void showRoom();
 };
 
 #endif // WORKER_H

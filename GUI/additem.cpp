@@ -48,18 +48,19 @@ void addItem::on_btn_save_clicked()
     std::string description= ui->textEdit_description->toPlainText().toStdString();
     // Lấy thời gian từ QTimeEdit
     QTime selectedTime = ui->timeEdit_auctiontime->time();
-    // Lấy ngày hiện tại
-    QDate currentDate = QDate::currentDate();
-    // Kết hợp ngày và giờ để tạo QDateTime
-    QDateTime combinedDateTime(currentDate, selectedTime);
-    // Chuyển đổi từ QDateTime sang time_t
-    time_t timeAsTimeT = combinedDateTime.toSecsSinceEpoch();
+
+    int hours = selectedTime.hour();
+    int minutes = selectedTime.minute();
+    int seconds = selectedTime.second();
+
+    // Convert to seconds
+    int totalSeconds = hours * 3600 + minutes * 60 + seconds;
 
     item.BIN_price = bin_price;
     item.user_id = MySingleton::instance().joinedRoom.proprietor_id;
     item.price = staring_price;
     item.created_at =  std::time(nullptr);
-    item.end =  item.created_at + timeAsTimeT;
+    item.end =  totalSeconds;
     item.room_id = MySingleton::instance().joinedRoom.id;
     strcpy(item.name,item_name.c_str());
     strcpy(item.description,description.c_str());

@@ -43,7 +43,7 @@ public slots:
     void handleLogout(char *message);
     void notifyInfo(char *message);
     void moveHistoryDetailPage();
-
+    void showRoom();
 
 private slots:
     void on_search_textChanged();

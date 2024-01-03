@@ -70,6 +70,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(worker, &Worker::showAlertMessage,&auctionroom, &AuctionRoom::showAlertMessage);
     connect(worker, &Worker::showJoinedRooms,&historypage, &HistoryPage::showJoinedRooms);
     connect(worker, &Worker::viewItemInfo,&historydetail, &HistoryDetail::showItemInfo);
+    connect(worker, &Worker::showRoom,this, &MainWindow::showRoom);
 
     workerThread->start();
 
@@ -103,13 +104,8 @@ void MainWindow::notifyInfo(char *message){
     QMessageBox::information(this, tr("Failed"), message);
 }
 
-void MainWindow::moveHome(){
-
-    ui->stackedWidget->setCurrentIndex(0);
-
-    //_______________________
-    //scroll area
-    // Obtain the scroll area and its content widget
+void MainWindow::showRoom()
+{
     QScrollArea* scrollArea = ui->scrollArea;
     QWidget* scrollContent = ui->scrollAreaWidgetContents;
 
@@ -173,6 +169,79 @@ void MainWindow::moveHome(){
 
     scrollArea->setWidgetResizable(true);
     scrollArea->setWidget(scrollContent);
+}
+
+void MainWindow::moveHome(){
+
+    ui->stackedWidget->setCurrentIndex(0);
+    showRoom();
+
+    //_______________________
+    //scroll area
+    // Obtain the scroll area and its content widget
+    // QScrollArea* scrollArea = ui->scrollArea;
+    // QWidget* scrollContent = ui->scrollAreaWidgetContents;
+
+    // // Clear out any existing widgets in the scrollContent
+    // QLayout* existingLayout = scrollContent->layout();
+    // if (existingLayout) {
+    //     // Delete all child widgets of the layout
+    //     QLayoutItem* item;
+    //     while ((item = existingLayout->takeAt(0)) != nullptr) {
+    //         delete item->widget();  // Delete the widget
+    //         delete item;            // Delete the layout item
+    //     }
+    //     delete existingLayout;  // Delete the old layout
+    // }
+
+    // QVBoxLayout* scrollLayout = new QVBoxLayout(scrollContent);
+    // int size = MySingleton::instance().auction_rooms.size();
+
+    // // show rooms
+    // std::list<AuctionRoomStruct> rooms = MySingleton::instance().auction_rooms;
+    // std::list<AuctionRoomStruct>::iterator it = rooms.begin();
+
+    // for (int groupIndex = 0; it != rooms.end() && groupIndex < size; ++it, ++groupIndex) {
+
+    //     AuctionRoomStruct room = *it;
+    //     // Define a regular expression pattern
+    //     std::regex pattern(".*" + MySingleton::instance().search + ".*",std::regex_constants::icase);
+    //     if (std::regex_match(it->name,pattern))
+    //     {
+    //         QGroupBox* item = new QGroupBox();
+    //         QHBoxLayout* groupBoxLayout = new QHBoxLayout(item);
+    //         // Add an image to each group box
+    //         QLabel* item_image = new QLabel;
+    //         QPixmap pixmap(":/image/con-cho.jpeg");
+    //         item_image ->setPixmap(pixmap.scaled(300,200, Qt::KeepAspectRatio));
+    //         groupBoxLayout->addWidget(item_image );
+
+    //         // Add text label to each group box
+    //         QLabel* item_name = new QLabel(QString("ID %1").arg(room.id));
+    //         groupBoxLayout->addWidget(item_name);
+    //         QLabel* item_room = new QLabel(QString("Name: %1").arg(room.name));
+    //         groupBoxLayout->addWidget(item_room);
+    //         // Add button to join room
+    //         QPushButton* item_btn_join = new QPushButton("Join");
+    //         groupBoxLayout->addWidget(item_btn_join,0, Qt::AlignRight);
+
+    //         connect(item_btn_join, &QPushButton::clicked, [this, room]() {
+
+    //             MySingleton::instance().joinedRoom = room;
+    //             send(MySingleton::instance().getValue(), "5", BUFF_SIZE-1, 0);
+    //             JoinMess mess;
+    //             mess.room_id = room.id;
+    //             mess.user_id = MySingleton::instance().getAccount().id;
+    //             send(MySingleton::instance().getValue(), &mess, sizeof(mess), 0);
+    //         });
+    //         scrollLayout->addWidget(item);
+    //     }
+    // }
+
+
+
+    // scrollArea->setWidgetResizable(true);
+    // scrollArea->setWidget(scrollContent);
 }
 void MainWindow::moveCreateTab(){
     ui->stackedWidget->setCurrentIndex(1);

@@ -140,6 +140,7 @@ void Worker::doWork() {
                 rcvBytes = recv(MySingleton::instance().getValue(), &room, sizeof(AuctionRoomStruct), 0);
                 MySingleton::instance().auction_rooms.push_back(room);
             }
+            emit showRoom();
         }
         if ((strcmp(message,"#update_room") == 0))
         {
@@ -155,8 +156,12 @@ void Worker::doWork() {
         }
         if (strcmp(message,"#update_time")==0)
         {
-            emit setNewTime();
-            qDebug("SetNewTime");
+            if (MySingleton::instance().remainingTime <= 30)
+            {
+                MySingleton::instance().remainingTime = 60;
+                emit setNewTime();
+                qDebug("SetNewTime");
+            }
         }
         if(strcmp(message,"#stop_time") ==0)
         {
