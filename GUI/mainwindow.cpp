@@ -71,6 +71,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(worker, &Worker::showJoinedRooms,&historypage, &HistoryPage::showJoinedRooms);
     connect(worker, &Worker::viewItemInfo,&historydetail, &HistoryDetail::showItemInfo);
     connect(worker, &Worker::showRoom,this, &MainWindow::showRoom);
+    connect(worker, &Worker::sendImg,&auctionroom.additem, &addItem::sendImg);
 
     workerThread->start();
 

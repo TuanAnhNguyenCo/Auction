@@ -32,6 +32,7 @@ signals:
     void showJoinedRooms();
     void viewItemInfo();
     void showRoom();
+    void sendImg(int id);
 };
 
 #endif // WORKER_H

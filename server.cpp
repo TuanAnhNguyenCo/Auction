@@ -282,13 +282,13 @@ void *handle_client(void *args)
         }
         else if (atoi(message) == 26)
         {
-            char messageType[BUFF_SIZE] = "#message26";
-            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
+            // char messageType[BUFF_SIZE] = "#message26";
+            // send(connectSocket, messageType, BUFF_SIZE - 1, 0);
 
             cout << "abc";
             Image image;
             recv(connectSocket, &image, sizeof(Image), 0);
-            char url[BUFF_SIZE] = "./GUI/image_";
+            char url[BUFF_SIZE] = "Image/image_";
             strcat(url, to_string(image.item_id).c_str());
             strcat(url, ".jpeg");
             cout << url << endl;

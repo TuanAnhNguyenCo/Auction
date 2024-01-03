@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include "config.h"
+#include "string.h"
 
 addItem::addItem(QWidget *parent)
     : QWidget(parent)
@@ -21,20 +22,7 @@ addItem::~addItem()
 void addItem::on_btn_choosePic_clicked()
 {
     QString filename = QFileDialog::getOpenFileName(this, tr("Choose"), "",tr("Images (*.png *.jpg *.jpeg *.bmp *.gif)"));
-    if (QString::compare(filename, QString()) != 0)
-    {
-        QImage image;
-        bool valid = image.load(filename);
-        if(valid)
-        {
-            image = image.scaledToWidth(ui->label_image->width(), Qt::SmoothTransformation);
-            ui->label_image->setPixmap(QPixmap::fromImage(image));
-
-        }
-        else {
-            QMessageBox::critical(this, tr("ERROR"), tr("Can not load the image"));
-        }
-    }
+    std::strcpy(MySingleton::instance().img_url, filename.toStdString().c_str());
 }
 
 
@@ -68,8 +56,50 @@ void addItem::on_btn_save_clicked()
     send(MySingleton::instance().getValue(), "11", BUFF_SIZE-1, 0);
     send(MySingleton::instance().getValue(), &item, sizeof(CreateItemMess), 0);
 
+}
+void addItem::sendImg(int id)
+{
+    // read img
+    Image image;
+    FILE *fp;
+    fp = fopen(MySingleton::instance().img_url, "rb");
+    if (fp == NULL)
+    {
+        qDebug() << "Can't read img";
+        return;
+    }
+    int n = fread(image.buff, 1, sizeof(image.buff), fp);
+    if (n <= 0)
+    {
+        qDebug() << "IMG Error";
+        return;
+    }
+    // status == 2: carry out function 2
+    image.status = 2;
+    image.isFirst = 1;
+    image.item_id = id;
+    send(MySingleton::instance().getValue(), "26", BUFF_SIZE-1, 0);
+    send(MySingleton::instance().getValue(), &image, sizeof(Image), 0);
 
-
+    // read and send to server
+    while (1)
+    {
+        int n = fread(image.buff, 1, sizeof(image.buff), fp);
+        if (n <= 0)
+        {
+            break;
+        }
+        // status == 2: carry out function 2
+        image.status = 2;
+        image.isFirst = 0;
+        send(MySingleton::instance().getValue(), "26", BUFF_SIZE - 1, 0);
+        send(MySingleton::instance().getValue(), &image, sizeof(Image), 0);
+    }
+    fclose(fp);
+    // notify to server that sending image has done
+    image.status = 3;
+    send(MySingleton::instance().getValue(), "26", BUFF_SIZE - 1, 0);
+    send(MySingleton::instance().getValue(), &image, sizeof(Image), 0);
 }
 
 

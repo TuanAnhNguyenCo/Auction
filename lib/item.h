@@ -17,6 +17,7 @@
 #include <iomanip>
 #include <pthread.h>
 #include <algorithm>
+#include <filesystem>
 using namespace std;
 
 #define BUFF_SIZE 8192
@@ -30,10 +31,16 @@ void get_items(list<Item> *items)
         cout << "Fail to read file" << endl;
         return;
     }
+    std::filesystem::path currentPath = std::filesystem::current_path();
+    // Chuyển đổi đường dẫn thành chuỗi
 
     Item item;
     while (fscanf(f, "%d %d %s %Lf %Lf %s %ld %ld %d %d %Lf %s", &item.id, &item.room_id, item.name, &item.current_price, &item.BIN_price, item.description, &item.created_at, &item.end, &item.status, &item.price_maker_id, &item.reserve_price, item.url) == 12)
     {
+        string pathString = currentPath.string();
+        pathString += "/";
+        pathString += item.url;
+        strcpy(item.url, pathString.c_str());
         items->push_back(item);
     }
     fclose(f);
@@ -62,10 +69,26 @@ void save_items(list<Item> items)
 {
     FILE *file;
     file = fopen("database/item.txt", "w+");
+    std::filesystem::path currentPath = std::filesystem::current_path();
+    // Chuyển đổi đường dẫn thành chuỗi
+    string pathString = currentPath.string();
+    pathString += "/";
+    // Kiểm tra xem searchString có xuất hiện trong url hay không
+
     if (file != NULL)
     {
         for (Item item : items)
         {
+
+            string new_url = item.url;
+            size_t pos = new_url.find(pathString);
+
+            // Nếu searchString xuất hiện, loại bỏ nó
+            if (pos != std::string::npos)
+            {
+                new_url.erase(pos, pathString.length());
+            }
+            strcpy(item.url, new_url.c_str());
             fprintf(file, "%d %d %s %Lf %Lf %s %ld %ld %d %d %Lf %s\n", item.id, item.room_id, item.name, item.current_price, item.BIN_price, item.description, item.created_at, item.end, item.status, item.price_maker_id, item.reserve_price, item.url);
         }
     }
@@ -123,11 +146,17 @@ int change_current_price(list<Item> *items, long double price, int price_maker_i
 // 1: success, 2: not found
 int change_url(list<Item> *items, char *url, int item_id)
 {
+    std::filesystem::path currentPath = std::filesystem::current_path();
+    // Chuyển đổi đường dẫn thành chuỗi
+    string pathString = currentPath.string();
+    pathString += "/";
     for (Item &item : *items)
     {
         if (item.id == item_id)
         {
-            strcpy(item.url, url);
+
+            pathString += url;
+            strcpy(item.url, pathString.c_str());
             save_items(*items);
             return 1;
         }

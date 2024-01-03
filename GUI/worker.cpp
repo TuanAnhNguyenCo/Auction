@@ -124,6 +124,15 @@ void Worker::doWork() {
             if (rcvBytes > 0){
                 respond[rcvBytes] = '\0';
             }
+            qDebug() << "Respond from creating " << respond;
+            if(strcmp("#OK",respond) == 0)
+            {
+                int id;
+                rcvBytes = recv(MySingleton::instance().getValue(),&id, sizeof(size_t), 0);
+                qDebug() << "id " << id;
+                emit sendImg(id);
+
+            }
             emit create_item_dataReceived(respond);
 
         }
@@ -199,7 +208,6 @@ void Worker::doWork() {
         if (strcmp(message,"#message18")==0)
         {
             char num_items[BUFF_SIZE];
-
             int rcvBytes = recv(MySingleton::instance().getValue(), num_items, BUFF_SIZE - 1, 0);
             num_items[rcvBytes] = '\0';
             qDebug() << "Num items: " << num_items;
@@ -211,6 +219,8 @@ void Worker::doWork() {
                 MySingleton::instance().items.push_back(item);
 
             }
+
+
 
             emit updateAuctionItem();
             emit callShowItems();

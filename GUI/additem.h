@@ -22,6 +22,7 @@ private slots:
     void on_btn_back_clicked();
 public slots:
     void handleRoomCreationStatus(char *message);
+    void sendImg(int id);
 signals:
     void cancelClicked();
 private:

@@ -39,6 +39,8 @@ public:
     Participents mems;
     QTimer timer;
     int remainingTime = 0;
+    char img_url[1000];
+    int sendImg = 1;// 0 wait for sending
     std::list<AuctionRoomStruct> joinedRoomList;
 
 

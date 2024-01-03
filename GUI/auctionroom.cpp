@@ -21,9 +21,9 @@ AuctionRoom::AuctionRoom(QWidget *parent)
     //set icon for button
     ui->btn_backHome->setIcon(QIcon(":/image/icon_back.jpeg"));
     ui->btn_overview->setIcon(QIcon(":/image/icon_overview.png"));
-    // image minh hoa
-    QPixmap image(":/image/con-cho.jpeg");
-    ui->label_image->setPixmap(image.scaled(ui->label_image->size(),Qt::KeepAspectRatio));
+    // // image minh hoa
+    // QPixmap image(":/image/con-cho.jpeg");
+    // ui->label_image->setPixmap(image.scaled(ui->label_image->size(),Qt::KeepAspectRatio));
     // navigate
     ui->stackedWidget_2->insertWidget(1, &roomoverview);
     ui->stackedWidget_2->insertWidget(2,&additem);
@@ -197,6 +197,16 @@ void AuctionRoom::showItem(){
             if (MySingleton::instance().remainingTime == 0)
                 MySingleton::instance().remainingTime = it->end;
             status = 1;
+
+
+            QPixmap image(it->url);  // ":/" đại diện cho đường dẫn trong tài nguyên Qt
+
+            // Kiểm tra xem ảnh có được load thành công không
+            if (image.isNull()) {
+                qWarning("Cannot load image");
+
+            }
+            ui->label_image->setPixmap(image.scaled(ui->label_image->size(),Qt::KeepAspectRatio));
             MySingleton::instance().current_item_id = it->id;
             ui->label_binPrice->setText(QString::number(it->BIN_price, 'f', 2)); // 'f' for normal float notation, 2 for two decimal places
             ui->label_startPrice->setText(QString::number(it->reserve_price, 'f', 2)); // 'f' for normal float notation, 2 for two decimal places

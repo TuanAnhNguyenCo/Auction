@@ -214,6 +214,9 @@ int recv_and_handle_create_item(int conn_sock, list<Item> *items, list<AuctionRo
     {
         strcpy(message, "#OK");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
+
+        size_t dataSize = items->size(); 
+        send(conn_sock, &dataSize, sizeof(size_t), 0);
     }
     else if (status == 2)
     {
