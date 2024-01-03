@@ -252,8 +252,10 @@ void *handle_client(void *args)
         }
         else if (atoi(message) == 22)
         {
-            char messageStartBidding[BUFF_SIZE] = "#start_bidding";
-            send_all_client(listAccounts, messageStartBidding);
+            GetParticipateMess mess;
+            recv(connectSocket, &mess, sizeof(GetParticipateMess), 0);
+            char messageAlert[BUFF_SIZE] = "#start_bidding";
+            send_participate(listAccounts, listAccountRooms, messageAlert, mess.room_id);
         }
         else if (atoi(message) == 23)
         {

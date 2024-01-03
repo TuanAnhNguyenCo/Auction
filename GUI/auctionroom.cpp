@@ -343,5 +343,8 @@ void AuctionRoom::on_btn_bin_clicked()
 void AuctionRoom::on_startAuction_clicked()
 {
     send(MySingleton::instance().getValue(), "22", BUFF_SIZE-1, 0);
+    GetParticipateMess mess;
+    mess.room_id = MySingleton::instance().joinedRoom.id;
+    send(MySingleton::instance().getValue(), &mess, sizeof(GetParticipateMess), 0);
 }
 
