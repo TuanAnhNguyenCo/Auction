@@ -32,7 +32,7 @@ void get_items(list<Item> *items)
     }
 
     Item item;
-    while (fscanf(f, "%d %d %s %Lf %Lf %s %ld %ld %d %d %Lf", &item.id, &item.room_id, item.name, &item.current_price, &item.BIN_price, item.description, &item.created_at, &item.end, &item.status, &item.price_maker_id, &item.reserve_price) == 11)
+    while (fscanf(f, "%d %d %s %Lf %Lf %s %ld %ld %d %d %Lf %s", &item.id, &item.room_id, item.name, &item.current_price, &item.BIN_price, item.description, &item.created_at, &item.end, &item.status, &item.price_maker_id, &item.reserve_price, item.url) == 12)
     {
         items->push_back(item);
     }
@@ -66,7 +66,7 @@ void save_items(list<Item> items)
     {
         for (Item item : items)
         {
-            fprintf(file, "%d %d %s %Lf %Lf %s %ld %ld %d %d %Lf\n", item.id, item.room_id, item.name, item.current_price, item.BIN_price, item.description, item.created_at, item.end, item.status, item.price_maker_id, item.reserve_price);
+            fprintf(file, "%d %d %s %Lf %Lf %s %ld %ld %d %d %Lf %s\n", item.id, item.room_id, item.name, item.current_price, item.BIN_price, item.description, item.created_at, item.end, item.status, item.price_maker_id, item.reserve_price, item.url);
         }
     }
     else
@@ -80,12 +80,14 @@ int createItem(list<Item> *items, Item item)
 {
     item.id = items->size() + 1;
     item.status = 1;
+    strcpy(item.url, "./GUI/con-cho.jpeg");
     items->push_back(item);
     save_items(*items);
     return 1;
 }
 // 1: Successfully 2: Fail
-int closeItem(list<Item> *items, int item_id){
+int closeItem(list<Item> *items, int item_id)
+{
     for (Item &item : *items)
     {
         if (item.id == item_id)
@@ -116,6 +118,21 @@ int change_current_price(list<Item> *items, long double price, int price_maker_i
         }
     }
     return 3;
+}
+
+// 1: success, 2: not found
+int change_url(list<Item> *items, char *url, int item_id)
+{
+    for (Item &item : *items)
+    {
+        if (item.id == item_id)
+        {
+            strcpy(item.url, url);
+            save_items(*items);
+            return 1;
+        }
+    }
+    return 2;
 }
 // 1: success, 3: Item not found
 int change_bin_price(list<Item> *items, int price_maker_id, int item_id)
@@ -169,7 +186,7 @@ int recv_and_handle_get_items(int conn_sock, list<Item> *items)
     send(conn_sock, message, BUFF_SIZE - 1, 0);
     for (Item &item : *items)
     {
-       
+
         send(conn_sock, &item, sizeof(Item), 0);
     }
     return 1;

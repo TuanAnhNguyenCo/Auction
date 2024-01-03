@@ -280,6 +280,39 @@ void *handle_client(void *args)
                 break;
             }
         }
+        else if (atoi(message) == 26)
+        {
+            char messageType[BUFF_SIZE] = "#message26";
+            send(connectSocket, messageType, BUFF_SIZE - 1, 0);
+
+            cout << "abc";
+            Image image;
+            recv(connectSocket, &image, sizeof(Image), 0);
+            char url[BUFF_SIZE] = "./GUI/image_";
+            strcat(url, to_string(image.item_id).c_str());
+            strcat(url, ".jpeg");
+            cout << url << endl;
+            if (image.status == 2)
+            {
+                // read data and append to file
+                FILE *fp;
+                // image.image == 1: I get sending a image
+                if (image.isFirst == 1)
+                {
+                    change_url(&listItems, url, image.item_id);
+                    fp = fopen(url, "wb");
+                }
+                else // image.image == 0: I continue to send a image
+                    fp = fopen(url, "ab");
+                fwrite(image.buff, 1, sizeof(image.buff), fp);
+                fclose(fp);
+            }
+            else if (image.status == 3)
+            {
+                char messageUpdate[BUFF_SIZE] = "#update_item";
+                send_all_client(listAccounts, messageUpdate);
+            }
+        }
     }
 }
 
