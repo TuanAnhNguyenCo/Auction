@@ -12,6 +12,7 @@
 #include "worker.h"
 #include "room.h"
 #include <QMessageBox>
+#include <regex>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -67,6 +68,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(worker, &Worker::setNewTime,&auctionroom, &AuctionRoom::setNewTime);
     connect(worker, &Worker::stopTime,&auctionroom, &AuctionRoom::stopTime);
     connect(worker, &Worker::showAlertMessage,&auctionroom, &AuctionRoom::showAlertMessage);
+    connect(worker, &Worker::showJoinedRooms,&historypage, &HistoryPage::showJoinedRooms);
+    connect(worker, &Worker::viewItemInfo,&historydetail, &HistoryDetail::showItemInfo);
 
     workerThread->start();
 
@@ -92,6 +95,7 @@ void MainWindow::on_btn_createtab_clicked()
 }
 void MainWindow::on_btn_historytab_clicked()
 {
+    historypage.moveHistoryPage();
     ui->stackedWidget->setCurrentIndex(2);
 }
 
@@ -131,33 +135,38 @@ void MainWindow::moveHome(){
     for (int groupIndex = 0; it != rooms.end() && groupIndex < size; ++it, ++groupIndex) {
 
         AuctionRoomStruct room = *it;
-        QGroupBox* item = new QGroupBox();
-        QHBoxLayout* groupBoxLayout = new QHBoxLayout(item);
-        // Add an image to each group box
-        QLabel* item_image = new QLabel;
-        QPixmap pixmap(":/image/con-cho.jpeg");
-        item_image ->setPixmap(pixmap.scaled(300,200, Qt::KeepAspectRatio));
-        groupBoxLayout->addWidget(item_image );
+        // Define a regular expression pattern
+        std::regex pattern(".*" + MySingleton::instance().search + ".*",std::regex_constants::icase);
+        if (std::regex_match(it->name,pattern))
+        {
+            QGroupBox* item = new QGroupBox();
+            QHBoxLayout* groupBoxLayout = new QHBoxLayout(item);
+            // Add an image to each group box
+            QLabel* item_image = new QLabel;
+            QPixmap pixmap(":/image/con-cho.jpeg");
+            item_image ->setPixmap(pixmap.scaled(300,200, Qt::KeepAspectRatio));
+            groupBoxLayout->addWidget(item_image );
 
-        // Add text label to each group box
-        QLabel* item_name = new QLabel(QString("ID %1").arg(room.id));
-        groupBoxLayout->addWidget(item_name);
-        QLabel* item_room = new QLabel(QString("Name: %1").arg(room.name));
-        groupBoxLayout->addWidget(item_room);
-        // Add button to join room
-        QPushButton* item_btn_join = new QPushButton("Join");
-        groupBoxLayout->addWidget(item_btn_join,0, Qt::AlignRight);
+            // Add text label to each group box
+            QLabel* item_name = new QLabel(QString("ID %1").arg(room.id));
+            groupBoxLayout->addWidget(item_name);
+            QLabel* item_room = new QLabel(QString("Name: %1").arg(room.name));
+            groupBoxLayout->addWidget(item_room);
+            // Add button to join room
+            QPushButton* item_btn_join = new QPushButton("Join");
+            groupBoxLayout->addWidget(item_btn_join,0, Qt::AlignRight);
 
-        connect(item_btn_join, &QPushButton::clicked, [this, room]() {
+            connect(item_btn_join, &QPushButton::clicked, [this, room]() {
 
-            MySingleton::instance().joinedRoom = room;
-            send(MySingleton::instance().getValue(), "5", BUFF_SIZE-1, 0);
-            JoinMess mess;
-            mess.room_id = room.id;
-            mess.user_id = MySingleton::instance().getAccount().id;
-            send(MySingleton::instance().getValue(), &mess, sizeof(mess), 0);
-        });
-        scrollLayout->addWidget(item);
+                MySingleton::instance().joinedRoom = room;
+                send(MySingleton::instance().getValue(), "5", BUFF_SIZE-1, 0);
+                JoinMess mess;
+                mess.room_id = room.id;
+                mess.user_id = MySingleton::instance().getAccount().id;
+                send(MySingleton::instance().getValue(), &mess, sizeof(mess), 0);
+            });
+            scrollLayout->addWidget(item);
+        }
     }
 
 
@@ -169,6 +178,7 @@ void MainWindow::moveCreateTab(){
     ui->stackedWidget->setCurrentIndex(1);
 }
 void MainWindow::moveHistoryTab(){
+    historypage.moveHistoryPage();
     ui->stackedWidget->setCurrentIndex(2);
 }
 void MainWindow::moveAuctionRoom(char *message){
@@ -201,5 +211,16 @@ void MainWindow::moveHistoryDetailPage(){
 void MainWindow::handleLogout(char *message){
     ui->stackedWidget->setCurrentIndex(4);
 }
+
+
+
+void MainWindow::on_search_textChanged()
+{
+    MySingleton::instance().search = ui->search->toPlainText().toStdString();
+
+    moveHome();
+}
+
+
 
 

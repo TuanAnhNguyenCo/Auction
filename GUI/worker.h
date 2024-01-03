@@ -29,6 +29,8 @@ signals:
     void setNewTime();
     void stopTime();
     void showAlertMessage();
+    void showJoinedRooms();
+    void viewItemInfo();
 };
 
 #endif // WORKER_H

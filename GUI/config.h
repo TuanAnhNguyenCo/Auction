@@ -39,6 +39,11 @@ public:
     Participents mems;
     QTimer timer;
     int durationInSeconds = 120; // 2 phút
+    std::list<AuctionRoomStruct> joinedRoomList;
+
+
+    AuctionRoomStruct viewingRoomHistory;
+    std::list<Account> accountsOfRoom;
 
 
     QStackedWidget *auction_root_ui;
@@ -46,6 +51,7 @@ public:
     QWidget* scrollRoomsContent;
     AuctionRoomStruct joinedRoom;
     Worker *worker;
+    std::string search;
 
 
 

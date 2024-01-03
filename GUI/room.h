@@ -106,5 +106,10 @@ typedef struct
     int item_id;
 } CloseItemMess;
 
+typedef struct
+{
+    int user_id;
+} GetRoomHistoryMess;
+
 
 #endif // ROOM_H

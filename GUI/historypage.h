@@ -17,10 +17,16 @@ signals:
     void HomeClicked();
     void CreateClicked();
     void HistoryDetailClicked();
+
 private slots:
     void on_btn_hometab_clicked();
     void on_btn_createtab_clicked();
     void viewClicked();
+
+
+public slots:
+    void moveHistoryPage();
+    void showJoinedRooms();
 
 private:
     Ui::HistoryPage *ui;

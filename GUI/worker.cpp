@@ -290,7 +290,42 @@ void Worker::doWork() {
             emit updateAuctionItem();
 
         }
+        // get joined room list
+        if (strcmp(message,"#message24")==0)
+        {
+            char Num_accs[BUFF_SIZE];
 
+            int rcvBytes = recv(MySingleton::instance().getValue(), Num_accs, BUFF_SIZE - 1, 0);
+            Num_accs[rcvBytes] = '\0';
+            qDebug() << "Num accs: " << Num_accs;
+            MySingleton::instance().accountsOfRoom.clear();
+            for (int i = 0; i < atoi(Num_accs); i++)
+            {
+                Account participate;
+                recv(MySingleton::instance().getValue(), &participate, sizeof(Account), 0);
+                MySingleton::instance().accountsOfRoom.push_back(participate);
+            }
+            emit viewItemInfo();
+
+        }
+        // get joined room list
+        if (strcmp(message,"#message25")==0)
+        {
+            char Num_joinedRoom[BUFF_SIZE];
+
+            int rcvBytes = recv(MySingleton::instance().getValue(), Num_joinedRoom, BUFF_SIZE - 1, 0);
+            Num_joinedRoom[rcvBytes] = '\0';
+            qDebug() << "Num joined rooms: " << Num_joinedRoom;
+            MySingleton::instance().joinedRoomList.clear();
+            for (int i = 0; i < atoi(Num_joinedRoom); i++)
+            {
+                AuctionRoomStruct room;;
+                recv(MySingleton::instance().getValue(), &room, sizeof(AuctionRoomStruct), 0);
+                MySingleton::instance().joinedRoomList.push_back(room);
+            }
+            emit showJoinedRooms();
+
+        }
 
 
 

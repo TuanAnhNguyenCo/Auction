@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <QGridLayout>
 #include <QGroupBox>
+#include "config.h"
 HistoryPage::HistoryPage(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::HistoryPage)
@@ -13,30 +14,6 @@ HistoryPage::HistoryPage(QWidget *parent)
     ui->setupUi(this);
     QPixmap logo(":/image/logo_auction.png");
     ui->label_logo_2->setPixmap(logo.scaled(100,100,Qt::KeepAspectRatio));
-    QWidget* scrollContent = ui->scrollAreaWidgetContents;
-    QVBoxLayout* scrollLayout = new QVBoxLayout(scrollContent);
-    for (int groupIndex = 0; groupIndex < 5; ++groupIndex) {
-        QGroupBox* room= new QGroupBox;
-        QHBoxLayout* groupBoxLayout = new QHBoxLayout(room);
-        // Add an image to each group box
-        QLabel* room_image = new QLabel;
-        QPixmap pixmap(":/image/con-cho.jpeg");
-        room_image ->setPixmap(pixmap.scaled(300,200, Qt::KeepAspectRatio));
-        groupBoxLayout->addWidget(room_image);
-
-        // Add text label to each group box
-        QLabel* room_info = new QLabel("Room 1 - abc@xyz");
-        groupBoxLayout->addWidget(room_info);
-        // Add button to view room
-        QPushButton* item_btn_view = new QPushButton("View");
-        groupBoxLayout->addWidget(item_btn_view,0, Qt::AlignRight);
-        connect(item_btn_view, &QPushButton::clicked, this, &HistoryPage::viewClicked);
-        scrollLayout->addWidget(room);
-
-}
-    QScrollArea* scrollArea = ui->scrollArea;
-    scrollArea->setWidgetResizable(true);
-    scrollArea->setWidget(scrollContent);
 }
 
 HistoryPage::~HistoryPage()
@@ -44,9 +21,72 @@ HistoryPage::~HistoryPage()
     delete ui;
 }
 
+
+void HistoryPage::moveHistoryPage(){
+    qDebug("Hello");
+    GetRoomHistoryMess user;
+    user.user_id = MySingleton::instance().getAccount().id;
+    send(MySingleton::instance().getValue(), "25", BUFF_SIZE-1, 0);
+    send(MySingleton::instance().getValue(), &user, sizeof(GetRoomHistoryMess), 0);
+
+}
+void HistoryPage::showJoinedRooms(){
+
+        QScrollArea* scrollArea = ui->scrollArea;
+        QWidget* scrollContent = ui->scrollAreaWidgetContents;
+
+        // Clear out any existing widgets in the scrollContent
+        QLayout* existingLayout = scrollContent->layout();
+        if (existingLayout) {
+            // Delete all child widgets of the layout
+            QLayoutItem* item;
+            while ((item = existingLayout->takeAt(0)) != nullptr) {
+                delete item->widget();  // Delete the widget
+                delete item;            // Delete the layout item
+            }
+            delete existingLayout;  // Delete the old layout
+        }
+
+        QVBoxLayout* scrollLayout = new QVBoxLayout(scrollContent);
+
+        for (std::list<AuctionRoomStruct>::iterator it = MySingleton::instance().joinedRoomList.begin(); it != MySingleton::instance().joinedRoomList.end(); ++it){
+            AuctionRoomStruct room = *it;
+            // Define a regular expression pattern
+
+            QGroupBox* item = new QGroupBox();
+            QHBoxLayout* groupBoxLayout = new QHBoxLayout(item);
+            // Add an image to each group box
+            QLabel* item_image = new QLabel;
+            QPixmap pixmap(":/image/con-cho.jpeg");
+            item_image ->setPixmap(pixmap.scaled(300,200, Qt::KeepAspectRatio));
+            groupBoxLayout->addWidget(item_image );
+
+            // Add text label to each group box
+            QLabel* item_name = new QLabel(QString("ID %1").arg(room.id));
+            groupBoxLayout->addWidget(item_name);
+            QLabel* item_room = new QLabel(QString("Name: %1").arg(room.name));
+            groupBoxLayout->addWidget(item_room);
+            // Add button to join room
+            QPushButton* item_btn_join = new QPushButton("View");
+            groupBoxLayout->addWidget(item_btn_join,0, Qt::AlignRight);
+
+            connect(item_btn_join, &QPushButton::clicked, [this, room]() {
+                MySingleton::instance().viewingRoomHistory = room;
+                GetParticipateMess rm;
+                rm.room_id = room.id;
+                send(MySingleton::instance().getValue(), "24", BUFF_SIZE-1, 0);
+                send(MySingleton::instance().getValue(), &rm, sizeof(GetParticipateMess), 0);
+            });
+            scrollLayout->addWidget(item);
+
+        }
+        scrollArea->setWidgetResizable(true);
+        scrollArea->setWidget(scrollContent);
+}
+
 void HistoryPage::on_btn_hometab_clicked()
 {
-     emit HomeClicked();
+    emit HomeClicked();
 }
 
 void HistoryPage::on_btn_createtab_clicked()

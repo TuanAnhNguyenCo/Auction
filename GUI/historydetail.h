@@ -19,6 +19,10 @@ signals:
 private slots:
     void on_btn_back_clicked();
 
+public slots:
+    void showItemInfo();
+
+
 private:
     Ui::HistoryDetail *ui;
 };

@@ -45,6 +45,9 @@ public slots:
     void moveHistoryDetailPage();
 
 
+private slots:
+    void on_search_textChanged();
+
 private:
     Ui::MainWindow *ui;
     CreatePage createpage; //

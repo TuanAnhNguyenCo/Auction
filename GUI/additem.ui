@@ -152,7 +152,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Auction time:</string>
+       <string>Duration</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_13">

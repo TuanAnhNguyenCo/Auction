@@ -1,9 +1,0 @@
-/Users/dieulinh/ltm/Auction/GUI/build/CMakeFiles/auction.dir
-/Users/dieulinh/ltm/Auction/GUI/build/CMakeFiles/edit_cache.dir
-/Users/dieulinh/ltm/Auction/GUI/build/CMakeFiles/rebuild_cache.dir
-/Users/dieulinh/ltm/Auction/GUI/build/CMakeFiles/list_install_components.dir
-/Users/dieulinh/ltm/Auction/GUI/build/CMakeFiles/install.dir
-/Users/dieulinh/ltm/Auction/GUI/build/CMakeFiles/install/local.dir
-/Users/dieulinh/ltm/Auction/GUI/build/CMakeFiles/install/strip.dir
-/Users/dieulinh/ltm/Auction/GUI/build/CMakeFiles/auction_autogen_timestamp_deps.dir
-/Users/dieulinh/ltm/Auction/GUI/build/CMakeFiles/auction_autogen.dir
