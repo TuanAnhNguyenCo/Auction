@@ -152,7 +152,7 @@ void AuctionRoom::stopTime(){
 }
 
 void AuctionRoom::showAlertMessage(){
-    QLabel *notification = new QLabel("!Important: Remaining Time: 1 minute", this);
+    QLabel *notification = new QLabel("!Important: Remaining Time: 30 s", this);
     notification->setMinimumSize(QSize(400, 40));
     notification->setStyleSheet("background-color: black; color: red; padding: 10px; border-radius: 10px;");
     notification->setWindowFlags(Qt::SubWindow);  // Make it a child of the main window
