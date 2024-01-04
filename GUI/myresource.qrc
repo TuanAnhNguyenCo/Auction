@@ -4,5 +4,7 @@
         <file>icon_back.jpeg</file>
         <file>icon_overview.png</file>
         <file>logo_auction.png</file>
+        <file>auction.png</file>
+        <file>room_icon.jpeg</file>
     </qresource>
 </RCC>

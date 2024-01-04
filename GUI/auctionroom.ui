@@ -364,8 +364,8 @@ Khả năng mô phỏng động của chú mèo không giới hạn. Từ cử �
       <rect>
        <x>20</x>
        <y>80</y>
-       <width>21</width>
-       <height>31</height>
+       <width>31</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="cursor">
@@ -403,7 +403,7 @@ border: 1px solid;
       <rect>
        <x>60</x>
        <y>70</y>
-       <width>151</width>
+       <width>341</width>
        <height>51</height>
       </rect>
      </property>
@@ -421,9 +421,9 @@ border: 1px solid;
     <widget class="QLabel" name="label_nameOwner">
      <property name="geometry">
       <rect>
-       <x>170</x>
-       <y>90</y>
-       <width>71</width>
+       <x>60</x>
+       <y>110</y>
+       <width>231</width>
        <height>16</height>
       </rect>
      </property>
@@ -434,7 +434,7 @@ border: 1px solid;
       </font>
      </property>
      <property name="text">
-      <string>abc@xyz</string>
+      <string/>
      </property>
     </widget>
     <widget class="QPushButton" name="btn_bin">
@@ -460,7 +460,7 @@ border: 1px solid;
     <widget class="QLabel" name="label_closed">
      <property name="geometry">
       <rect>
-       <x>260</x>
+       <x>420</x>
        <y>80</y>
        <width>61</width>
        <height>31</height>
@@ -502,7 +502,7 @@ color:'red'</string>
     <widget class="QLabel" name="label_open">
      <property name="geometry">
       <rect>
-       <x>260</x>
+       <x>420</x>
        <y>80</y>
        <width>61</width>
        <height>31</height>

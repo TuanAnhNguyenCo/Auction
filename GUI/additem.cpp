@@ -127,7 +127,10 @@ void addItem::sendImg(int id)
     image.status = 3;
     send(MySingleton::instance().getValue(), "26", BUFF_SIZE - 1, 0);
     send(MySingleton::instance().getValue(), &image, sizeof(Image), 0);
+    QPixmap pixmap("");
+    ui->label_image->setPixmap(pixmap);
 }
+
 
 
 void addItem::on_btn_back_clicked()

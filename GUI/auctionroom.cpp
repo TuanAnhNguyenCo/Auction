@@ -321,6 +321,7 @@ void AuctionRoom::moveToOverview(){
 
 void AuctionRoom::addNemItem(){
     ui->stackedWidget_2->setCurrentIndex(2);
+
 }
 void AuctionRoom::moveToParticipant(){
     emit callShowMembers();

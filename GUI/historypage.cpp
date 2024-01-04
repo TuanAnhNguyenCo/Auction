@@ -57,7 +57,7 @@ void HistoryPage::showJoinedRooms(){
             QHBoxLayout* groupBoxLayout = new QHBoxLayout(item);
             // Add an image to each group box
             QLabel* item_image = new QLabel;
-            QPixmap pixmap(":/image/con-cho.jpeg");
+            QPixmap pixmap(":/image/room_icon.jpeg");
             item_image ->setPixmap(pixmap.scaled(300,200, Qt::KeepAspectRatio));
             groupBoxLayout->addWidget(item_image );
 
