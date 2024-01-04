@@ -40,6 +40,7 @@ public:
     QTimer timer;
     int remainingTime = 0;
     char img_url[1000];
+    int count;
     int sendImg = 1;// 0 wait for sending
     std::list<AuctionRoomStruct> joinedRoomList;
 

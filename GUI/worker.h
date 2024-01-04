@@ -26,7 +26,7 @@ signals:
     void updateAuctionItem();
     void updateAuctionItemByID(int id);
     void callShowItems();
-    void setNewTime();
+    void setNewTime(int duration);
     void stopTime();
     void showAlertMessage();
     void showJoinedRooms();

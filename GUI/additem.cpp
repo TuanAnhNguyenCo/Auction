@@ -21,8 +21,24 @@ addItem::~addItem()
 
 void addItem::on_btn_choosePic_clicked()
 {
+    QPixmap pixmap("");
+    ui->label_image->setPixmap(pixmap);
     QString filename = QFileDialog::getOpenFileName(this, tr("Choose"), "",tr("Images (*.png *.jpg *.jpeg *.bmp *.gif)"));
     std::strcpy(MySingleton::instance().img_url, filename.toStdString().c_str());
+    if (QString::compare(filename, QString()) != 0)
+    {
+        QImage image;
+        bool valid = image.load(filename);
+        if(valid)
+        {
+            image = image.scaledToWidth(ui->label_image->width(), Qt::SmoothTransformation);
+            ui->label_image->setPixmap(QPixmap::fromImage(image));
+
+        }
+        else {
+            QMessageBox::critical(this, tr("ERROR"), tr("Can not load the image"));
+        }
+    }
 }
 
 

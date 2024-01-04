@@ -165,10 +165,9 @@ void Worker::doWork() {
         }
         if (strcmp(message,"#update_time")==0)
         {
-            if (MySingleton::instance().remainingTime <= 30)
+            if (MySingleton::instance().count <= 30)
             {
-                MySingleton::instance().remainingTime = 60;
-                emit setNewTime();
+                emit setNewTime(60);
                 qDebug("SetNewTime");
             }
         }
@@ -301,7 +300,10 @@ void Worker::doWork() {
         if (strcmp(message,"#start_bidding") == 0)
         {
             MySingleton::instance().is_auctioning = 1;
-            emit setNewTime();
+            char duration[BUFF_SIZE];
+            recv(MySingleton::instance().getValue(),&duration, BUFF_SIZE - 1, 0);
+            qDebug() << "Reply time: " <<  atoi(duration);
+            emit setNewTime(atoi(duration));
             emit updateAuctionItem();
 
         }

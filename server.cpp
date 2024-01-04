@@ -255,7 +255,11 @@ void *handle_client(void *args)
         {
             GetParticipateMess mess;
             recv(connectSocket, &mess, sizeof(GetParticipateMess), 0);
+            int duration;
+            recv(connectSocket, &duration, sizeof(size_t), 0);
             char messageAlert[BUFF_SIZE] = "#start_bidding";
+            send_participate(listAccounts, listAccountRooms, messageAlert, mess.room_id);
+            snprintf(messageAlert, sizeof(messageAlert), "%d", duration);
             send_participate(listAccounts, listAccountRooms, messageAlert, mess.room_id);
         }
         else if (atoi(message) == 23)

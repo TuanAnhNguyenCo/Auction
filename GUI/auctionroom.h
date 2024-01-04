@@ -40,7 +40,7 @@ public slots:
     void showItem();
     void showItemByID(int id);
     void notify(char *message);
-    void setNewTime();
+    void setNewTime(int duration);
     void stopTime();
     void showAlertMessage();
 
