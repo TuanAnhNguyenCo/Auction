@@ -54,6 +54,9 @@
      <bold>true</bold>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color:  rgb(37, 153, 255);</string>
+   </property>
    <property name="text">
     <string>Sign up</string>
    </property>
@@ -85,7 +88,11 @@
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <bold>true</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:  rgba(105, 183, 255, 176);</string>
     </property>
     <property name="text">
      <string>Create your own account</string>
@@ -106,7 +113,7 @@
      </font>
     </property>
     <property name="text">
-     <string>User's name:</string>
+     <string>Username:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">
@@ -172,6 +179,9 @@
       <height>21</height>
      </rect>
     </property>
+    <property name="placeholderText">
+     <string>Username</string>
+    </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_phonenum">
     <property name="geometry">
@@ -181,6 +191,9 @@
       <width>361</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Phone number</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_address">
@@ -192,6 +205,9 @@
       <height>21</height>
      </rect>
     </property>
+    <property name="placeholderText">
+     <string>Address</string>
+    </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_pass">
     <property name="geometry">
@@ -202,15 +218,28 @@
       <height>21</height>
      </rect>
     </property>
+    <property name="placeholderText">
+     <string>Password</string>
+    </property>
    </widget>
    <widget class="QPushButton" name="btn_signup">
     <property name="geometry">
      <rect>
       <x>210</x>
       <y>220</y>
-      <width>111</width>
-      <height>41</height>
+      <width>101</width>
+      <height>31</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+	background-color: rgba(105, 183, 255, 176);
+ border-radius: 5px;
+border: 1px solid;
+ }</string>
     </property>
     <property name="text">
      <string>Sign up</string>
@@ -219,16 +248,21 @@
    <widget class="QPushButton" name="btn_loginPage">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>310</x>
       <y>260</y>
       <width>171</width>
       <height>31</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="styleSheet">
      <string notr="true">border:none;
 font-style: italic;
 text-decoration: underline;
+color: rgba(105, 183, 255, 176);
+
 
 </string>
     </property>

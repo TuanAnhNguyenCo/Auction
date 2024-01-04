@@ -1,0 +1,25 @@
+{
+	"BUILD_DIR" : "/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/auction_autogen",
+	"CMAKE_BINARY_DIR" : "/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/Users/dieulinh/Desktop/auctionrum/Auction/GUI",
+	"CMAKE_SOURCE_DIR" : "/Users/dieulinh/Desktop/auctionrum/Auction/GUI",
+	"INCLUDE_DIR" : "/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/auction_autogen/include",
+	"INPUTS" : 
+	[
+		"/Users/dieulinh/Desktop/auctionrum/Auction/GUI/icon_back.jpeg",
+		"/Users/dieulinh/Desktop/auctionrum/Auction/GUI/icon_overview.png",
+		"/Users/dieulinh/Desktop/auctionrum/Auction/GUI/con-cho.jpeg",
+		"/Users/dieulinh/Desktop/auctionrum/Auction/GUI/logo_auction.png"
+	],
+	"LOCK_FILE" : "/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/auction_autogen.dir/AutoRcc_myresource_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "-name", "myresource" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_myresource.cpp",
+	"RCC_EXECUTABLE" : "/Users/dieulinh/Qt/6.2.10/macos/./libexec/rcc",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/auction_autogen.dir/AutoRcc_myresource_EWIEGA46WW_Used.txt",
+	"SOURCE" : "/Users/dieulinh/Desktop/auctionrum/Auction/GUI/myresource.qrc",
+	"VERBOSITY" : 0
+}

@@ -247,6 +247,9 @@
        <height>31</height>
       </rect>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="text">
       <string/>
      </property>
@@ -280,6 +283,9 @@
        <height>32</height>
       </rect>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="text">
       <string>Choose a picture</string>
      </property>
@@ -293,6 +299,17 @@
        <height>41</height>
       </rect>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+
+	background-color:rgb(255, 100, 100);
+ border-radius: 5px;
+border: 1px solid;
+ }</string>
+     </property>
      <property name="text">
       <string>Cancel</string>
      </property>
@@ -305,6 +322,17 @@
        <width>91</width>
        <height>41</height>
       </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+
+	background-color: rgba(105, 183, 255, 176);
+ border-radius: 5px;
+border: 1px solid;
+ }</string>
      </property>
      <property name="text">
       <string>Save</string>

@@ -1,0 +1,204 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/CMakeDetermineSystem.cmake:211 (message)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      The system is: Darwin - 21.3.0 - arm64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: /usr/bin/clang++ 
+      Build flags: -DQT_QML_DEBUG
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+      
+      The CXX compiler identification is AppleClang, found in:
+        /Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/3.27.7/CompilerIdCXX/a.out
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
+      - "/Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:3 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/CMakeScratch/TryCompile-1bAUmK"
+      binary: "/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/CMakeScratch/TryCompile-1bAUmK"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-DQT_QML_DEBUG"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/CMakeScratch/TryCompile-1bAUmK'
+        
+        Run Build Command(s): /Users/dieulinh/Qt/Tools/Ninja/ninja -v cmTC_6962a
+        [1/2] /usr/bin/clang++   -DQT_QML_DEBUG  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk -fcolor-diagnostics   -v -Wl,-v -MD -MT CMakeFiles/cmTC_6962a.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_6962a.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_6962a.dir/CMakeCXXCompilerABI.cpp.o -c /Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/CMakeCXXCompilerABI.cpp
+        Apple clang version 13.0.0 (clang-1300.0.27.3)
+        Target: arm64-apple-darwin21.3.0
+        Thread model: posix
+        InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+        clang: \x1b[0;1;35mwarning: \x1b[0m\x1b[1m-Wl,-v: 'linker' input unused [-Wunused-command-line-argument]\x1b[0m
+         "/Library/Developer/CommandLineTools/usr/bin/clang" -cc1 -triple arm64-apple-macosx12.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -mrelax-all --mrelax-relocations -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -fno-rounding-math -munwind-tables -target-sdk-version=12.1 -fvisibility-inlines-hidden-static-local-var -target-cpu apple-m1 -target-feature +v8.5a -target-feature +fp-armv8 -target-feature +neon -target-feature +crc -target-feature +crypto -target-feature +dotprod -target-feature +fp16fml -target-feature +ras -target-feature +lse -target-feature +rdm -target-feature +rcpc -target-feature +zcm -target-feature +zcz -target-feature +fullfp16 -target-feature +sm4 -target-feature +sha3 -target-feature +sha2 -target-feature +aes -target-abi darwinpcs -fallow-half-arguments-and-returns -debugger-tuning=lldb -target-linker-version 710.1 -v -resource-dir /Library/Developer/CommandLineTools/usr/lib/clang/13.0.0 -dependency-file CMakeFiles/cmTC_6962a.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_6962a.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk -D QT_QML_DEBUG -stdlib=libc++ -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1 -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/local/include -internal-isystem /Library/Developer/CommandLineTools/usr/lib/clang/13.0.0/include -internal-externc-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include -internal-externc-isystem /Library/Developer/CommandLineTools/usr/include -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -fdeprecated-macro -fdebug-compilation-dir /Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/CMakeScratch/TryCompile-1bAUmK -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -fcolor-diagnostics -clang-vendor-feature=+nullptrToBoolConversion -clang-vendor-feature=+messageToSelfInClassMethodIdReturnType -clang-vendor-feature=+disableInferNewAvailabilityFromInit -clang-vendor-feature=+disableNeonImmediateRangeCheck -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+revert09abecef7bbf -mllvm -disable-aligned-alloc-awareness=1 -mllvm -enable-dse-memoryssa=0 -o CMakeFiles/cmTC_6962a.dir/CMakeCXXCompilerABI.cpp.o -x c++ /Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/CMakeCXXCompilerABI.cpp
+        clang -cc1 version 13.0.0 (clang-1300.0.27.3) default target arm64-apple-darwin21.3.0
+        ignoring nonexistent directory "/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/local/include"
+        ignoring nonexistent directory "/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/Library/Frameworks"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1
+         /Library/Developer/CommandLineTools/usr/lib/clang/13.0.0/include
+         /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include
+         /Library/Developer/CommandLineTools/usr/include
+         /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/System/Library/Frameworks (framework directory)
+        End of search list.
+        [2/2] : && /usr/bin/clang++ -DQT_QML_DEBUG  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names -v -Wl,-v CMakeFiles/cmTC_6962a.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_6962a   && :
+        Apple clang version 13.0.0 (clang-1300.0.27.3)
+        Target: arm64-apple-darwin21.3.0
+        Thread model: posix
+        InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+         "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 12.0.0 12.1 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk -o cmTC_6962a -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_6962a.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/13.0.0/lib/darwin/libclang_rt.osx.a
+        @(#)PROGRAM:ld  PROJECT:ld64-710.1
+        BUILD 08:20:25 Jul 19 2021
+        configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
+        Library search paths:
+        	/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/lib
+        Framework search paths:
+        	/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/CMakeDetermineCompilerABI.cmake:127 (message)"
+      - "/Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Parsed CXX implicit include dir info: rv=loading
+        found start of include info
+        warn: unable to parse implicit include dirs!
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/CMakeDetermineCompilerABI.cmake:152 (message)"
+      - "/Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        ignore line: [Change Dir: '/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/CMakeScratch/TryCompile-1bAUmK']
+        ignore line: []
+        ignore line: [Run Build Command(s): /Users/dieulinh/Qt/Tools/Ninja/ninja -v cmTC_6962a]
+        ignore line: [[1/2] /usr/bin/clang++   -DQT_QML_DEBUG  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk -fcolor-diagnostics   -v -Wl -v -MD -MT CMakeFiles/cmTC_6962a.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_6962a.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_6962a.dir/CMakeCXXCompilerABI.cpp.o -c /Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Apple clang version 13.0.0 (clang-1300.0.27.3)]
+        ignore line: [Target: arm64-apple-darwin21.3.0]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /Library/Developer/CommandLineTools/usr/bin]
+        ignore line: [clang: \x1b[0;1;35mwarning: \x1b[0m\x1b[1m-Wl,-v: 'linker' input unused [-Wunused-command-line-argument]\x1b[0m; "/Library/Developer/CommandLineTools/usr/bin/clang" -cc1 -triple arm64-apple-macosx12.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -mrelax-all --mrelax-relocations -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -fno-rounding-math -munwind-tables -target-sdk-version=12.1 -fvisibility-inlines-hidden-static-local-var -target-cpu apple-m1 -target-feature +v8.5a -target-feature +fp-armv8 -target-feature +neon -target-feature +crc -target-feature +crypto -target-feature +dotprod -target-feature +fp16fml -target-feature +ras -target-feature +lse -target-feature +rdm -target-feature +rcpc -target-feature +zcm -target-feature +zcz -target-feature +fullfp16 -target-feature +sm4 -target-feature +sha3 -target-feature +sha2 -target-feature +aes -target-abi darwinpcs -fallow-half-arguments-and-returns -debugger-tuning=lldb -target-linker-version 710.1 -v -resource-dir /Library/Developer/CommandLineTools/usr/lib/clang/13.0.0 -dependency-file CMakeFiles/cmTC_6962a.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_6962a.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk -D QT_QML_DEBUG -stdlib=libc++ -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1 -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/local/include -internal-isystem /Library/Developer/CommandLineTools/usr/lib/clang/13.0.0/include -internal-externc-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include -internal-externc-isystem /Library/Developer/CommandLineTools/usr/include -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -fdeprecated-macro -fdebug-compilation-dir /Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/CMakeScratch/TryCompile-1bAUmK -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -fcolor-diagnostics -clang-vendor-feature=+nullptrToBoolConversion -clang-vendor-feature=+messageToSelfInClassMethodIdReturnType -clang-vendor-feature=+disableInferNewAvailabilityFromInit -clang-vendor-feature=+disableNeonImmediateRangeCheck -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+revert09abecef7bbf -mllvm -disable-aligned-alloc-awareness=1 -mllvm -enable-dse-memoryssa=0 -o CMakeFiles/cmTC_6962a.dir/CMakeCXXCompilerABI.cpp.o -x c++ /Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/CMakeCXXCompilerABI.cpp;clang -cc1 version 13.0.0 (clang-1300.0.27.3) default target arm64-apple-darwin21.3.0;ignoring nonexistent directory "/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/local/include";ignoring nonexistent directory "/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/Library/Frameworks";#include "..." search starts here:;#include <...> search starts here:; /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1; /Library/Developer/CommandLineTools/usr/lib/clang/13.0.0/include; /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include; /Library/Developer/CommandLineTools/usr/include; /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/System/Library/Frameworks (framework directory);End of search list.;[2/2] : && /usr/bin/clang++ -DQT_QML_DEBUG  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names -v -Wl,-v CMakeFiles/cmTC_6962a.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_6962a   && :;Apple clang version 13.0.0 (clang-1300.0.27.3);Target: arm64-apple-darwin21.3.0;Thread model: posix;InstalledDir: /Library/Developer/CommandLineTools/usr/bin; "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 12.0.0 12.1 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk -o cmTC_6962a -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_6962a.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/13.0.0/lib/darwin/libclang_rt.osx.a;@(#)PROGRAM:ld  PROJECT:ld64-710.1;BUILD 08:20:25 Jul 19 2021;configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em;Library search paths:;	/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/lib;Framework search paths:;	/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/;;]
+        Library search paths: [;/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/lib]
+        Framework search paths: [;/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/]
+        collapse library dir [/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/lib] ==> [/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/lib]
+        collapse framework dir [/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/] ==> [/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/System/Library/Frameworks]
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: [/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/lib]
+        implicit fwks: [/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/System/Library/Frameworks]
+      
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/CheckCXXSourceCompiles.cmake:52 (cmake_check_source_compiles)"
+      - "/Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/FindThreads.cmake:99 (CHECK_CXX_SOURCE_COMPILES)"
+      - "/Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "/Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/Qt6Dependencies.cmake:48 (find_dependency)"
+      - "/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/Qt6Config.cmake:119 (include)"
+      - "CMakeLists.txt:12 (find_package)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/CMakeScratch/TryCompile-ugeAhS"
+      binary: "/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/CMakeScratch/TryCompile-ugeAhS"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-DQT_QML_DEBUG"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6;/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/3rdparty/extra-cmake-modules/find-modules;/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/3rdparty/kwin;/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/macos"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk"
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/CMakeScratch/TryCompile-ugeAhS'
+        
+        Run Build Command(s): /Users/dieulinh/Qt/Tools/Ninja/ninja -v cmTC_4c44c
+        [1/2] /usr/bin/clang++ -DCMAKE_HAVE_LIBC_PTHREAD  -DQT_QML_DEBUG  -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk -fcolor-diagnostics -MD -MT CMakeFiles/cmTC_4c44c.dir/src.cxx.o -MF CMakeFiles/cmTC_4c44c.dir/src.cxx.o.d -o CMakeFiles/cmTC_4c44c.dir/src.cxx.o -c /Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/CMakeScratch/TryCompile-ugeAhS/src.cxx
+        [2/2] : && /usr/bin/clang++ -DQT_QML_DEBUG  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/cmTC_4c44c.dir/src.cxx.o -o cmTC_4c44c   && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/CheckCXXSourceCompiles.cmake:52 (cmake_check_source_compiles)"
+      - "/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/FindWrapAtomic.cmake:33 (check_cxx_source_compiles)"
+      - "/Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6Core/Qt6CoreDependencies.cmake:48 (find_dependency)"
+      - "/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6Core/Qt6CoreConfig.cmake:40 (include)"
+      - "/Users/dieulinh/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.27/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake:14 (find_dependency)"
+      - "/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6Widgets/Qt6WidgetsDependencies.cmake:96 (_qt_internal_find_dependencies)"
+      - "/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6Widgets/Qt6WidgetsConfig.cmake:40 (include)"
+      - "/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/Qt6Config.cmake:157 (find_package)"
+      - "CMakeLists.txt:13 (find_package)"
+    checks:
+      - "Performing Test HAVE_STDATOMIC"
+    directories:
+      source: "/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/CMakeScratch/TryCompile-FmAZ7Z"
+      binary: "/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/CMakeScratch/TryCompile-FmAZ7Z"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-DQT_QML_DEBUG"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6;/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/3rdparty/extra-cmake-modules/find-modules;/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/3rdparty/kwin;/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/macos;/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6;/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/3rdparty/extra-cmake-modules/find-modules;/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/3rdparty/kwin;/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/macos;/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6;/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/3rdparty/extra-cmake-modules/find-modules;/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/3rdparty/kwin;/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/macos;/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6;/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/3rdparty/extra-cmake-modules/find-modules;/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/3rdparty/kwin;/Users/dieulinh/Qt/6.2.10/macos/lib/cmake/Qt6/macos"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk"
+    buildResult:
+      variable: "HAVE_STDATOMIC"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/CMakeScratch/TryCompile-FmAZ7Z'
+        
+        Run Build Command(s): /Users/dieulinh/Qt/Tools/Ninja/ninja -v cmTC_6a1a9
+        [1/2] /usr/bin/clang++ -DHAVE_STDATOMIC  -DQT_QML_DEBUG  -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk -fcolor-diagnostics -MD -MT CMakeFiles/cmTC_6a1a9.dir/src.cxx.o -MF CMakeFiles/cmTC_6a1a9.dir/src.cxx.o.d -o CMakeFiles/cmTC_6a1a9.dir/src.cxx.o -c /Users/dieulinh/Desktop/auctionrum/Auction/build-GUI-Qt_6_2_10_for_macOS-Debug/CMakeFiles/CMakeScratch/TryCompile-FmAZ7Z/src.cxx
+        [2/2] : && /usr/bin/clang++ -DQT_QML_DEBUG  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/cmTC_6a1a9.dir/src.cxx.o -o cmTC_6a1a9   && :
+        
+      exitCode: 0
+...
