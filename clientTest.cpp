@@ -176,10 +176,10 @@ void *handle_server(void *args)
     if (strcmp(message, "#message11") == 0)
     {
       CreateItemMess itemMess;
-      strcpy(itemMess.name, "abc");
-      itemMess.user_id = 1;
-      itemMess.room_id = 4;
-      strcpy(itemMess.description, "shjshdjsh");
+      strcpy(itemMess.name, "abc d");
+      itemMess.user_id = 2;
+      itemMess.room_id = 2;
+      strcpy(itemMess.description, "shjshdjsh abc");
       itemMess.price = 5000;
       itemMess.BIN_price = 400000;
       itemMess.created_at = 1702494558;
@@ -304,6 +304,55 @@ void *handle_server(void *args)
         rcvBytes = recv(client_socket, &participate, sizeof(AuctionRoom), 0);
         cout << participate.name << endl;
       }
+    }
+    if (strcmp(message, "#message26") == 0)
+    {
+      // read img
+      Image image;
+      FILE *fp;
+      fp = fopen("./GUI/con-cho.jpeg", "rb");
+      if (fp == NULL)
+      {
+
+        perror("Failed to open image file");
+        close(client_socket);
+        continue;
+      }
+      int n = fread(image.buff, 1, sizeof(BUFF_SIZE - 1), fp);
+      if (n <= 0)
+      {
+        continue;
+      }
+      // status == 2: carry out function 2
+      image.status = 2;
+      image.isFirst = 1;
+      image.item_id = 1;
+      send(client_socket, &image, sizeof(Image), 0);
+
+      // read and send to server
+      while (1)
+      {
+        int n = fread(image.buff, 1, BUFF_SIZE - 1, fp);
+        if (n <= 0)
+        {
+          break;
+        }
+        // status == 2: carry out function 2
+        image.status = 2;
+        image.isFirst = 0;
+        send(client_socket, "26", BUFF_SIZE - 1, 0);
+        send(client_socket, &image, sizeof(Image), 0);
+      }
+      fclose(fp);
+      // notify to server that sending image has done
+      image.status = 3;
+      send(client_socket, "26", BUFF_SIZE - 1, 0);
+      send(client_socket, &image, sizeof(Image), 0);
+
+      char buffer[BUFF_SIZE];
+      int rcvBytes = recv(client_socket, buffer, BUFF_SIZE - 1, 0);
+      buffer[rcvBytes] = '\0';
+      printf("%s\n", buffer);
     }
   }
 }

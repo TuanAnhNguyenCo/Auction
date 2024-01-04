@@ -186,6 +186,7 @@ void *handle_client(void *args)
             }
             char messageUpdate[BUFF_SIZE] = "#update_item";
             send_all_client(listAccounts, messageUpdate);
+            print_items(listItems);
         }
         else if (atoi(message) == 14)
         {
@@ -252,8 +253,14 @@ void *handle_client(void *args)
         }
         else if (atoi(message) == 22)
         {
-            char messageStartBidding[BUFF_SIZE] = "#start_bidding";
-            send_all_client(listAccounts, messageStartBidding);
+            GetParticipateMess mess;
+            recv(connectSocket, &mess, sizeof(GetParticipateMess), 0);
+            int duration;
+            recv(connectSocket, &duration, sizeof(size_t), 0);
+            char messageAlert[BUFF_SIZE] = "#start_bidding";
+            send_participate(listAccounts, listAccountRooms, messageAlert, mess.room_id);
+            snprintf(messageAlert, sizeof(messageAlert), "%d", duration);
+            send_participate(listAccounts, listAccountRooms, messageAlert, mess.room_id);
         }
         else if (atoi(message) == 23)
         {
@@ -279,6 +286,53 @@ void *handle_client(void *args)
             {
                 break;
             }
+        }
+        else if (atoi(message) == 26)
+        {
+            // char messageType[BUFF_SIZE] = "#message26";
+            // send(connectSocket, messageType, BUFF_SIZE - 1, 0);
+
+            cout << "abc";
+            Image image;
+            recv(connectSocket, &image, sizeof(Image), 0);
+            char url[BUFF_SIZE] = "Image/image_";
+            strcat(url, to_string(image.item_id).c_str());
+            strcat(url, ".jpeg");
+            cout << url << endl;
+            if (image.status == 2)
+            {
+                // read data and append to file
+                FILE *fp;
+                // image.image == 1: I get sending a image
+                if (image.isFirst == 1)
+                {
+                    change_url(&listItems, url, image.item_id);
+                    fp = fopen(url, "wb");
+                }
+                else // image.image == 0: I continue to send a image
+                    fp = fopen(url, "ab");
+                fwrite(image.buff, 1, sizeof(image.buff), fp);
+                fclose(fp);
+            }
+            else if (image.status == 3)
+            {
+                char messageUpdate[BUFF_SIZE] = "#update_item";
+                send_all_client(listAccounts, messageUpdate);
+            }
+        }
+        else if (atoi(message) == 27)
+        {
+            cout << "Update item: " << message << endl;
+            TimeCounting timeCounting;
+            recv(connectSocket, &timeCounting, sizeof(TimeCounting), 0);
+            char messageAlert[BUFF_SIZE] = "#UpdateRemainingTimeAndAuctionStatus";
+            send_participate(listAccounts, listAccountRooms, messageAlert, timeCounting.mess.room_id);
+
+            cout << "Duration " << timeCounting.duration << " Is Auctioning " << timeCounting.is_auctioning << endl;
+            snprintf(messageAlert, sizeof(messageAlert), "%d", timeCounting.duration);
+            send_participate(listAccounts, listAccountRooms, messageAlert, timeCounting.mess.room_id);
+            snprintf(messageAlert, sizeof(messageAlert), "%d", timeCounting.is_auctioning);
+            send_participate(listAccounts, listAccountRooms, messageAlert, timeCounting.mess.room_id);
         }
     }
 }

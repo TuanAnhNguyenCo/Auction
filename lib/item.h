@@ -17,10 +17,35 @@
 #include <iomanip>
 #include <pthread.h>
 #include <algorithm>
+#include <filesystem>
 using namespace std;
 
 #define BUFF_SIZE 8192
 pthread_mutex_t blockThreadMutex_item;
+
+void chuyenKhoangTrangItem(char *chuoi)
+{
+    while (*chuoi)
+    {
+        if (*chuoi == ' ')
+        {
+            *chuoi = '_';
+        }
+        chuoi++;
+    }
+}
+
+void chuyenNguocKhoangTrangItem(char *chuoi)
+{
+    while (*chuoi)
+    {
+        if (*chuoi == '_')
+        {
+            *chuoi = ' ';
+        }
+        chuoi++;
+    }
+}
 
 void get_items(list<Item> *items)
 {
@@ -30,10 +55,18 @@ void get_items(list<Item> *items)
         cout << "Fail to read file" << endl;
         return;
     }
+    std::filesystem::path currentPath = std::filesystem::current_path();
+    // Chuyển đổi đường dẫn thành chuỗi
 
     Item item;
-    while (fscanf(f, "%d %d %s %Lf %Lf %s %ld %ld %d %d %Lf", &item.id, &item.room_id, item.name, &item.current_price, &item.BIN_price, item.description, &item.created_at, &item.end, &item.status, &item.price_maker_id, &item.reserve_price) == 11)
+    while (fscanf(f, "%d %d %s %Lf %Lf %s %ld %ld %d %d %Lf %s", &item.id, &item.room_id, item.name, &item.current_price, &item.BIN_price, item.description, &item.created_at, &item.end, &item.status, &item.price_maker_id, &item.reserve_price, item.url) == 12)
     {
+        string pathString = currentPath.string();
+        pathString += "/";
+        pathString += item.url;
+        chuyenNguocKhoangTrangItem(item.name);
+        chuyenNguocKhoangTrangItem(item.description);
+        strcpy(item.url, pathString.c_str());
         items->push_back(item);
     }
     fclose(f);
@@ -62,11 +95,29 @@ void save_items(list<Item> items)
 {
     FILE *file;
     file = fopen("database/item.txt", "w+");
+    std::filesystem::path currentPath = std::filesystem::current_path();
+    // Chuyển đổi đường dẫn thành chuỗi
+    string pathString = currentPath.string();
+    pathString += "/";
+    // Kiểm tra xem searchString có xuất hiện trong url hay không
+
     if (file != NULL)
     {
         for (Item item : items)
         {
-            fprintf(file, "%d %d %s %Lf %Lf %s %ld %ld %d %d %Lf\n", item.id, item.room_id, item.name, item.current_price, item.BIN_price, item.description, item.created_at, item.end, item.status, item.price_maker_id, item.reserve_price);
+
+            string new_url = item.url;
+            size_t pos = new_url.find(pathString);
+
+            // Nếu searchString xuất hiện, loại bỏ nó
+            if (pos != std::string::npos)
+            {
+                new_url.erase(pos, pathString.length());
+            }
+            strcpy(item.url, new_url.c_str());
+            chuyenKhoangTrangItem(item.name);
+            chuyenKhoangTrangItem(item.description);
+            fprintf(file, "%d %d %s %Lf %Lf %s %ld %ld %d %d %Lf %s\n", item.id, item.room_id, item.name, item.current_price, item.BIN_price, item.description, item.created_at, item.end, item.status, item.price_maker_id, item.reserve_price, item.url);
         }
     }
     else
@@ -76,16 +127,24 @@ void save_items(list<Item> items)
     fclose(file);
 }
 // 1: Successfully 2: Fail
-int createItem(list<Item> *items, Item item)
+int createItem(list<Item> *items, Item item,int *id)
 {
-    item.id = items->size() + 1;
+    if (items->size() == 0)
+    {
+        item.id = items->size() + 1;
+    }
+    else
+        item.id = items->back().id + 1;
+    *id = item.id;
     item.status = 1;
+    strcpy(item.url, "./GUI/con-cho.jpeg");
     items->push_back(item);
     save_items(*items);
     return 1;
 }
 // 1: Successfully 2: Fail
-int closeItem(list<Item> *items, int item_id){
+int closeItem(list<Item> *items, int item_id)
+{
     for (Item &item : *items)
     {
         if (item.id == item_id)
@@ -116,6 +175,27 @@ int change_current_price(list<Item> *items, long double price, int price_maker_i
         }
     }
     return 3;
+}
+
+// 1: success, 2: not found
+int change_url(list<Item> *items, char *url, int item_id)
+{
+    std::filesystem::path currentPath = std::filesystem::current_path();
+    // Chuyển đổi đường dẫn thành chuỗi
+    string pathString = currentPath.string();
+    pathString += "/";
+    for (Item &item : *items)
+    {
+        if (item.id == item_id)
+        {
+
+            pathString += url;
+            strcpy(item.url, pathString.c_str());
+            save_items(*items);
+            return 1;
+        }
+    }
+    return 2;
 }
 // 1: success, 3: Item not found
 int change_bin_price(list<Item> *items, int price_maker_id, int item_id)
@@ -169,7 +249,7 @@ int recv_and_handle_get_items(int conn_sock, list<Item> *items)
     send(conn_sock, message, BUFF_SIZE - 1, 0);
     for (Item &item : *items)
     {
-       
+
         send(conn_sock, &item, sizeof(Item), 0);
     }
     return 1;

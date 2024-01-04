@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     char SERV_IP[100];
     int server_sock;
     struct sockaddr_in server_addr;
-    signal(SIGPIPE, SIG_IGN);
+    // signal(SIGPIPE, SIG_IGN);
 
     SERV_PORT = 5500;
     strcpy(SERV_IP, "127.0.0.1");

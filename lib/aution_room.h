@@ -23,6 +23,24 @@
 #define BUFF_SIZE 8192
 pthread_mutex_t blockThreadMutex_auction;
 
+void chuyenKhoangTrangRoom(char *chuoi) {
+    while (*chuoi) {
+        if (*chuoi == ' ') {
+            *chuoi = '_';
+        }
+        chuoi++;
+    }
+}
+
+void chuyenNguocKhoangTrangRoom(char *chuoi) {
+    while (*chuoi) {
+        if (*chuoi == '_') {
+            *chuoi = ' ';
+        }
+        chuoi++;
+    }
+}
+
 void get_rooms(list<AuctionRoom> *rooms)
 {
     FILE *f = fopen("database/auctionRoom.txt", "r");
@@ -35,6 +53,7 @@ void get_rooms(list<AuctionRoom> *rooms)
     AuctionRoom room;
     while (fscanf(f, "%d %d %s %ld %d", &room.id, &room.proprietor_id, room.name, &room.created_at, &room.status) == 5)
     {
+        chuyenNguocKhoangTrangRoom(room.name);
         rooms->push_back(room);
     }
     fclose(f);
@@ -79,8 +98,10 @@ void save_rooms(list<AuctionRoom> rooms)
     file = fopen("database/auctionRoom.txt", "w+");
     if (file != NULL)
     {
-        for (AuctionRoom room : rooms)
+        for (AuctionRoom room : rooms){
+            chuyenKhoangTrangRoom(room.name);
             fprintf(file, "%d %d %s %ld %d\n", room.id, room.proprietor_id, room.name, room.created_at, room.status);
+        }
     }
     else
     {
@@ -175,7 +196,7 @@ int recv_and_handle_create_auction(int conn_sock, list<AuctionRoomParticipate> *
 }
 
 // 1: Successfully 2: Fail
-int handleCreateItem(CreateItemMess itemMess, list<AuctionRoom> *listRooms, list<Item> *items)
+int handleCreateItem(CreateItemMess itemMess, list<AuctionRoom> *listRooms, list<Item> *items,int *id)
 {
     if (checkRole(*listRooms, itemMess.user_id, itemMess.room_id) == 1)
     {
@@ -190,7 +211,7 @@ int handleCreateItem(CreateItemMess itemMess, list<AuctionRoom> *listRooms, list
         item.end = itemMess.end;
         item.price_maker_id = get_proprietor_id(itemMess.room_id, *listRooms);
         pthread_mutex_lock(&blockThreadMutex_auction);
-        int status = createItem(items, item);
+        int status = createItem(items, item, id);
         pthread_mutex_unlock(&blockThreadMutex_auction);
         return status;
     }
@@ -209,11 +230,15 @@ int recv_and_handle_create_item(int conn_sock, list<Item> *items, list<AuctionRo
     }
 
     char message[BUFF_SIZE];
-    int status = handleCreateItem(itemMess, rooms, items);
+    int id;
+    int status = handleCreateItem(itemMess, rooms, items,&id);
     if (status == 1)
     {
         strcpy(message, "#OK");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
+
+        size_t dataSize = id;
+        send(conn_sock, &dataSize, sizeof(size_t), 0);
     }
     else if (status == 2)
     {

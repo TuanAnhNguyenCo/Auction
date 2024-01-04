@@ -26,11 +26,13 @@ signals:
     void updateAuctionItem();
     void updateAuctionItemByID(int id);
     void callShowItems();
-    void setNewTime();
+    void setNewTime(int duration);
     void stopTime();
     void showAlertMessage();
     void showJoinedRooms();
     void viewItemInfo();
+    void showRoom();
+    void sendImg(int id);
 };
 
 #endif // WORKER_H

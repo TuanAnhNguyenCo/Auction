@@ -24,7 +24,6 @@ HistoryDetail::~HistoryDetail()
 
 
 void HistoryDetail::showItemInfo(){
-    qDebug() << "Items: " << MySingleton::instance().items.size();
     MySingleton::instance().home->setCurrentIndex(6);
     QWidget* scrollContent = ui->scrollAreaWidgetContents;
     QScrollArea* scrollArea = ui->scrollArea;
@@ -48,13 +47,13 @@ void HistoryDetail::showItemInfo(){
     for (int groupIndex = 0; it != items.end() && groupIndex < size; ++it, ++groupIndex) {
         Item goods = *it;
 
-        if (goods.room_id == MySingleton::instance().viewingRoomHistory.id)
+        if (goods.room_id == MySingleton::instance().viewingRoomHistory.id && goods.status == 0)
         {
             QGroupBox* item= new QGroupBox();
             QHBoxLayout* groupBoxLayout = new QHBoxLayout(item);
             // Add an image to each group box
             QLabel* item_image = new QLabel;
-            QPixmap pixmap(":/image/con-cho.jpeg");
+            QPixmap pixmap(goods.url);
             item_image ->setPixmap(pixmap.scaled(300,200, Qt::KeepAspectRatio));
             groupBoxLayout->addWidget(item_image );
             // Add text label to each group box

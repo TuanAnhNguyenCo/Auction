@@ -44,6 +44,7 @@ typedef struct
     long double reserve_price;
     long double BIN_price;
     char description[100];
+    char url[200];
     time_t created_at;
     time_t end;
     int status; // 1: openning, 0: closing
@@ -111,5 +112,19 @@ typedef struct
     int user_id;
 } GetRoomHistoryMess;
 
+typedef struct
+{
+    char buff[BUFF_SIZE];
+    int item_id;
+    int status;
+    int isFirst; // 1: true, 0: false
+} Image;
+
+typedef struct
+{
+    int is_auctioning;
+    int duration;
+    GetParticipateMess mess;
+} TimeCounting;
 
 #endif // ROOM_H

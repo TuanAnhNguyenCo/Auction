@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include "config.h"
+#include "string.h"
 
 addItem::addItem(QWidget *parent)
     : QWidget(parent)
@@ -20,7 +21,10 @@ addItem::~addItem()
 
 void addItem::on_btn_choosePic_clicked()
 {
+    QPixmap pixmap("");
+    ui->label_image->setPixmap(pixmap);
     QString filename = QFileDialog::getOpenFileName(this, tr("Choose"), "",tr("Images (*.png *.jpg *.jpeg *.bmp *.gif)"));
+    std::strcpy(MySingleton::instance().img_url, filename.toStdString().c_str());
     if (QString::compare(filename, QString()) != 0)
     {
         QImage image;
@@ -59,18 +63,19 @@ void addItem::on_btn_save_clicked()
     }
     // Lấy thời gian từ QTimeEdit
     QTime selectedTime = ui->timeEdit_auctiontime->time();
-    // Lấy ngày hiện tại
-    QDate currentDate = QDate::currentDate();
-    // Kết hợp ngày và giờ để tạo QDateTime
-    QDateTime combinedDateTime(currentDate, selectedTime);
-    // Chuyển đổi từ QDateTime sang time_t
-    time_t timeAsTimeT = combinedDateTime.toSecsSinceEpoch();
+
+    int hours = selectedTime.hour();
+    int minutes = selectedTime.minute();
+    int seconds = selectedTime.second();
+
+    // Convert to seconds
+    int totalSeconds = hours * 3600 + minutes * 60 + seconds;
 
     item.BIN_price = bin_price;
     item.user_id = MySingleton::instance().joinedRoom.proprietor_id;
     item.price = staring_price;
     item.created_at =  std::time(nullptr);
-    item.end =  item.created_at + timeAsTimeT;
+    item.end =  totalSeconds;
     item.room_id = MySingleton::instance().joinedRoom.id;
     strcpy(item.name,item_name.c_str());
     strcpy(item.description,description.c_str());
@@ -78,8 +83,50 @@ void addItem::on_btn_save_clicked()
     send(MySingleton::instance().getValue(), "11", BUFF_SIZE-1, 0);
     send(MySingleton::instance().getValue(), &item, sizeof(CreateItemMess), 0);
 
+}
+void addItem::sendImg(int id)
+{
+    // read img
+    Image image;
+    FILE *fp;
+    fp = fopen(MySingleton::instance().img_url, "rb");
+    if (fp == NULL)
+    {
+        qDebug() << "Can't read img";
+        return;
+    }
+    int n = fread(image.buff, 1, sizeof(image.buff), fp);
+    if (n <= 0)
+    {
+        qDebug() << "IMG Error";
+        return;
+    }
+    // status == 2: carry out function 2
+    image.status = 2;
+    image.isFirst = 1;
+    image.item_id = id;
+    send(MySingleton::instance().getValue(), "26", BUFF_SIZE-1, 0);
+    send(MySingleton::instance().getValue(), &image, sizeof(Image), 0);
 
-
+    // read and send to server
+    while (1)
+    {
+        int n = fread(image.buff, 1, sizeof(image.buff), fp);
+        if (n <= 0)
+        {
+            break;
+        }
+        // status == 2: carry out function 2
+        image.status = 2;
+        image.isFirst = 0;
+        send(MySingleton::instance().getValue(), "26", BUFF_SIZE - 1, 0);
+        send(MySingleton::instance().getValue(), &image, sizeof(Image), 0);
+    }
+    fclose(fp);
+    // notify to server that sending image has done
+    image.status = 3;
+    send(MySingleton::instance().getValue(), "26", BUFF_SIZE - 1, 0);
+    send(MySingleton::instance().getValue(), &image, sizeof(Image), 0);
 }
 
 

@@ -23,15 +23,24 @@
 pthread_mutex_t blockThreadMutex_account;
 
 using namespace std;
-// typedef struct
-// {
-//     int id;
-//     string username;
-//     string password;
-//     string phoneNumber;
-//     string address;
-//     char status; // 1 is online - 0 is offline status
-// } Account;
+
+void chuyenKhoangTrangAccount(char *chuoi) {
+    while (*chuoi) {
+        if (*chuoi == ' ') {
+            *chuoi = '_';
+        }
+        chuoi++;
+    }
+}
+
+void chuyenNguocKhoangTrangAccount(char *chuoi) {
+    while (*chuoi) {
+        if (*chuoi == '_') {
+            *chuoi = ' ';
+        }
+        chuoi++;
+    }
+}
 
 void get_accounts(list<Account> *accounts)
 {
@@ -45,6 +54,7 @@ void get_accounts(list<Account> *accounts)
     Account acc;
     while (fscanf(f, "%d %s %s %s %s %d", &acc.id, acc.username, acc.password, acc.phoneNumber, acc.address, &acc.status) == 6)
     {
+        chuyenNguocKhoangTrangAccount(acc.address);
         acc.connectSocket = -1;
         accounts->push_back(acc);
     }
@@ -114,8 +124,10 @@ void save_account(list<Account> accounts)
     file = fopen("database/account.txt", "w+");
     if (file != NULL)
     {
-        for (Account acc : accounts)
+        for (Account acc : accounts){
+            chuyenKhoangTrangAccount(acc.address);
             fprintf(file, "%d %s %s %s %s %d\n", acc.id, acc.username, acc.password, acc.phoneNumber, acc.address, acc.status);
+        }
     }
     else
     {
