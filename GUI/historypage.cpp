@@ -68,6 +68,7 @@ void HistoryPage::showJoinedRooms(){
             groupBoxLayout->addWidget(item_room);
             // Add button to join room
             QPushButton* item_btn_join = new QPushButton("View");
+            item_btn_join->setCursor(Qt::PointingHandCursor);
             groupBoxLayout->addWidget(item_btn_join,0, Qt::AlignRight);
 
             connect(item_btn_join, &QPushButton::clicked, [this, room]() {

@@ -36,11 +36,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         joinermanage.h joinermanage.cpp joinermanage.ui
         account.h additem.cpp additem.h additem.ui auctionroom.cpp auctionroom.h auctionroom.ui CMakeLists.txt CMakeLists.txt.user con-cho.jpeg config.cpp config.h createpage.cpp createpage.h createpage.ui historypage.cpp historypage.h historypage.ui icon_back.jpeg icon_overview.png joinermanage.cpp joinermanage.h joinermanage.ui login.cpp login.h login.ui logo_auction.png main.cpp mainwindow.cpp mainwindow.h mainwindow.ui myresource.qrc room.h roomoverview.cpp roomoverview.h roomoverview.ui signup.cpp signup.h signup.ui worker.cpp worker.h
         historydetail.h historydetail.cpp historydetail.ui
-
-
-
-
-
+        CMakeLists.txt
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET auction APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

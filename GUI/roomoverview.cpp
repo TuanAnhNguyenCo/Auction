@@ -84,6 +84,9 @@ void RoomOverview::showItems()
             groupBoxLayout->addWidget(item_status);
             // Add button to view item
             QPushButton* item_btn_view = new QPushButton("View");
+            item_btn_view->setCursor(Qt::PointingHandCursor);
+            item_btn_view->setStyleSheet("background-color:  rgba(105, 183, 255, 176);border-radius: 5px;border: 0.5px solid;");
+            item_btn_view->setFixedWidth(80);
             groupBoxLayout->addWidget(item_btn_view,0, Qt::AlignRight);
             connect(item_btn_view, &QPushButton::clicked, [this, goods]() {
                 int id = goods.id;
@@ -95,6 +98,9 @@ void RoomOverview::showItems()
             {
                 // Add button to delete item
                 QPushButton* item_btn_delete = new QPushButton("Delete");
+                item_btn_delete->setCursor(Qt::PointingHandCursor);
+                item_btn_delete->setStyleSheet("background-color: rgb(255, 100, 100);border-radius: 5px;border: 0.5px solid;");
+                item_btn_delete->setFixedWidth(80);
                 groupBoxLayout->addWidget(item_btn_delete,0, Qt::AlignRight);
                 connect(item_btn_delete, &QPushButton::clicked, [this, goods]() {
                     DeleteItemMess itemMess;

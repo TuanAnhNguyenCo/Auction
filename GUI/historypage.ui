@@ -39,11 +39,30 @@
     <widget class="QPushButton" name="btn_createtab">
      <property name="geometry">
       <rect>
-       <x>230</x>
-       <y>10</y>
-       <width>141</width>
-       <height>41</height>
+       <x>210</x>
+       <y>0</y>
+       <width>221</width>
+       <height>61</height>
       </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{border: none;
+    padding: 0;
+    background: none;
+  font-weight: bold;
+font-size :15px;
+   background-color: transparent; 
+    margin: 0 10px;
+ }
+QPushButton:hover {
+ background-color: rgb(37, 153, 255);
+ color: white;
+ }
+
+</string>
      </property>
      <property name="text">
       <string>Create auction room</string>
@@ -53,10 +72,29 @@
      <property name="geometry">
       <rect>
        <x>100</x>
-       <y>10</y>
-       <width>111</width>
-       <height>41</height>
+       <y>0</y>
+       <width>131</width>
+       <height>61</height>
       </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{border: none;
+    padding: 0;
+    background: none;
+  font-weight: bold;
+font-size :15px;
+   background-color: transparent; 
+    margin: 0 10px;
+ }
+QPushButton:hover {
+ background-color: rgb(37, 153, 255);
+ color: white;
+ }
+
+</string>
      </property>
      <property name="text">
       <string>Home </string>
@@ -65,20 +103,35 @@
     <widget class="QPushButton" name="btn_historytab">
      <property name="geometry">
       <rect>
-       <x>390</x>
-       <y>10</y>
-       <width>111</width>
-       <height>41</height>
+       <x>410</x>
+       <y>0</y>
+       <width>151</width>
+       <height>61</height>
       </rect>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="styleSheet">
-      <string notr="true">border: none;
+      <string notr="true">QPushButton{border: none;
     padding: 0;
     background: none;
- background-color: transparent; 
-    text-decoration: underline;
+  font-weight: bold;
+font-size :15px;
+   background-color: transparent; 
     margin: 0 10px;
+ background-color: ;
+	background-color: rgba(105, 183, 255, 176);
 
+ }
+QPushButton:hover {
+ background-color: rgb(37, 153, 255);
+ color: white;
+ }
+QPushButton:focus {
+ background-color: rgb(37, 153, 255);
+ color: white;
+ }
 
 </string>
      </property>
