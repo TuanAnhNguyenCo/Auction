@@ -120,4 +120,11 @@ typedef struct
     int isFirst; // 1: true, 0: false
 } Image;
 
+typedef struct
+{
+    int is_auctioning;
+    int duration;
+    GetParticipateMess mess;
+} TimeCounting;
+
 #endif // ROOM_H

@@ -23,18 +23,24 @@ using namespace std;
 #define BUFF_SIZE 8192
 pthread_mutex_t blockThreadMutex_item;
 
-void chuyenKhoangTrangItem(char *chuoi) {
-    while (*chuoi) {
-        if (*chuoi == ' ') {
+void chuyenKhoangTrangItem(char *chuoi)
+{
+    while (*chuoi)
+    {
+        if (*chuoi == ' ')
+        {
             *chuoi = '_';
         }
         chuoi++;
     }
 }
 
-void chuyenNguocKhoangTrangItem(char *chuoi) {
-    while (*chuoi) {
-        if (*chuoi == '_') {
+void chuyenNguocKhoangTrangItem(char *chuoi)
+{
+    while (*chuoi)
+    {
+        if (*chuoi == '_')
+        {
             *chuoi = ' ';
         }
         chuoi++;
@@ -121,9 +127,15 @@ void save_items(list<Item> items)
     fclose(file);
 }
 // 1: Successfully 2: Fail
-int createItem(list<Item> *items, Item item)
+int createItem(list<Item> *items, Item item,int *id)
 {
-    item.id = items->size() + 1;
+    if (items->size() == 0)
+    {
+        item.id = items->size() + 1;
+    }
+    else
+        item.id = items->back().id + 1;
+    *id = item.id;
     item.status = 1;
     strcpy(item.url, "./GUI/con-cho.jpeg");
     items->push_back(item);

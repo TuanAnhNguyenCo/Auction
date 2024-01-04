@@ -196,7 +196,7 @@ int recv_and_handle_create_auction(int conn_sock, list<AuctionRoomParticipate> *
 }
 
 // 1: Successfully 2: Fail
-int handleCreateItem(CreateItemMess itemMess, list<AuctionRoom> *listRooms, list<Item> *items)
+int handleCreateItem(CreateItemMess itemMess, list<AuctionRoom> *listRooms, list<Item> *items,int *id)
 {
     if (checkRole(*listRooms, itemMess.user_id, itemMess.room_id) == 1)
     {
@@ -211,7 +211,7 @@ int handleCreateItem(CreateItemMess itemMess, list<AuctionRoom> *listRooms, list
         item.end = itemMess.end;
         item.price_maker_id = get_proprietor_id(itemMess.room_id, *listRooms);
         pthread_mutex_lock(&blockThreadMutex_auction);
-        int status = createItem(items, item);
+        int status = createItem(items, item, id);
         pthread_mutex_unlock(&blockThreadMutex_auction);
         return status;
     }
@@ -230,13 +230,14 @@ int recv_and_handle_create_item(int conn_sock, list<Item> *items, list<AuctionRo
     }
 
     char message[BUFF_SIZE];
-    int status = handleCreateItem(itemMess, rooms, items);
+    int id;
+    int status = handleCreateItem(itemMess, rooms, items,&id);
     if (status == 1)
     {
         strcpy(message, "#OK");
         send(conn_sock, message, BUFF_SIZE - 1, 0);
 
-        size_t dataSize = items->size();
+        size_t dataSize = id;
         send(conn_sock, &dataSize, sizeof(size_t), 0);
     }
     else if (status == 2)

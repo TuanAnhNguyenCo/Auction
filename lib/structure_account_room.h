@@ -32,3 +32,10 @@ typedef struct
 {
   int room_id;
 } GetParticipateMess;
+
+typedef struct
+{
+  int is_auctioning;
+  int duration;
+  GetParticipateMess mess;
+} TimeCounting;

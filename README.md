@@ -44,3 +44,4 @@ item.txt - luu item: id - room_id - current_price - BIN_price - description - cr
 24: get participate history- gui size participate(char mess[BUFF_SIZE]) => gui tung account (struct Account)
 25: get room history - gui size room(char mess[BUFF_SIZE]) => gui tung room (struct AuctionRoom)
 26: add url - update_item
+27: update remainingTime and status whether this auction is took place or not

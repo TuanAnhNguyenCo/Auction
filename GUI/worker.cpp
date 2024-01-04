@@ -131,7 +131,6 @@ void Worker::doWork() {
                 rcvBytes = recv(MySingleton::instance().getValue(),&id, sizeof(size_t), 0);
                 qDebug() << "id " << id;
                 emit sendImg(id);
-
             }
             emit create_item_dataReceived(respond);
 
@@ -149,6 +148,8 @@ void Worker::doWork() {
                 rcvBytes = recv(MySingleton::instance().getValue(), &room, sizeof(AuctionRoomStruct), 0);
                 MySingleton::instance().auction_rooms.push_back(room);
             }
+
+
             emit showRoom();
         }
         if ((strcmp(message,"#update_room") == 0))
@@ -162,6 +163,21 @@ void Worker::doWork() {
         if (strcmp(message,"#update_account_room")==0)
         {
             MySingleton::instance().getParticipents();
+            qDebug() << "Send update remaining time and auction status -- " << MySingleton::instance().joinedRoom.id;
+            if (MySingleton::instance().is_auctioning == 1 && MySingleton::instance().getAccount().id == MySingleton::instance().joinedRoom.proprietor_id)
+            {
+                qDebug("Send update remaining time and auction status");
+                send(MySingleton::instance().getValue(),"27",BUFF_SIZE-1,0);
+                GetParticipateMess mess;
+                mess.room_id = MySingleton::instance().joinedRoom.id;
+                TimeCounting timeCounting;
+                timeCounting.mess = mess;
+                timeCounting.duration = MySingleton::instance().count;
+                timeCounting.is_auctioning = MySingleton::instance().is_auctioning;
+                send(MySingleton::instance().getValue(),&timeCounting,sizeof(TimeCounting),0);
+                qDebug() << timeCounting.duration << " " << timeCounting.is_auctioning ;
+
+            }
         }
         if (strcmp(message,"#update_time")==0)
         {
@@ -178,6 +194,18 @@ void Worker::doWork() {
         if(strcmp(message,"#Alert") ==0)
         {
             emit showAlertMessage();
+        }
+
+        if(strcmp(message,"#UpdateRemainingTimeAndAuctionStatus") ==0)
+        {
+            char duration[BUFF_SIZE];
+            char is_auctioning[BUFF_SIZE];
+            recv(MySingleton::instance().getValue(), &duration, BUFF_SIZE-1, 0);
+            recv(MySingleton::instance().getValue(),is_auctioning, BUFF_SIZE-1, 0);
+            MySingleton::instance().is_auctioning = atoi(is_auctioning);
+            emit setNewTime(atoi(duration));
+            emit updateAuctionItem();
+
         }
 
         if (strcmp(message,"#message16") == 0)
@@ -216,11 +244,7 @@ void Worker::doWork() {
                 Item item;
                 recv(MySingleton::instance().getValue(), &item, sizeof(Item), 0);
                 MySingleton::instance().items.push_back(item);
-
             }
-
-
-
             emit updateAuctionItem();
             emit callShowItems();
             // emit updateAuctionItemByID(MySingleton::instance().current_item_id);

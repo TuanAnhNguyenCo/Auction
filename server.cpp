@@ -320,6 +320,20 @@ void *handle_client(void *args)
                 send_all_client(listAccounts, messageUpdate);
             }
         }
+        else if (atoi(message) == 27)
+        {
+            cout << "Update item: " << message << endl;
+            TimeCounting timeCounting;
+            recv(connectSocket, &timeCounting, sizeof(TimeCounting), 0);
+            char messageAlert[BUFF_SIZE] = "#UpdateRemainingTimeAndAuctionStatus";
+            send_participate(listAccounts, listAccountRooms, messageAlert, timeCounting.mess.room_id);
+
+            cout << "Duration " << timeCounting.duration << " Is Auctioning " << timeCounting.is_auctioning << endl;
+            snprintf(messageAlert, sizeof(messageAlert), "%d", timeCounting.duration);
+            send_participate(listAccounts, listAccountRooms, messageAlert, timeCounting.mess.room_id);
+            snprintf(messageAlert, sizeof(messageAlert), "%d", timeCounting.is_auctioning);
+            send_participate(listAccounts, listAccountRooms, messageAlert, timeCounting.mess.room_id);
+        }
     }
 }
 
